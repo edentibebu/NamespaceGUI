@@ -51,11 +51,14 @@ def ns_view(ns): #TODO: pass in namespace name
     capabilities = caps[1].split('=')[1]
     cap_list = capabilities.split(',')
     print(cap_list)
-    cap = Label(cap_frame, text="capability 1")
-    cap.grid(row=0, column=0, padx=5, pady=5)
-    cap_en = IntVar() #set up a list of IntVar(), corresponding with each cap
-    toggle = Checkbutton(cap_frame, text="enable", variable=cap_en) 
-    toggle.grid(row=0, column=1, padx=20, pady= 5)
+
+    for i, cap in enumerate(cap_list):
+
+        cap = Label(cap_frame, text=cap)
+        cap.grid(row=i, column=0, padx=5, pady=5)
+        cap_en = IntVar() #set up a list of IntVar(), corresponding with each cap
+        toggle = Checkbutton(cap_frame, text="enable", variable=cap_en) 
+        toggle.grid(row=i, column=1, padx=20, pady= 5)
 
     #TODO: iterate through list of processes
     proc = Label(process_frame, text="Processes in" ) #TODO: get namespace name and insert here
