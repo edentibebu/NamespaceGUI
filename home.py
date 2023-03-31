@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from ctypes import *
 import subprocess
 import os
@@ -6,6 +7,7 @@ from unicodedata import name
 
 root = Tk()
 root.title("Namespace GUI: Home")
+
 
 #namespace_heading = Label(root, text="Namespaces")
 #namespace_heading.pack()
@@ -35,10 +37,12 @@ def add_ns_window():
 def ns_view(ns): #TODO: pass in namespace name
     ns_view = Toplevel(root)
     ns_view.title("Namespace GUI: Namespace View")
+    scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
+
     ns_header = Label(ns_view, text=ns) #TODO: pass in namespace name somehow and print it here
 
     #creating frames
-    cap_frame = LabelFrame(ns_view, text=ns, padx=5, pady=5)
+    cap_frame = ttk.Frame(ns_view, text=ns, padx=5, pady=5)
     cap_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
     process_frame = LabelFrame(ns_view, text="Processes", padx=5, pady=5)
