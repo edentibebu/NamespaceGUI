@@ -38,7 +38,7 @@ def add_ns_window():
 def ns_view(ns): #TODO: pass in namespace name
     # ns_view = Toplevel(root)
     ns_view = tk.Canvas(root)
-    ns_view.title("Namespace GUI: Namespace View")
+    #ns_view.title("Namespace GUI: Namespace View")
     scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
 
     ns_header = Label(ns_view, text=ns) #TODO: pass in namespace name somehow and print it here
