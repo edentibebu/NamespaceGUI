@@ -19,9 +19,9 @@ def get_namespaces():
     return namespaces
 
 def get_cap(ns):
+    print(ns)
     output = []
-
-    output = subprocess.check_output("ip netns exec " + str(ns) + " capsh --print", shell=True)
+    output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
     caps = output.decode()
     print(caps)
     return caps
