@@ -1,10 +1,23 @@
 from tkinter import *
+from ctypes import *
+import subprocess
+import os
+from unicodedata import name
 
 root = Tk()
 root.title("Namespace GUI: Home")
 
 #namespace_heading = Label(root, text="Namespaces")
 #namespace_heading.pack()
+
+def get_namespaces():
+    output = []
+    output = subprocess.check_output("ip netns", shell=True)
+
+    namespaces = output.decode()
+    print(namespaces)
+    print(type(namespaces))
+    return namespaces
 
 #new window to add namespace on add-ns button
 def add_ns_window():
@@ -49,6 +62,10 @@ process_frame.grid(row=0, column=1, padx=50, pady = 10)
 
 #TODO: List namespaces
 # get namespaces as list from C code
+namespaces = get_namespaces()
+print("Got namespaces! they are : ")
+print(namespaces)
+print(type(namespaces))
 # for ns in namespaces:
 # ns = Button(namespace_frame, text="namespace name") #TODO: clicking on button brings up NS-view.py for editing
 # ns.pack (row = 1, col = 0, ) # TODO: row will change for each namespace, column will not. add padding around text
