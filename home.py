@@ -15,8 +15,6 @@ def get_namespaces():
     output = subprocess.check_output("ip netns", shell=True)
 
     namespaces = output.decode()
-    print(namespaces)
-    print(type(namespaces))
     return namespaces
 
 #new window to add namespace on add-ns button
@@ -64,9 +62,9 @@ process_frame.grid(row=0, column=1, padx=50, pady = 10)
 # get namespaces as list from C code
 namespaces = get_namespaces()
 print("Got namespaces! they are : ")
-print(namespaces)
-print(type(namespaces))
-# for ns in namespaces:
+ns_list = namespaces.split('\n')
+for ns in ns_list:
+    print(type(ns))
 # ns = Button(namespace_frame, text="namespace name") #TODO: clicking on button brings up NS-view.py for editing
 # ns.pack (row = 1, col = 0, ) # TODO: row will change for each namespace, column will not. add padding around text
 # 
