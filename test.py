@@ -1,11 +1,21 @@
 from ctypes import *
+import subprocess
 import os
+
 
 cwd = os.getcwd()
 rel_path = os.path.join(cwd, "list.so")
 so_file = rel_path
 my_functions = CDLL(so_file) 
 
+# this function lists the existing namespaces
 def get_namespaces():
-    namespaces = my_functions.list()
+    output = []
+    output = subprocess.check_output("ip netns", shell=True)
+
+    namespaces = output.decode()
+    print(namespaces)
+    print(type(namespaces))
     return namespaces
+
+get_namespaces()
