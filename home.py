@@ -65,7 +65,7 @@ print("Got namespaces! they are : ")
 ns_list = namespaces.split('\n')[:-1]
 
 for i, ns in enumerate(ns_list):
-    ns_btn = Button(namespace_frame, text=ns, command=ns_view) #TODO: clicking on button brings up NS-view.py for editing
+    ns_btn = Button(namespace_frame, text=ns, command=ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
 add_ns_btn = Button(namespace_frame, text="Add Namespace", command = add_ns_window)
