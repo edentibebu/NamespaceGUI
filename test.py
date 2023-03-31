@@ -18,4 +18,33 @@ def get_namespaces():
     print(type(namespaces))
     return namespaces
 
-get_namespaces()
+def get_cap():
+    output = []
+    NS = "testing"
+    output = subprocess.check_output("ip netns exec testing capsh --print", shell=True)
+    caps = output.decode()
+    print(caps)
+    return caps
+
+def add_ns():
+    output = []
+    NS = "added"
+    output = subprocess.check_output("ip netns add added", shell=True)
+    add = output.decode()
+    return add
+
+def delete_ns():
+    output = []
+    NS = "deleted"
+    output = subprocess.check_output("ip netns delete deleted", shell=True)
+    delete = output.decode()
+    return delete
+    
+
+
+
+
+# get_namespaces()
+# get_cap()
+# add_ns()
+# delete_ns()
