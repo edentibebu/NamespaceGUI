@@ -62,7 +62,7 @@ process_frame.grid(row=0, column=1, padx=50, pady = 10)
 # get namespaces as list from C code
 namespaces = get_namespaces()
 print("Got namespaces! they are : ")
-ns_list = namespaces.split('\n')
+ns_list = namespaces.split('\n')[:-1]
 
 #ns_list = ['ns1', 'ns2']
 
