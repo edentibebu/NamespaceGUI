@@ -56,7 +56,7 @@ def ns_view(ns): #TODO: pass in namespace name
     caps = output.split("\n")
     capabilities = caps[1].split('=')[1]
     cap_list = capabilities.split(',')
-    print(cap_list)
+    print(len(cap_list))
 
     for i, cap in enumerate(cap_list):
 
