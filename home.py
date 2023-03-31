@@ -24,10 +24,10 @@ def add_ns_window():
         Label(add_ns_window, text ="Window to add a namespace").pack()
 
 #new window to view a namespace (on click of namespace name)
-def ns_view(): #TODO: pass in namespace name
+def ns_view(ns): #TODO: pass in namespace name
     ns_view = Toplevel(root)
     ns_view.title("Namespace GUI: Namespace View")
-    ns_header = Label(ns_view, text="Namespace Name") #TODO: pass in namespace name somehow and print it here
+    ns_header = Label(ns_view, text=ns) #TODO: pass in namespace name somehow and print it here
 
     #creating frames
     cap_frame = LabelFrame(ns_view, text="Namespaces", padx=5, pady=5)
@@ -64,13 +64,10 @@ namespaces = get_namespaces()
 print("Got namespaces! they are : ")
 ns_list = namespaces.split('\n')[:-1]
 
-#ns_list = ['ns1', 'ns2']
-
 for i, ns in enumerate(ns_list):
-    ns_btn = Button(namespace_frame, text=ns) #TODO: clicking on button brings up NS-view.py for editing
-    print(type(ns))
+    ns_btn = Button(namespace_frame, text=ns, command=ns_view) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
-# 
+
 add_ns_btn = Button(namespace_frame, text="Add Namespace", command = add_ns_window)
 add_ns_btn.grid(row=0, column=1)
 
