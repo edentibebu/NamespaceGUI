@@ -21,7 +21,7 @@ def get_namespaces():
 def get_cap(ns):
     output = []
 
-    output = subprocess.check_output("ip netns exec" + str(ns) + "capsh --print", shell=True)
+    output = subprocess.check_output("ip netns exec " + str(ns) + " capsh --print", shell=True)
     caps = output.decode()
     print(caps)
     return caps
@@ -72,11 +72,11 @@ process_frame.grid(row=0, column=1, padx=50, pady = 10)
 
 ################################## List namespaces ##################################
 # get namespaces as list from C code
-# namespaces = get_namespaces()
-# print("Got namespaces! they are : ")
-# ns_list = namespaces.split('\n')[:-1]
+namespaces = get_namespaces()
+print("Got namespaces! they are : ")
+ns_list = namespaces.split('\n')[:-1]
 
-ns_list = ['ns1', 'ns2']
+#ns_list = ['ns1', 'ns2']
 
 for i, ns in enumerate(ns_list):
     ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
