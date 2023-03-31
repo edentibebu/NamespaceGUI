@@ -18,4 +18,19 @@ def get_namespaces():
     print(type(namespaces))
     return namespaces
 
-get_namespaces()
+def get_cap():
+    output = []
+    NS = "testing"
+    output = subprocess.check_output("ip netns exec"+ NS +"capsh --print", shell=True)
+    caps = output.decode()
+    print(caps)
+    return caps
+
+get_cap()
+
+
+
+
+
+
+#get_namespaces()
