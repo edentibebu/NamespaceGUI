@@ -48,7 +48,7 @@ def ns_view(ns): #TODO: pass in namespace name
 
     # TODO: get capabilities for this namespace with C code
 
-    capabilities = get_cap()
+    capabilities = get_cap(ns)
     print(capabilities)
     cap = Label(cap_frame, text="capability 1")
     cap.grid(row=0, column=0, padx=5, pady=5)
