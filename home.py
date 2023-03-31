@@ -19,11 +19,9 @@ def get_namespaces():
     return namespaces
 
 def get_cap(ns):
-    print(ns)
     output = []
     output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
     caps = output.decode()
-    print(caps)
     return caps
 
 ########################### WINDOWS #####################################
@@ -48,7 +46,10 @@ def ns_view(ns): #TODO: pass in namespace name
 
     # TODO: get capabilities for this namespace with C code
 
-    capabilities = get_cap(ns)
+    output = get_cap(ns)
+    print(output)
+    caps = output.split("\n")
+    capabilities = caps[1]
     print(capabilities)
     cap = Label(cap_frame, text="capability 1")
     cap.grid(row=0, column=0, padx=5, pady=5)
