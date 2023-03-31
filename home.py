@@ -47,10 +47,10 @@ def ns_view(ns): #TODO: pass in namespace name
     # TODO: get capabilities for this namespace with C code
 
     output = get_cap(ns)
-    print(output)
     caps = output.split("\n")
-    capabilities = caps[1]
-    print(capabilities)
+    capabilities = caps[1].split('=')[1]
+    cap_list = capabilities.split(',')
+    print(cap_list)
     cap = Label(cap_frame, text="capability 1")
     cap.grid(row=0, column=0, padx=5, pady=5)
     cap_en = IntVar() #set up a list of IntVar(), corresponding with each cap
