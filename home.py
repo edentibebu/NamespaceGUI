@@ -20,10 +20,10 @@ all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_
             {'cap': 'CAP_NET_BROADCAST', 'enabled': False}, {'cap': 'CAP_NET_RAW', 'enabled': False}, {'cap': 'CAP_PERFMON', 'enabled': False},
             {'cap': 'CAP_SETGID', 'enabled': False}, {'cap': 'CAP_SETFCAP', 'enabled': False}, {'cap': 'CAP_SETPCAP', 'enabled': False}, 
             {'cap': 'CAP_SETUID', 'enabled': False}, {'cap': 'CAP_SYS_ADMIN', 'enabled': False}, {'cap': 'CAP_SYS_BOOT', 'enabled': False}, 
-            {'cap': 'CAP_SYS_BOOT', 'enabled': False}, {'cap': 'CAP_SYS_CHROOT', 'enabled': False}, {'cap': 'CAP_SYS_MODULE', 'enabled': False},
-            {'cap': 'CAP_SYS_NICE', 'enabled': False}, {'cap': 'CAP_SYS_PACCT', 'enabled': False}, {'cap': 'CAP_SYS_PTRACE', 'enabled': False}, 
-            {'cap': 'CAP_SYS_RAWIO', 'enabled': False}, {'cap':'CAP_SYS_RESOURCE', 'enabled': False}, {'cap': 'CAP_SYS_TIME', 'enabled': False},
-            {'cap': 'CAP_SYS_TTY_CONFIG', 'enabled': False}, {'cap': 'CAP_SYSLOG', 'enabled': False}, {'cap': 'CAP_WAKE_ALARM', 'enabled': False}]
+            {'cap': 'CAP_SYS_CHROOT', 'enabled': False}, {'cap': 'CAP_SYS_MODULE', 'enabled': False}, {'cap': 'CAP_SYS_NICE', 'enabled': False}, 
+            {'cap': 'CAP_SYS_PACCT', 'enabled': False}, {'cap': 'CAP_SYS_PTRACE', 'enabled': False}, {'cap': 'CAP_SYS_RAWIO', 'enabled': False},
+            {'cap':'CAP_SYS_RESOURCE', 'enabled': False}, {'cap': 'CAP_SYS_TIME', 'enabled': False}, {'cap': 'CAP_SYS_TTY_CONFIG', 'enabled': False}, 
+            {'cap': 'CAP_SYSLOG', 'enabled': False}, {'cap': 'CAP_WAKE_ALARM', 'enabled': False}]
 print(len(all_caps))
 #namespace_heading = Label(root, text="Namespaces")
 #namespace_heading.pack()
@@ -83,17 +83,9 @@ def ns_view(ns): #passing in ns name
             color = '#f00' # red for disabled
         cap_label = Label(cap_frame, text = cap['cap'], fg = color)
         cap_label.grid(row=i, column=0, padx=5, pady=5)
-        cap_en = IntVar() ## this will be used for making changes to the capabilities, enforced on "save"
+        cap_en = IntVar(value=cap['enabled']) ## this will be used for making changes to the capabilities, enforced on "save"
         toggle = Checkbutton(cap_frame, text="enable", variable=cap_en)
         toggle.grid(row=i, column=1, padx=20, pady=5)
-    # for i, cap in enumerate(cap_list):
-
-    #     cap = Label(cap_frame, text=cap)
-    #     cap.grid(row=i, column=0, padx=5, pady=5)
-    #     cap_en = IntVar() #set up a list of IntVar(), corresponding with each cap
-    #     #TODO: add 
-    #     toggle = Checkbutton(cap_frame, text="enable", variable=cap_en) 
-    #     toggle.grid(row=i, column=1, padx=20, pady= 5)
 
     #TODO: iterate through list of processes
     proc = Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
