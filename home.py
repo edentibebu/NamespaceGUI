@@ -120,7 +120,7 @@ def ns_view(ns): #passing in ns name
     # populate the table:
     for i, line in enumerate(body):
         print(line, type(line))
-        proc_table.insert(parent='', iid = i, text='', values = line)
+        proc_table.insert(parent='', index='end', iid = i, text='', values = line)
     proc_table.grid(row = 0, column = 1)
     # procs[0] is header for table
     for i, proc in enumerate(procs):
