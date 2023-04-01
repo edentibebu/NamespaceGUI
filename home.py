@@ -104,7 +104,8 @@ def ns_view(ns): #passing in ns name
             element = element.strip()
             if element:
                 row.append(element)
-        body[i] = row    
+        if(row):
+            body[i] = row    
     print("body type: ", type(body))
     print("body: ", body)
     columns = []
