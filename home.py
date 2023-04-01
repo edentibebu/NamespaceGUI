@@ -111,10 +111,11 @@ def ns_view(ns): #passing in ns name
         col = col.strip()
         if(col):
             columns.append(col)
-    print(columns)
+    #print(columns)
     
     proc_table = ttk.Treeview(process_frame, columns = columns)
     for col in columns: 
+        print(col)
         proc_table.heading(col, text=col)
     proc_table.grid(row = 0, column = 1)
     # procs[0] is header for table
