@@ -95,7 +95,7 @@ def ns_view(ns): #passing in ns name
 
     #TODO: iterate through list of processes
     procs = get_procs(ns)
-    header = procs[0].split('  ')
+    header = procs[0].split(' ')
     body = procs[1:]
     for i, line in enumerate(body):
         line = line.split('   ')
