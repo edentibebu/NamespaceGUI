@@ -43,6 +43,8 @@ def get_cap(ns):
 
 def get_procs(ns):
     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
+    print(procs)
+    print(type(procs))
     procs = output.decode()
     return procs
 
