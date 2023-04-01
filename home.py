@@ -83,7 +83,7 @@ def ns_view(ns): #passing in ns name
             color = '#f00' # red for disabled
         cap_label = Label(cap_frame, text = cap['cap'], fg = color)
         cap_label.grid(row=i, column=0, padx=5, pady=5)
-        cap_en = IntVar(value=cap['enabled']) ## this will be used for making changes to the capabilities, enforced on "save"
+        cap_en = IntVar(value=int(cap['enabled'])) ## this will be used for making changes to the capabilities, enforced on "save"
         toggle = Checkbutton(cap_frame, text="enable", variable=cap_en)
         toggle.grid(row=i, column=1, padx=20, pady=5)
 
