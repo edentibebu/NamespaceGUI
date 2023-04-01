@@ -96,7 +96,7 @@ def ns_view(ns): #passing in ns name
     #TODO: iterate through list of processes
     procs = get_procs(ns)
     print(procs)
-    print(procs[0].split('   '))
+    print(procs[0].split('   ').strip())
     #print(type)
     #ttk.Treeview(process_frame, columns = procs[0])
 
