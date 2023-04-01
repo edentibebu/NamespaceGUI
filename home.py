@@ -96,9 +96,14 @@ def ns_view(ns): #passing in ns name
     #TODO: iterate through list of processes
     procs = get_procs(ns)
     print(procs)
-    print(procs[0].split('   ').strip())
-    #print(type)
-    #ttk.Treeview(process_frame, columns = procs[0])
+    header = procs[0].split('  ')
+    columns = []
+    for col in header:
+        col = col.strip()
+        if(col):
+            columns.append(col)
+    print(columns)
+    ttk.Treeview(process_frame, columns = columns)
 
     # procs[0] is header for table
     # then split on \t for each element
