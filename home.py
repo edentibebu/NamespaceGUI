@@ -107,16 +107,18 @@ def ns_view(ns): #passing in ns name
         if(row):
             body[i] = row    
     columns = []
+    columns.insert(0, '')
     for col in header:
         col = col.strip()
         if(col):
             columns.append(col)
-    #print(columns)
+
     
     proc_table = ttk.Treeview(process_frame, columns = columns)
     for col in columns: 
         print(col)
         proc_table.heading(col, text=col)
+    proc_table.column('', width=0)
     proc_table.grid(row = 0, column = 1)
     # procs[0] is header for table
     for i, proc in enumerate(procs):
