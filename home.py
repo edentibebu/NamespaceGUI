@@ -24,7 +24,7 @@ all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_
             {'cap': 'CAP_SYS_NICE', 'enabled': False}, {'cap': 'CAP_SYS_PACCT', 'enabled': False}, {'cap': 'CAP_SYS_PTRACE', 'enabled': False}, 
             {'cap': 'CAP_SYS_RAWIO', 'enabled': False}, {'cap':'CAP_SYS_RESOURCE', 'enabled': False}, {'cap': 'CAP_SYS_TIME', 'enabled': False},
             {'cap': 'CAP_SYS_TTY_CONFIG', 'enabled': False}, {'cap': 'CAP_SYSLOG', 'enabled': False}, {'cap': 'CAP_WAKE_ALARM', 'enabled': False}]
-
+print(len(all_caps))
 #namespace_heading = Label(root, text="Namespaces")
 #namespace_heading.pack()
 
