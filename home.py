@@ -1,3 +1,4 @@
+from re import L
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
@@ -34,6 +35,18 @@ def get_namespaces():
 
     namespaces = output.decode()
     return namespaces
+
+def top_5_cpu():
+    output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
+    cpu = output.decode()
+    print(cpu)
+    return cpu
+
+def top_5_mem():
+    output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
+    mem = output.decode()
+    print(mem)
+    return mem
 
 def get_cap(ns):
     output = []
@@ -131,12 +144,13 @@ def ns_view(ns): #passing in ns name
 ##################################### FRAMES #########################################
 #creating frames
 namespace_frame = LabelFrame(root, text="Namespaces", padx=5, pady=5)
-#namespace_frame.pack()
 namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
-process_frame = LabelFrame(root, text="Processes", padx=5, pady=5)
-#process_frame.pack()
-process_frame.grid(row=0, column=1, padx=50, pady = 10)
+process_cpu_frame = LabelFrame(root, text="Top CPU Processes", padx=5, pady=5)
+process_cpu_frame.grid(row=0, column=1, padx=50, pady = 10)
+
+process_mem_frame = LabelFrame(root, text="Top Memory Processes")
+process_mem_frame.grid(row=0, column=2, padx=50, pady=10)
 
 ################################## List namespaces ##################################
 # get namespaces as list from C code
@@ -154,9 +168,18 @@ add_ns_btn = Button(namespace_frame, text="Add Namespace", command = add_ns_wind
 add_ns_btn.grid(row=0, column=1)
 
 #TODO: List processes
-# get processes as list from C code
-# for proc in processes:
-proc = Label(process_frame, text="process1")
-proc.grid(row=0, column=0)
+
+mem_procs = top_5_mem()
+cpu_procs = top_5_cpu()
+
+print(type(cpu_procs))
+
+for i, proc in enumerate(cpu_procs):
+    print(proc)
+    proc_label = Label(process_cpu_frame, text=proc)
+    proc_label.grid(row=i, column=0)
+
+#proc = Label(process_frame, text="process1")
+#proc.grid(row=0, column=0)
 
 root.mainloop()
