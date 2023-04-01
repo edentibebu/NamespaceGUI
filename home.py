@@ -45,7 +45,7 @@ def get_procs(ns):
     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
     print(output)
     print(type(output))
-    procs = output.decode('utf-8')
+    procs = output.decode('utf-8').split('\n')
     return procs
 
 ########################### WINDOWS #####################################
@@ -96,6 +96,7 @@ def ns_view(ns): #passing in ns name
     #TODO: iterate through list of processes
     procs = get_procs(ns)
     print(procs)
+    print(procs[0])
     print(len(procs))
     for i, proc in enumerate(procs):
         proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
