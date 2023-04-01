@@ -116,7 +116,7 @@ def ns_view(ns): #passing in ns name
     proc_table = ttk.Treeview(process_frame, columns = columns)
     for col in columns: 
         proc_table.heading(col, text=col)
-    proc_table.grid(row = 0, columns = 1)
+    proc_table.grid(row = 0, column = 1)
     # procs[0] is header for table
     for i, proc in enumerate(procs):
         proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
