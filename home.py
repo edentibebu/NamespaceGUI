@@ -106,20 +106,21 @@ def ns_view(ns): #passing in ns name
                 row.append(element)
         if(row):
             body[i] = row    
-    print("body type: ", type(body), "body length: ", len(body))
-    print("body: ", body)
     columns = []
     for col in header:
         col = col.strip()
         if(col):
             columns.append(col)
     print(columns)
-    ttk.Treeview(process_frame, columns = columns)
-
+    
+    proc_table = ttk.Treeview(process_frame, columns = columns)
+    for col in columns: 
+        proc_table.heading(col, text=col)
+    proc_table.grid(row = 0, columns = 1)
     # procs[0] is header for table
     for i, proc in enumerate(procs):
         proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
-        proc_label.grid(row=i, column=0)
+        #proc_label.grid(row=i, column=0)
 
     # TODO : Remove namespace button
 
