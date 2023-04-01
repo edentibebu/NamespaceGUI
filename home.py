@@ -42,7 +42,7 @@ def get_cap(ns):
     return caps
 
 def get_procs(ns):
-    output = subprocess.check_output("ps u $(ip netns pids " + str(ns), shell=True)
+    output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
     procs = output.decode()
     return procs
 
@@ -94,8 +94,10 @@ def ns_view(ns): #passing in ns name
     #TODO: iterate through list of processes
     procs = get_procs(ns)
     print(procs)
-    proc = Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
-    proc.grid(row=0, column=0)
+
+    for i, proc in enumerate(procs):
+        proc_label= Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
+        proc.grid(row=i, column=0)
 
     # TODO : Remove namespace button
 
