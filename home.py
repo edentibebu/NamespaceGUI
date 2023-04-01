@@ -77,9 +77,9 @@ def ns_view(ns): #passing in ns name
     for i, cap in enumerate(all_caps):
         print(type(cap))
         if cap['enabled']:
-            color = '0f0' # green for enabled
+            color = '#0f0' # green for enabled
         else:
-            color = 'f00' # red for disabled
+            color = '#f00' # red for disabled
         cap_label = Label(cap_frame, text = cap['cap'], fg = color)
         cap_label.grid(row=i, column=0, padx=5, pady=5)
         cap_en = IntVar() ## this will be used for making changes to the capabilities, enforced on "save"
