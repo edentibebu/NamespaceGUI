@@ -43,8 +43,6 @@ def get_cap(ns):
 
 def get_procs(ns):
     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
-    print(output)
-    print(type(output))
     procs = output.decode('utf-8').split('\n')
     return procs
 
@@ -95,6 +93,10 @@ def ns_view(ns): #passing in ns name
 
     #TODO: iterate through list of processes
     procs = get_procs(ns)
+
+    for proc in procs:
+        print(proc)
+
     header = procs[0].split(' ')
     body = procs[1:]
     for i, line in enumerate(body):
@@ -117,7 +119,7 @@ def ns_view(ns): #passing in ns name
     for col in columns: 
         proc_table.heading(col, text=col)
 
-    # populate the table:
+    # populate the table: #TODO: values are not lined up with the correct columns
     for i, line in enumerate(body):
         print(line, type(line))
         proc_table.insert(parent='', index='end', iid = i, text='', values = line)
