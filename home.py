@@ -170,14 +170,14 @@ add_ns_btn.grid(row=0, column=1)
 #TODO: List processes
 
 mem_procs = top_5_mem()
-cpu_procs = top_5_cpu()
+cpu_procs = top_5_cpu().split('\n')
 
-print(type(cpu_procs))
+print((cpu_procs), type(cpu_procs))
 
-for i, proc in enumerate(cpu_procs):
-    #print(proc)
-    proc_label = Label(process_cpu_frame, text=proc)
-    proc_label.grid(row=i, column=0)
+# for i, proc in enumerate(cpu_procs):
+#     #print(proc)
+#     proc_label = Label(process_cpu_frame, text=proc)
+#     proc_label.grid(row=i, column=0)
 
 #proc = Label(process_frame, text="process1")
 #proc.grid(row=0, column=0)
