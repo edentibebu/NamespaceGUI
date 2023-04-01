@@ -175,7 +175,7 @@ cpu_procs = top_5_cpu()
 print(type(cpu_procs))
 
 for i, proc in enumerate(cpu_procs):
-    print(proc)
+    #print(proc)
     proc_label = Label(process_cpu_frame, text=proc)
     proc_label.grid(row=i, column=0)
 
