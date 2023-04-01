@@ -96,7 +96,7 @@ def ns_view(ns): #passing in ns name
     print(procs)
 
     for i, proc in enumerate(procs):
-        proc_label = Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
+        proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
         proc_label.grid(row=i, column=0)
 
     # TODO : Remove namespace button
