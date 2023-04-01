@@ -106,7 +106,7 @@ def ns_view(ns): #passing in ns name
                 row.append(element)
         if(row):
             body[i] = row    
-    print("body type: ", type(body))
+    print("body type: ", type(body), "body length: ", len(body))
     print("body: ", body)
     columns = []
     for col in header:
