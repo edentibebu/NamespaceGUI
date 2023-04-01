@@ -45,7 +45,7 @@ def get_procs(ns):
     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
     print(output)
     print(type(output))
-    procs = output.decode()
+    procs = output.decode('utf-8')
     return procs
 
 ########################### WINDOWS #####################################
