@@ -95,7 +95,7 @@ def ns_view(ns): #passing in ns name
     procs = get_procs(ns)
 
     for proc in procs:
-        print(proc)
+        print(proc.split(' '))
 
     header = procs[0].split(' ')
     body = procs[1:]
