@@ -71,11 +71,12 @@ def ns_view(ns): #passing in ns name
     caps = output.split("\n")
     capabilities = caps[1].split('=')[1]
     cap_list = capabilities.split(',')
+    cap_list = [cap.upper() for cap in cap_list]
     print(len(cap_list))
     #TODO: enable capabilities that are returned in cap_list
-    # prob need another for loop to do that???? 
     for i, cap in enumerate(all_caps):
-        print(type(cap))
+        if(cap['cap'] in cap_list):
+            cap['enabled'] = True
         if cap['enabled']:
             color = '#0f0' # green for enabled
         else:
