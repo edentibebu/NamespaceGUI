@@ -95,8 +95,18 @@ def ns_view(ns): #passing in ns name
 
     #TODO: iterate through list of processes
     procs = get_procs(ns)
-    print(procs)
     header = procs[0].split('  ')
+    body = procs[1:]
+    for i, line in enumerate(body):
+        line = line.split('   ')
+        row = []
+        for element in line:
+            element = element.strip()
+            if element:
+                row.append(element)
+        body[i] = row    
+    print("body type: ", type(body))
+    print("body: ", body)
     columns = []
     for col in header:
         col = col.strip()
@@ -106,8 +116,6 @@ def ns_view(ns): #passing in ns name
     ttk.Treeview(process_frame, columns = columns)
 
     # procs[0] is header for table
-    # then split on \t for each element
-    print(len(procs))
     for i, proc in enumerate(procs):
         proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
         proc_label.grid(row=i, column=0)
