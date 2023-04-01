@@ -24,7 +24,6 @@ all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_
             {'cap': 'CAP_SYS_PACCT', 'enabled': False}, {'cap': 'CAP_SYS_PTRACE', 'enabled': False}, {'cap': 'CAP_SYS_RAWIO', 'enabled': False},
             {'cap':'CAP_SYS_RESOURCE', 'enabled': False}, {'cap': 'CAP_SYS_TIME', 'enabled': False}, {'cap': 'CAP_SYS_TTY_CONFIG', 'enabled': False}, 
             {'cap': 'CAP_SYSLOG', 'enabled': False}, {'cap': 'CAP_WAKE_ALARM', 'enabled': False}]
-print(len(all_caps))
 #namespace_heading = Label(root, text="Namespaces")
 #namespace_heading.pack()
 
@@ -41,6 +40,11 @@ def get_cap(ns):
     output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
     caps = output.decode()
     return caps
+
+def get_procs(ns):
+    output = subprocess.check_output("ps u $(ip netns pids " + str(ns), shell=True)
+    procs = output.decode()
+    return procs
 
 ########################### WINDOWS #####################################
 #new window to add namespace on click of add-ns button
@@ -72,9 +76,8 @@ def ns_view(ns): #passing in ns name
     capabilities = caps[1].split('=')[1]
     cap_list = capabilities.split(',')
     cap_list = [cap.upper() for cap in cap_list]
-    print(len(cap_list))
-    #TODO: enable capabilities that are returned in cap_list
-    cap_en  = IntVar()
+
+    cap_en  = IntVar() # TODO: reflect enabled/disabled status in the Checkbutton.
     for i, cap in enumerate(all_caps):
         if(cap['cap'] in cap_list):
             cap['enabled'] = True
@@ -89,8 +92,12 @@ def ns_view(ns): #passing in ns name
         toggle.grid(row=i, column=1, padx=20, pady=5)
 
     #TODO: iterate through list of processes
+    procs = get_procs(ns)
+    print(procs)
     proc = Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
     proc.grid(row=0, column=0)
+
+    # TODO : Remove namespace button
 
 ##################################### FRAMES #########################################
 #creating frames
@@ -105,7 +112,6 @@ process_frame.grid(row=0, column=1, padx=50, pady = 10)
 ################################## List namespaces ##################################
 # get namespaces as list from C code
 namespaces = get_namespaces()
-print("Got namespaces! they are : ")
 ns_list = namespaces.split('\n')[:-1]
 
 #ns_list = ['ns1', 'ns2']
@@ -114,8 +120,7 @@ for i, ns in enumerate(ns_list):
     ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
-
-############################### Home 
+############################### Home #######################
 add_ns_btn = Button(namespace_frame, text="Add Namespace", command = add_ns_window)
 add_ns_btn.grid(row=0, column=1)
 
