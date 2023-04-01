@@ -58,7 +58,7 @@ def ns_view(ns): #passing in ns name
     #scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
 
     ns_header = Label(ns_view, text=ns)
-    ns_header.pack() #TODO : fix placement?? 
+    #ns_header.pack() #TODO : fix placement?? 
     #creating frames
     cap_frame = LabelFrame(ns_view, text=ns, padx=5, pady=5)
     cap_frame.grid(row = 0, column = 0, padx=10, pady=10)
