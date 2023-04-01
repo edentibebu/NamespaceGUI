@@ -77,7 +77,7 @@ def ns_view(ns): #passing in ns name
     cap_list = capabilities.split(',')
     cap_list = [cap.upper() for cap in cap_list]
 
-    cap_en  = IntVar() # TODO: reflect enabled/disabled status in the Checkbutton.
+    cap_en  = IntVar()
     for i, cap in enumerate(all_caps):
         if(cap['cap'] in cap_list):
             cap['enabled'] = True
@@ -96,8 +96,8 @@ def ns_view(ns): #passing in ns name
     print(procs)
 
     for i, proc in enumerate(procs):
-        proc_label= Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
-        proc.grid(row=i, column=0)
+        proc_label = Label(process_frame, text=("Processes in" + ns)) #TODO: get namespace name and insert here
+        proc_label.grid(row=i, column=0)
 
     # TODO : Remove namespace button
 
