@@ -115,11 +115,11 @@ The GUI can only be accessed by users with root/sudo access.
   ```txt
   This folder contains screenshots and images of the interface.
   ```
-  * test.py
+* test.py
   ```txt
   This file is used to test python functions before being incorporated into the home.py file
   ```
-  * home.py
+* home.py
   ```txt
   This file contains the main program that runs the GUI. Here is where we've implemented the interface as well as executed our functions:
   ```
