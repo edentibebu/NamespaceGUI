@@ -28,22 +28,20 @@
 
 
 
-<!-- PROJECT LOGO -->
+<!-- PROJECT LOGO 
 <br />
 <div align="center">
   <a href="https://github.com/edentibebu/NamespaceGUI">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
-
+-->
 <h3 align="center">Namespace GUI</h3>
 
   <p align="center">
     Our project is an enhancement to the Linux userspace that is a graphical user interface for namespaces. This is a significant modification which would improve the user experience in creating namespaces and editing namespaces, as the current interface is through command line only. 
     <br />
-    <a href="https://github.com/edentibebu/NamespaceGUI"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="screenshots/third_run.mkv">View Demo</a>
+    <a href="screenshots/demo.mkv">View Demo</a>
   </p>
 </div>
 
@@ -80,7 +78,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
 We've created a GUI for namespaces. Our project is an enhancement to the Linux userspace that is a graphical user interface for namespaces. This is a significant modification which would improve the user experience in creating namespaces and editing namespaces, as the current interface is through command line only. 
 
 Functionality Features:
