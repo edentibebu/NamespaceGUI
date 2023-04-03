@@ -43,7 +43,7 @@
     <a href="https://github.com/edentibebu/NamespaceGUI"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/edentibebu/NamespaceGUI">View Demo</a>
+    <a href="screenshots/third_run.mkv">View Demo</a>
   </p>
 </div>
 
@@ -174,29 +174,6 @@ Also on the namespace page view are the current running processes for that speci
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/edentibebu/NamespaceGUI/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
