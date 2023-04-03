@@ -110,17 +110,32 @@ The GUI can only be accessed by users with root/sudo access.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### The Breakdown
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
+* bash_scripts
+  ```txt
+  This folder contains various bash scripts that to execute commands.
   ```
-
+* screenshots
+  ```txt
+  This folder contains screenshots and images of the interface.
+  ```
+  * test.py
+  ```txt
+  This file is used to test python functions before being incorporated into the home.py file
+  ```
+  * home.py
+  ```txt
+  This file contains the main program that runs the GUI. Here is where we've implemented the interface as well as executed our functions:
+  ```
+  - get_namespaces(): lists the current namespaces
+  - get_cap(): lists the enabled capabilities for the current namespace
+  - get_procs(): lists the current running processes within the current namespace 
+  - add_namespaces(): adds a namespace
+  - top_5_cpu(): displays the top 5 processes according to cpu usage
+  - top_5_mem(): displays the top 5 processes according to memory usage
+  
 ### Installation
 1. Make sure you have the latest installment of python on your system. You can do this by going to this <a href="https://www.python.org/downloads/">website</a>
 
@@ -169,44 +184,6 @@ Also on the namespace page view are the current running processes for that speci
     - [ ] Nested Feature
 
 See the [open issues](https://github.com/edentibebu/NamespaceGUI/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/edentibebu/NamespaceGUI](https://github.com/edentibebu/NamespaceGUI)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
