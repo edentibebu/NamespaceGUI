@@ -39,13 +39,11 @@ def get_namespaces():
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
     cpu = output.decode()
-    print(cpu)
     return cpu
 
 def top_5_mem():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
     mem = output.decode()
-    print(mem)
     return mem
 
 def get_cap(ns):
@@ -70,7 +68,7 @@ def add_ns_window():
             Label(add_ns_window, text ="Window to add a namespace").pack()
         else:
             print(checkuid)
-            Label(add_ns_window, text = "Sorry,you cannot access this window becuase you do not have root privileges").pack()
+            Label(add_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 #new window to view a namespace (on click of namespace name)
 def ns_view(ns): #passing in ns name
@@ -82,7 +80,7 @@ def ns_view(ns): #passing in ns name
     checkuid = subprocess.check_output("id -u", shell = True).decode()
 
     if(checkuid[0] != "0"):
-        Label(ns_view, text = "Sorry, you cannot access this window becuase you do not have root privileges").pack()
+        Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
         return
 
 
@@ -189,7 +187,7 @@ add_ns_btn.grid(row=0, column=1)
 mem_procs = top_5_mem()
 cpu_procs = top_5_cpu().split('\n')
 
-print((cpu_procs), type(cpu_procs))
+# print((cpu_procs), type(cpu_procs))
 
 # for i, proc in enumerate(cpu_procs):
 #     #print(proc)
