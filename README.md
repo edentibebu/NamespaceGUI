@@ -148,9 +148,11 @@ The image below is of the home page. It displays all the current namespaces. To 
 * ![](screenshots/home_page.png)
 <br>
 Clicking on a namespace takes you to the namespace page view. This displays all the capabilities and their status (whether they are enabled/disabled), which can be toggled using the checkboxes.
+
 * ![](screenshots/capabilities.png)
 <br>
 Also on the namespace page view are the current running processes for that specific namespace. Information like the user, pids, cpu and memory usage, etc. are shown in a table.
+
 * ![](screenshots/processes.png)
 
 
