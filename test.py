@@ -2,7 +2,6 @@ from ctypes import *
 import subprocess
 import os
 
- 
 
 # this function lists the existing namespaces
 def get_namespaces():
@@ -14,7 +13,7 @@ def get_namespaces():
     print(type(namespaces))
     return namespaces
 
-def get_cap():
+def get_cap(): 
     output = []
     NS = "testing"
     output = subprocess.check_output("sudo ip netns exec testing capsh --print", shell=True)
