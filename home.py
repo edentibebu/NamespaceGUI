@@ -112,14 +112,29 @@ def get_procs(ns):
     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
     procs = output.decode('utf-8').split('\n')
     return procs
-
+def add_ns(ns_name):
+    #TODO: finish
+    return
 ########################### WINDOWS #####################################
+# alert window, can be used for various errors
+def show_alert(message):
+    alert_window = Toplevel()
+    alert_window.title("Alert")
+    alert_label = Label(alert_window, text=message)
+    alert_label.pack(padx=20, pady=20)
+    ok_button = Button(alert_window, text="OK", command=alert_window.destroy)
+    ok_button.pack(pady=10)
+
 #new window to add namespace on click of add-ns button
-
-def add_net_ns(ns_name):
-    ns_name = ns_name.get()
-
-    print("adding: " , ns_name)
+def add_net_ns(ns_name, device1, device2, ip1, ip2):
+    if ns_name:
+        ns_name = ns_name.get()
+        add_ns(ns_name)
+        print("adding: " , ns_name)
+    else:
+        show_alert("you must specify the namespace name in order to add a network namespace.")
+    if device1 and device2:
+        print("adding Veth pairs:", )
     #TODO: commands to add net ns
 
 def add_net_ns_window():
@@ -129,6 +144,8 @@ def add_net_ns_window():
         Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
         ns_name = Entry(add_net_ns_window)
         ns_name.grid(row=0, column=1)
+
+        #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
         
         Label(add_net_ns_window, text ="VEth Pairs:").grid(row=2, column=0)
         Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=1)
@@ -149,8 +166,8 @@ def add_net_ns_window():
 
         #ns_name_text = ns_name.get()
         #print(ns_name_text)
-        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
-        add_ns_btn.grid(row=4, column=4)
+        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name, device1, device2, ip1, ip2))
+        add_ns_btn.grid(row=5, column=4)
         
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
