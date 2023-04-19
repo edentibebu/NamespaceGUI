@@ -28,6 +28,22 @@ def add_ns():
     add = output.decode()
     return add
 
+def add_veth(netns):
+    ouput = []
+    device1 = "veth0"
+    device2 = "veth1"
+    output = subprocess.check_output("sudo ip link add" +str(device1) +"type veth peer name" +str(device2)+"; sudo ip link set" +str(device2)+" netns "+str(netns)+"", shell=True)
+    add = output.decode()
+    return add
+
+def set_ips(netns, device1, device2):
+    output = []
+    ip1 = "10.1.1.1"
+    ip2 = "10.1.1.2"
+    output = subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig" +str(device2)+" "+str(ip2)+" up; sudo ifconfig"+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2)+"", shell=True)
+    ips = output.decode()
+    return ips
+
 def delete_ns():
     output = []
     NS = "deleted"
@@ -72,4 +88,5 @@ def top_5_mem():
 # get_cap()
 # add_ns()
 # delete_ns()
-get_procs()
+# get_procs()
+set_ips()
