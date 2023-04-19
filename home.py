@@ -29,12 +29,32 @@ all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_
 #namespace_heading.pack()
 
 ############################ INTERFACING WITH PI #################################
-def get_namespaces():
+def get_net_namespaces():
     output = []
     output = subprocess.check_output("ip netns", shell=True)
 
-    namespaces = output.decode()
-    return namespaces
+    net_namespaces = output.decode()
+    return net_namespaces
+
+def get_user_namespaces():
+    output = []
+    # TODO : fill this in
+    return user_namespaces
+
+def get_mount_namespaces():
+    # TODO : fill this in
+    return mount_namespaces
+
+def get_proc_namespaces():
+    #TODO: Fill in
+    return proc_namespaces
+    
+def get_uts_namespaces():
+    #TODO: fill in
+    return uts_namespaces
+
+def get_ipc_namespaces():
+    return ipc_namespaces
 
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
@@ -60,18 +80,70 @@ def get_procs(ns):
 ########################### WINDOWS #####################################
 #new window to add namespace on click of add-ns button
 
-def add_ns_window():
-        add_ns_window = Toplevel(root)
+def add_net_ns_window():
+        add_net_ns_window = Toplevel(root)
         checkuid = subprocess.check_output("id -u", shell=True).decode()
-        add_ns_window.title("Add New Namespace")
+        add_net_ns_window.title("Add New Network Namespace")
         if(checkuid[0] == "0"):
-            Label(add_ns_window, text ="Window to add a namespace").pack()
+            Label(add_net_ns_window, text ="Window to add a namespace").pack()
         else:
             print(checkuid)
-            Label(add_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+            Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+
+
+def add_user_ns_window():
+        add_user_ns_window = Toplevel(root)
+        checkuid = subprocess.check_output("id -u", shell=True).decode()
+        add_user_ns_window.title("Add New User Namespace")
+        if(checkuid[0] == "0"):
+            Label(add_user_ns_window, text ="Window to add a namespace").pack()
+        else:
+            print(checkuid)
+            Label(add_user_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+
+def add_mount_ns_window():
+        add_mount_ns_window = Toplevel(root)
+        checkuid = subprocess.check_output("id -u", shell=True).decode()
+        add_mount_ns_window.title("Add New Mount Namespace")
+        if(checkuid[0] == "0"):
+            Label(add_mount_ns_window, text ="Window to add a namespace").pack()
+        else:
+            print(checkuid)
+            Label(add_mount_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+
+def add_proc_ns_window():
+        add_proc_ns_window = Toplevel(root)
+        checkuid = subprocess.check_output("id -u", shell=True).decode()
+        add_proc_ns_window.title("Add New Network Namespace")
+        if(checkuid[0] == "0"):
+            Label(add_proc_ns_window, text ="Window to add a namespace").pack()
+        else:
+            print(checkuid)
+            Label(add_proc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+
+def add_uts_ns_window():
+        add_uts_ns_window = Toplevel(root)
+        checkuid = subprocess.check_output("id -u", shell=True).decode()
+        add_uts_ns_window.title("Add New Network Namespace")
+        if(checkuid[0] == "0"):
+            Label(add_uts_ns_window, text ="Window to add a namespace").pack()
+        else:
+            print(checkuid)
+            Label(add_uts_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+
+def add_ipc_ns_window():
+        add_ipc_ns_window = Toplevel(root)
+        checkuid = subprocess.check_output("id -u", shell=True).decode()
+        add_ipc_ns_window.title("Add New Network Namespace")
+        if(checkuid[0] == "0"):
+            Label(add_ipc_ns_window, text ="Window to add a namespace").pack()
+        else:
+            print(checkuid)
+            Label(add_ipc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+
 
 #new window to view a namespace (on click of namespace name)
-def ns_view(ns): #passing in ns name
+def net_ns_view(ns): #passing in ns name
     #TODO: make this page scrollable!!
     ns_view = Toplevel(root)
     #ns_view = tk.Canvas(root)
@@ -85,7 +157,7 @@ def ns_view(ns): #passing in ns name
 
 
 
-    ns_header = Label(ns_view, text=ns)
+    net_ns_header = Label(ns_view, text=ns)
     #ns_header.pack() #TODO : fix placement?? 
     #creating frames
     cap_frame = LabelFrame(ns_view, text=ns, padx=5, pady=5)
@@ -157,14 +229,29 @@ def ns_view(ns): #passing in ns name
 
 ##################################### FRAMES #########################################
 #creating frames
-namespace_frame = LabelFrame(root, text="Namespaces", padx=5, pady=5)
-namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
+net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+
+user_namespace_frame = LabelFrame(root, text="User Namespaces", padx=5, pady=5)
+user_namespace_frame.grid(row = 0, column = 1, padx=10, pady=10)
+
+mount_namespace_frame = LabelFrame(root, text="Mount Namespaces", padx=5, pady=5)
+mount_namespace_frame.grid(row = 0, column = 2, padx=10, pady=10)
+
+proc_namespace_frame = LabelFrame(root, text="Process Namespaces", padx=5, pady=5)
+proc_namespace_frame.grid(row = 1, column = 0, padx=10, pady=10)
+
+uts_namespace_frame = LabelFrame(root, text="UTS Namespaces", padx=5, pady=5)
+uts_namespace_frame.grid(row = 1, column = 1, padx=10, pady=10)
+
+ipc_namespace_frame = LabelFrame(root, text="Process Namespaces", padx=5, pady=5)
+ipc_namespace_frame.grid(row = 1, column = 2, padx=10, pady=10)
 
 process_cpu_frame = LabelFrame(root, text="Top CPU Processes", padx=5, pady=5)
-process_cpu_frame.grid(row=0, column=1, padx=50, pady = 10)
+process_cpu_frame.grid(row=2, column=0, padx=50, pady = 10)
 
 process_mem_frame = LabelFrame(root, text="Top Memory Processes")
-process_mem_frame.grid(row=0, column=2, padx=50, pady=10)
+process_mem_frame.grid(row=2, column=0, padx=50, pady=10)
 
 ################################## List namespaces ##################################
 # get namespaces as list from C code
@@ -187,12 +274,8 @@ add_ns_btn.grid(row=0, column=1)
 mem_procs = top_5_mem()
 cpu_procs = top_5_cpu().split('\n')
 
-<<<<<<< HEAD
 print((cpu_procs), type(cpu_procs))
 cpu_header_list = cpu_procs[0].split(' ')
-=======
-# print((cpu_procs), type(cpu_procs))
->>>>>>> refs/remotes/origin/main
 
 # for i, proc in enumerate(cpu_procs):
 #     #print(proc)
