@@ -116,16 +116,21 @@ def get_procs(ns):
 ########################### WINDOWS #####################################
 #new window to add namespace on click of add-ns button
 
+def add_net_ns(ns_name):
+    print(ns_name)
+    #TODO: commands to add net ns
+
 def add_net_ns_window():
-        add_net_ns_window = Toplevel(root)
-        checkuid = subprocess.check_output("id -u", shell=True).decode()
-        add_net_ns_window.title("Add New Network Namespace")
-        if(checkuid[0] == "0"):
-            Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
-            entry = Entry(add_net_ns_window)
-            entry.pack(side=LEFT, padx=5, pady=5)
-        else:
-            Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+    add_net_ns_window = Toplevel(root)
+    add_net_ns_window.title("Add New Network Namespace")
+    if(checkuid[0] == "0"):
+        Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
+        ns_name = Entry(add_net_ns_window)
+        ns_name.pack(side=LEFT, padx=5, pady=5)
+    else:
+        Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+    ns_name = ns_name.get()
+    add_ns_btn = Button(add_net_ns_window, text=ns, command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
 
 def add_user_ns_window():
         add_user_ns_window = Toplevel(root)
