@@ -127,8 +127,12 @@ def show_alert(message):
 
 #new window to add namespace on click of add-ns button
 def add_net_ns(ns_name, device1, device2, ip1, ip2):
+    ns_name = ns_name.get()
+    device1 = device1.get()
+    device2 = device2.get()
+    ip1 = ip1.get()
+    ip2 = ip2.get()
     if ns_name:
-        ns_name = ns_name.get()
         add_ns(ns_name)
         print("adding: " , ns_name)
     else:
