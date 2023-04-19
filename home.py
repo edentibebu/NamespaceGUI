@@ -44,9 +44,9 @@ def get_net_namespaces():
 def get_user_namespaces():
     output = []
     if (checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns -l --type user", shell=True)
+        output = subprocess.check_output("sudo lsns -l -n --type user", shell=True)
     else:
-        output = subprocess.check_output("lsns -l --type user", shell=True)
+        output = subprocess.check_output("lsns -l -n --type user", shell=True)
 
     user_namespaces = output.decode()
     print ("userns output type: ", type(user_namespaces))
