@@ -118,6 +118,7 @@ def get_procs(ns):
 
 def add_net_ns(ns_name):
     ns_name = ns_name.get()
+
     print("adding: " , ns_name)
     #TODO: commands to add net ns
 
@@ -125,13 +126,26 @@ def add_net_ns_window():
     add_net_ns_window = Toplevel(root)
     add_net_ns_window.title("Add New Network Namespace")
     if(checkuid[0] == "0"):
-        Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
+        Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
         ns_name = Entry(add_net_ns_window)
-        ns_name.pack(side=LEFT, padx=5, pady=5)
+        ns_name.grid(row=0, column=1)
+
+        Label(add_net_ns_window, text ="VEth Pairs:").grid(row=1, column=0)
+        device1 = Entry(add_net_ns_window)
+        device1.grid(row=1, column=1)
+        device2 = Entry(add_net_ns_window)
+        device2.grid(row=1, column=2)
+
+        Label(add_net_ns_window, text ="IP Addresses:").grid(row=2, column=0)
+        ip1 = Entry(add_net_ns_window)
+        ip1.grid(row=2, column=1)
+        ip2 = Entry(add_net_ns_window)
+        ip2.grid(row=2, column=2)
+
         #ns_name_text = ns_name.get()
         #print(ns_name_text)
         add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
-        add_ns_btn.pack()
+        add_ns_btn.grid(row=4, column=4)
         
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
