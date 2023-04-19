@@ -44,11 +44,12 @@ def get_net_namespaces():
 def get_user_namespaces():
     output = []
     if (checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns --type user", shell=True)
+        output = subprocess.check_output("sudo lsns -l --type user", shell=True)
     else:
-        output = subprocess.check_output("lsns --type user", shell=True)
+        output = subprocess.check_output("lsns -l --type user", shell=True)
 
     user_namespaces = output.decode()
+    print ("userns output type: ", type(user_namespaces))
     return user_namespaces
 
 def get_mount_namespaces():
@@ -284,13 +285,16 @@ process_mem_frame.grid(row=2, column=0, padx=50, pady=10)
 ################################## List namespaces ##################################
 # get namespaces as list from C code
 net_ns = get_net_namespaces()
-ns_list = net_ns.split('\n')[:-1]
+net_ns_list = net_ns.split('\n')[:-1]
 
-print(get_user_namespaces())
+user_ns = get_user_namespaces()
+print(user_ns)
+
+#print(get_user_namespaces())
 
 #ns_list = ['ns1', 'ns2']
 
-for i, ns in enumerate(ns_list):
+for i, ns in enumerate(net_ns_list):
     ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
