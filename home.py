@@ -130,21 +130,22 @@ def add_net_ns_window():
         ns_name = Entry(add_net_ns_window)
         ns_name.grid(row=0, column=1)
         
-        ns_name.insert(0, 'namespace name')
-        style = {"foreground": "gray"}
-        ns_name.tag_configure("gray", **style)
-
-        Label(add_net_ns_window, text ="VEth Pairs:").grid(row=1, column=0)
+        Label(add_net_ns_window, text ="VEth Pairs:").grid(row=2, column=0)
+        Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=1)
+        Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=2)
         device1 = Entry(add_net_ns_window)
-        device1.grid(row=1, column=1)
+        device1.grid(row=2, column=1)
         device2 = Entry(add_net_ns_window)
-        device2.grid(row=1, column=2)
+        device2.grid(row=2, column=2)
 
-        Label(add_net_ns_window, text ="IP Addresses:").grid(row=2, column=0)
+        Label(add_net_ns_window, text ="IP Addresses:").grid(row=4, column=0)
+        Label(add_net_ns_window, text ="Address 1:").grid(row=3, column=1)
+        Label(add_net_ns_window, text ="Address 2:").grid(row=3, column=2)
+
         ip1 = Entry(add_net_ns_window)
-        ip1.grid(row=2, column=1)
+        ip1.grid(row=4, column=1)
         ip2 = Entry(add_net_ns_window)
-        ip2.grid(row=2, column=2)
+        ip2.grid(row=4, column=2)
 
         #ns_name_text = ns_name.get()
         #print(ns_name_text)
