@@ -129,6 +129,10 @@ def add_net_ns_window():
         Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
         ns_name = Entry(add_net_ns_window)
         ns_name.grid(row=0, column=1)
+        
+        ns_name.insert(0, 'namespace name', 'gray')
+        style = {"foreground": "gray"}
+        ns_name.tag_configure("gray", **style)
 
         Label(add_net_ns_window, text ="VEth Pairs:").grid(row=1, column=0)
         device1 = Entry(add_net_ns_window)
