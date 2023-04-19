@@ -130,7 +130,7 @@ def add_net_ns_window():
         ns_name = Entry(add_net_ns_window)
         ns_name.grid(row=0, column=1)
         
-        ns_name.insert(0, 'namespace name', 'gray')
+        ns_name.insert(0, 'namespace name')
         style = {"foreground": "gray"}
         ns_name.tag_configure("gray", **style)
 
