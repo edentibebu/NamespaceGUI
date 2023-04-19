@@ -9,6 +9,8 @@ from unicodedata import name
 
 root = Tk()
 root.title("Namespace GUI: Home")
+checkuid = subprocess.check_output("id -u", shell=True).decode()
+
 
 # list of all capabilities
 all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_READ', 'enabled': False}, {'cap': 'CAP_AUDIT_WRITE', 'enabled': False}, 
@@ -31,29 +33,62 @@ all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_
 ############################ INTERFACING WITH PI #################################
 def get_net_namespaces():
     output = []
-    output = subprocess.check_output("ip netns", shell=True)
+    if(checkuid[0] == '0'):
+        output = subprocess.check_output("sudo ip netns", shell=True)
+    else:
+        output = subprocess.check_output('ip netns', shell=True)
 
     net_namespaces = output.decode()
     return net_namespaces
 
 def get_user_namespaces():
     output = []
-    # TODO : fill this in
+    if (checkuid[0] == "0"):
+        output = subprocess.check_output("sudo lsns --type user", shell=True)
+    else:
+        output = subprocess.check_output("lsns --type user", shell=True)
+
+    user_namespaces = output.decode()
     return user_namespaces
 
 def get_mount_namespaces():
-    # TODO : fill this in
+    output = []
+    if (checkuid[0] == "0"):
+        output = subprocess.check_output("sudo lsns --type mnt", shell=True)
+    else:
+        output = subprocess.check_output("lsns --type mnt", shell=True)
+
+    mount_namespaces = output.decode()
     return mount_namespaces
 
 def get_proc_namespaces():
-    #TODO: Fill in
+    output = []
+    if (checkuid[0] == "0"):
+        output = subprocess.check_output("sudo lsns --type pid", shell=True)
+    else:
+        output = subprocess.check_output("lsns --type pid", shell=True)
+
+    proc_namespaces = output.decode()
     return proc_namespaces
     
 def get_uts_namespaces():
-    #TODO: fill in
+    output = []
+    if (checkuid[0] == "0"):
+        output = subprocess.check_output("sudo lsns --type uts", shell=True)
+    else:
+        output = subprocess.check_output("lsns --type uts", shell=True)
+
+    uts_namespaces = output.decode()
     return uts_namespaces
 
 def get_ipc_namespaces():
+    output = []
+    if (checkuid[0] == "0"):
+        output = subprocess.check_output("sudo lsns --type ipc", shell=True)
+    else:
+        output = subprocess.check_output("lsns --type ipc", shell=True)
+
+    ipc_namespaces = output.decode()
     return ipc_namespaces
 
 def top_5_cpu():
@@ -103,7 +138,6 @@ def add_user_ns_window():
 
 def add_mount_ns_window():
         add_mount_ns_window = Toplevel(root)
-        checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_mount_ns_window.title("Add New Mount Namespace")
         if(checkuid[0] == "0"):
             Label(add_mount_ns_window, text ="Window to add a namespace").pack()
@@ -255,8 +289,10 @@ process_mem_frame.grid(row=2, column=0, padx=50, pady=10)
 
 ################################## List namespaces ##################################
 # get namespaces as list from C code
-namespaces = get_namespaces()
-ns_list = namespaces.split('\n')[:-1]
+net_ns = get_net_namespaces()
+ns_list = net_ns.split('\n')[:-1]
+
+print(get_user_namespaces())
 
 #ns_list = ['ns1', 'ns2']
 
