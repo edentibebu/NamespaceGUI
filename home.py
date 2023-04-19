@@ -130,7 +130,7 @@ def add_net_ns_window():
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
     ns_name = ns_name.get()
-    add_ns_btn = Button(add_net_ns_window, text=ns, command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
+    add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
     add_ns_btn.pack()
 def add_user_ns_window():
         add_user_ns_window = Toplevel(root)
