@@ -302,7 +302,7 @@ for i, ns in enumerate(ns_list):
 
 ############################### Home #######################
 
-add_ns_btn = Button(namespace_frame, text="Add Namespace", command = add_ns_window)
+add_ns_btn = Button(net_namespace_frame, text="+", command = add_ns_window)
 add_ns_btn.grid(row=0, column=1)
 
 #TODO: List processes
