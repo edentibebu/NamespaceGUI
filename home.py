@@ -49,7 +49,7 @@ def get_user_namespaces():
         output = subprocess.check_output("lsns -l -n --type user", shell=True)
 
     user_namespaces = output.decode()
-    print ("userns output type: ", type(user_namespaces))
+    #print ("userns output type: ", type(user_namespaces))
     return user_namespaces
 
 def get_mount_namespaces():
@@ -295,7 +295,7 @@ net_ns = get_net_namespaces()
 net_ns_list = net_ns.split('\n')[:-1]
 
 user_ns = get_user_namespaces()
-print(user_ns)
+#print(user_ns)
 
 #print(get_user_namespaces())
 
