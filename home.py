@@ -122,7 +122,6 @@ def add_net_ns_window():
         if(checkuid[0] == "0"):
             Label(add_net_ns_window, text ="Window to add a namespace").pack()
         else:
-            print(checkuid)
             Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 
@@ -133,7 +132,6 @@ def add_user_ns_window():
         if(checkuid[0] == "0"):
             Label(add_user_ns_window, text ="Window to add a namespace").pack()
         else:
-            print(checkuid)
             Label(add_user_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_mount_ns_window():
@@ -142,7 +140,6 @@ def add_mount_ns_window():
         if(checkuid[0] == "0"):
             Label(add_mount_ns_window, text ="Window to add a namespace").pack()
         else:
-            print(checkuid)
             Label(add_mount_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_proc_ns_window():
@@ -152,7 +149,6 @@ def add_proc_ns_window():
         if(checkuid[0] == "0"):
             Label(add_proc_ns_window, text ="Window to add a namespace").pack()
         else:
-            print(checkuid)
             Label(add_proc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_uts_ns_window():
@@ -162,7 +158,6 @@ def add_uts_ns_window():
         if(checkuid[0] == "0"):
             Label(add_uts_ns_window, text ="Window to add a namespace").pack()
         else:
-            print(checkuid)
             Label(add_uts_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_ipc_ns_window():
@@ -172,7 +167,6 @@ def add_ipc_ns_window():
         if(checkuid[0] == "0"):
             Label(add_ipc_ns_window, text ="Window to add a namespace").pack()
         else:
-            print(checkuid)
             Label(add_ipc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 
@@ -188,8 +182,6 @@ def net_ns_view(ns): #passing in ns name
     if(checkuid[0] != "0"):
         Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
         return
-
-
 
     net_ns_header = Label(ns_view, text=ns)
     #ns_header.pack() #TODO : fix placement?? 
@@ -246,9 +238,11 @@ def net_ns_view(ns): #passing in ns name
     for col in columns: 
         proc_table.heading(col, text=col)
 
+
+    ### PROC TABLE ###
     # populate the table: #TODO: values are not lined up with the correct columns
     for i, line in enumerate(body):
-        print(line, type(line))
+        # print(line, type(line))
         proc_table.insert(parent='', index='end', iid = i, text='', values = line)
     proc_table.grid(row = 0, column = 1)
     # procs[0] is header for table
@@ -310,7 +304,7 @@ add_ns_btn.grid(row=0, column=1)
 mem_procs = top_5_mem()
 cpu_procs = top_5_cpu().split('\n')
 
-print((cpu_procs), type(cpu_procs))
+# print((cpu_procs), type(cpu_procs))
 cpu_header_list = cpu_procs[0].split(' ')
 
 # for i, proc in enumerate(cpu_procs):
