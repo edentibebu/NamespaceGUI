@@ -117,7 +117,7 @@ def get_procs(ns):
 #new window to add namespace on click of add-ns button
 
 def add_net_ns(ns_name):
-    print(ns_name.get())
+    ns_name = ns_name.get()
     print("adding: " , ns_name)
     #TODO: commands to add net ns
 
