@@ -173,6 +173,7 @@ mem_procs = top_5_mem()
 cpu_procs = top_5_cpu().split('\n')
 
 print((cpu_procs), type(cpu_procs))
+cpu_header_list = cpu_procs[0].split(' ')
 
 # for i, proc in enumerate(cpu_procs):
 #     #print(proc)
