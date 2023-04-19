@@ -297,12 +297,12 @@ print(get_user_namespaces())
 #ns_list = ['ns1', 'ns2']
 
 for i, ns in enumerate(ns_list):
-    ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
+    ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
 ############################### Home #######################
 
-add_ns_btn = Button(net_namespace_frame, text="+", command = add_ns_window)
+add_ns_btn = Button(net_namespace_frame, text="+", command = add_net_ns_window)
 add_ns_btn.grid(row=0, column=1)
 
 #TODO: List processes
