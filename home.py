@@ -121,10 +121,11 @@ def add_net_ns_window():
         checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_net_ns_window.title("Add New Network Namespace")
         if(checkuid[0] == "0"):
-            Label(add_net_ns_window, text ="Window to add a namespace").pack()
+            Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
+            entry = Entry(add_net_ns_window)
+            entry.pack(side=LEFT, padx=5, pady=5)
         else:
             Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
 
 def add_user_ns_window():
         add_user_ns_window = Toplevel(root)
