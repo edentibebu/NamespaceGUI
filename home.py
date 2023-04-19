@@ -112,9 +112,20 @@ def get_procs(ns):
     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
     procs = output.decode('utf-8').split('\n')
     return procs
+
 def add_ns(ns_name):
-    #TODO: finish
-    return
+    subprocess.check_output("ip netns add" + str(ns_name), shell=True)
+
+def add_veth(netns, device1, device2):
+    ouput = []
+    device1 = "veth0"
+    device2 = "veth1"
+    subprocess.check_output("sudo ip link add" +str(device1) +"type veth peer name" +str(device2)+"; sudo ip link set" +str(device2)+" netns "+str(netns)+"", shell=True)
+
+def set_ips(netns, device1, device2, ip1, ip2):
+    subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2)+"", shell=True)
+    # ips = output.decode()
+    # return ips
 ########################### WINDOWS #####################################
 # alert window, can be used for various errors
 def show_alert(message):
@@ -138,8 +149,10 @@ def add_net_ns(ns_name, device1, device2, ip1, ip2):
     else:
         show_alert("you must specify the namespace name in order to add a network namespace.")
     if device1 and device2:
-        print("adding Veth pairs:", )
-    #TODO: commands to add net ns
+        print("adding Veth pairs")
+        add_veth(ns_name, device1, device2)
+    if device1 and device2 and ip1 and ip2:
+        set_ips(ns_name, device1, device2, ip1, ip2)
 
 def add_net_ns_window():
     add_net_ns_window = Toplevel(root)

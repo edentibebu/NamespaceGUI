@@ -21,14 +21,14 @@ def get_cap():
     print(caps)
     return caps
 
-def add_ns():
+def add_ns(ns_name):
     output = []
     NS = "added"
-    output = subprocess.check_output("ip netns add added", shell=True)
+    output = subprocess.check_output("ip netns add" + str(ns_name), shell=True)
     add = output.decode()
     return add
 
-def add_veth(netns):
+def add_veth(netns, device1, device2):
     ouput = []
     device1 = "veth0"
     device2 = "veth1"
