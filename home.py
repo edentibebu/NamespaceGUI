@@ -117,7 +117,7 @@ def get_procs(ns):
 #new window to add namespace on click of add-ns button
 
 def add_net_ns(ns_name):
-    print(ns_name)
+    print("adding: " , ns_name)
     #TODO: commands to add net ns
 
 def add_net_ns_window():
@@ -127,9 +127,9 @@ def add_net_ns_window():
         Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
         ns_name = Entry(add_net_ns_window)
         ns_name.pack(side=LEFT, padx=5, pady=5)
-        
-        ns_name_text = ns_name.get()
-        print(ns_name_text)
+        print("ns_name: ", ns_name.get())
+        #ns_name_text = ns_name.get()
+        #print(ns_name_text)
         add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name_text)) #TODO: clicking on button brings up NS-view.py for editing
         add_ns_btn.pack()
         
