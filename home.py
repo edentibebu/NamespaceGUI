@@ -126,11 +126,13 @@ def add_net_ns_window():
     if(checkuid[0] == "0"):
         Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
         ns_name = Entry(add_net_ns_window)
-        ns_name = ns_name.get()
-        print(ns_name)
-        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
-        add_ns_btn.pack()
         ns_name.pack(side=LEFT, padx=5, pady=5)
+        
+        ns_name_text = ns_name.get()
+        print(ns_name_text)
+        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name_text)) #TODO: clicking on button brings up NS-view.py for editing
+        add_ns_btn.pack()
+        
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
