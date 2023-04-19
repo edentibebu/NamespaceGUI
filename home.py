@@ -39,13 +39,11 @@ def get_namespaces():
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
     cpu = output.decode()
-    print(cpu)
     return cpu
 
 def top_5_mem():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
     mem = output.decode()
-    print(mem)
     return mem
 
 def get_cap(ns):
@@ -61,10 +59,16 @@ def get_procs(ns):
 
 ########################### WINDOWS #####################################
 #new window to add namespace on click of add-ns button
+
 def add_ns_window():
         add_ns_window = Toplevel(root)
+        checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_ns_window.title("Add New Namespace")
-        Label(add_ns_window, text ="Window to add a namespace").pack()
+        if(checkuid[0] == "0"):
+            Label(add_ns_window, text ="Window to add a namespace").pack()
+        else:
+            print(checkuid)
+            Label(add_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 #new window to view a namespace (on click of namespace name)
 def ns_view(ns): #passing in ns name
@@ -73,6 +77,13 @@ def ns_view(ns): #passing in ns name
     #ns_view = tk.Canvas(root)
     ns_view.title("Namespace GUI: Namespace View")
     #scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
+    checkuid = subprocess.check_output("id -u", shell = True).decode()
+
+    if(checkuid[0] != "0"):
+        Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
+        return
+
+
 
     ns_header = Label(ns_view, text=ns)
     #ns_header.pack() #TODO : fix placement?? 
@@ -141,6 +152,9 @@ def ns_view(ns): #passing in ns name
 
     # TODO : Remove namespace button
 
+    
+
+
 ##################################### FRAMES #########################################
 #creating frames
 namespace_frame = LabelFrame(root, text="Namespaces", padx=5, pady=5)
@@ -164,6 +178,7 @@ for i, ns in enumerate(ns_list):
     ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
 ############################### Home #######################
+
 add_ns_btn = Button(namespace_frame, text="Add Namespace", command = add_ns_window)
 add_ns_btn.grid(row=0, column=1)
 
@@ -172,8 +187,12 @@ add_ns_btn.grid(row=0, column=1)
 mem_procs = top_5_mem()
 cpu_procs = top_5_cpu().split('\n')
 
+<<<<<<< HEAD
 print((cpu_procs), type(cpu_procs))
 cpu_header_list = cpu_procs[0].split(' ')
+=======
+# print((cpu_procs), type(cpu_procs))
+>>>>>>> refs/remotes/origin/main
 
 # for i, proc in enumerate(cpu_procs):
 #     #print(proc)
