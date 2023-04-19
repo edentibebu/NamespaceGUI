@@ -126,13 +126,14 @@ def add_net_ns_window():
     if(checkuid[0] == "0"):
         Label(add_net_ns_window, text ="Name:").pack(side=LEFT, padx=5, pady=5)
         ns_name = Entry(add_net_ns_window)
+        ns_name = ns_name.get()
+        print(ns_name)
+        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
+        add_ns_btn.pack()
         ns_name.pack(side=LEFT, padx=5, pady=5)
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-    ns_name = ns_name.get()
-    print(ns_name)
-    add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
-    add_ns_btn.pack()
+
 def add_user_ns_window():
         add_user_ns_window = Toplevel(root)
         checkuid = subprocess.check_output("id -u", shell=True).decode()
