@@ -129,7 +129,7 @@ def get_procs(ns):
     # return ips
 ########################### WINDOWS #####################################
 
-def add_net_ns_window():
+def add_net_ns_window(net_namespace_frame):
     add_net_ns_window = Toplevel(root)
     add_net_ns_window.title("Add New Network Namespace")
     if(utils.checkuid[0] == "0"):
@@ -158,7 +158,7 @@ def add_net_ns_window():
 
         #ns_name_text = ns_name.get()
         #print(ns_name_text)
-        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(root, ns_name, device1, device2, ip1, ip2))
+        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(net_namespace_frame, ns_name, device1, device2, ip1, ip2))
         add_ns_btn.grid(row=5, column=4)
         
     else:
@@ -333,7 +333,7 @@ for i, ns in enumerate(net_ns_list):
 
 ############################### Home #######################
 
-add_ns_btn = Button(net_namespace_frame, text="+", command = add_net_ns.add_net_ns_window)
+add_ns_btn = Button(net_namespace_frame, text="+", command = lambda net_namespace_frame = net_namespace_frame: add_net_ns_window(net_namespace_frame))
 add_ns_btn.grid(row=0, column=1)
 
 #TODO: List processes
