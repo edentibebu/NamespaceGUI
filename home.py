@@ -16,15 +16,6 @@ root.title("Namespace GUI: Home")
 #namespace_heading.pack()
 
 ############################ INTERFACING WITH PI #################################
-def get_net_namespaces():
-    output = []
-    if(utils.checkuid[0] == '0'):
-        output = subprocess.check_output("sudo ip netns", shell=True)
-    else:
-        output = subprocess.check_output('ip netns', shell=True)
-
-    net_namespaces = output.decode()
-    return net_namespaces
 
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
@@ -96,7 +87,6 @@ def add_net_ns_window(net_namespace_frame):
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
-#new window to view a namespace (on click of namespace name)
 def net_ns_view(ns): #passing in ns name
     #TODO: make this page scrollable!!
     ns_view = Toplevel(root)
@@ -113,24 +103,24 @@ def net_ns_view(ns): #passing in ns name
 
 
     #TODO: iterate through list of processes
-    procs = get_procs(ns)
+    # procs = get_procs(ns)
 
-    header = procs[0].split(' ')
-    body = procs[1:]
-    for i, line in enumerate(body):
-        line = line.split(' ')
-        row = []
-        for element in line:
-            element = element.strip()
-            if element:
-                row.append(element)
-        if(row):
-            body[i] = row    
-    columns = []
-    for col in header:
-        col = col.strip()
-        if(col):
-            columns.append(col)
+    # header = procs[0].split(' ')
+    # body = procs[1:]
+    # for i, line in enumerate(body):
+    #     line = line.split(' ')
+    #     row = []
+    #     for element in line:
+    #         element = element.strip()
+    #         if element:
+    #             row.append(element)
+    #     if(row):
+    #         body[i] = row    
+    # columns = []
+    # for col in header:
+    #     col = col.strip()
+    #     if(col):
+    #         columns.append(col)
 
     
     # proc_table = ttk.Treeview(process_frame, columns = columns)
@@ -157,13 +147,7 @@ net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5
 net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
 ################################## List namespaces ##################################
-# get namespaces as list from C code
-net_ns = get_net_namespaces()
-net_ns_list = net_ns.split('\n')[:-1]
-
-for i, ns in enumerate(net_ns_list):
-    ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
-    ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
+utils.list_namespaces(net_namespace_frame)
 
 ############################### Home #######################
 
