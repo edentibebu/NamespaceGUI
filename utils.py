@@ -33,7 +33,7 @@ def list_namespaces(namespace_frame):
         ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
         ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
-def add_ns(self, ns_name):
+def add_ns(ns_name):
     command_str = "ip netns add " + str(ns_name)
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
