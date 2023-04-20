@@ -13,11 +13,7 @@ class Home:
     def __init__(self, root):
         self.root = root
         self.frame = Frame(root)
-        self.label = Label(self.frame, text="This is page 1")
-
         self.display_ns()
-
-        
 
     def display_ns(self):
         net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
