@@ -28,7 +28,7 @@ class Home:
 
         # Add Namespace button
         add_ns_btn = Button(net_namespace_frame, text="+", command = lambda \
-            net_namespace_frame = net_namespace_frame: self.add_net_ns_window(net_namespace_frame))
+            net_namespace_frame = net_namespace_frame: add_net_ns.add_net_ns_window(net_namespace_frame))
         add_ns_btn.grid(row=0, column=1)
     
 #     def show_ns_view(self):
