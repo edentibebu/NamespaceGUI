@@ -15,7 +15,10 @@ class Home:
         self.frame = Frame(root)
         self.frame.pack()
         self.label = Label(self.frame, text="This is page 1")
-        self.label.pack()
+
+        self.display_ns(self.root)
+
+        
 
     def display_ns(self):
         net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
