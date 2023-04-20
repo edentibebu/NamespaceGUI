@@ -28,12 +28,12 @@ class Home:
 
         # Add Namespace button
         add_ns_btn = Button(net_namespace_frame, text="+", command = lambda \
-            net_namespace_frame = net_namespace_frame: add_net_ns.add_net_ns_window(net_namespace_frame))
+            net_namespace_frame = net_namespace_frame: self.open_add_ns_window(net_namespace_frame))
         add_ns_btn.grid(row=0, column=1)
     
-    def open_add_ns_window(self):
+    def open_add_ns_window(self, net_namespace_frame):
         top = Toplevel(self.root)
-        add_net_ns.AddNS(top)
+        add_net_ns.AddNS(top, net_namespace_frame)
 #     def show_ns_view(self):
 #         self.frame.destroy()  # destroy the current frame
 #         page2.PageTwo(self.root)  # create the page 2 frame
