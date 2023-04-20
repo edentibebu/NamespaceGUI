@@ -148,7 +148,7 @@ def add_net_ns(ns_name, device1, device2, ip1, ip2):
     if ns_name and not device1 and not device2 and not ip1 and not ip2:
         add_ns(ns_name)
         print("adding: " , ns_name)
-        net_namespace_frame.update()
+        root.update()
     # elif: #TODO check if namespace name already exists and show alert accordingly
     #     show_alert
 
