@@ -30,7 +30,7 @@ def list_namespaces(namespace_frame):
     net_ns_list = net_ns.split('\n')[:-1]
 
     for i, ns in enumerate(net_ns_list):
-        ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
+        ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(ns)) #TODO: clicking on button brings up NS-view.py for editing
         ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
 def add_ns(ns_name):
