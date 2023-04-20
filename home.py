@@ -12,21 +12,6 @@ root = Tk()
 root.title("Namespace GUI: Home")
 
 
-# list of all capabilities
-all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_READ', 'enabled': False}, {'cap': 'CAP_AUDIT_WRITE', 'enabled': False}, 
-            {'cap': 'CAP_BLOCK_SUSPEND', 'enabled': False}, {'cap': 'CAP_BPF', 'enabled': False}, {'cap': 'CAP_CHECKPOINT_RESTORE', 'enabled': False}, 
-            {'cap': 'CAP_CHOWN', 'enabled': False}, {'cap': 'CAP_DAC_OVERRIDE', 'enabled': False}, {'cap': 'CAP_DAC_READ_SEARCH', 'enabled': False}, 
-            {'cap': 'CAP_FOWNER', 'enabled': False}, {'cap': 'CAP_FSETID', 'enabled': False}, {'cap': 'CAP_IPC_LOCK', 'enabled': False},
-            {'cap': 'CAP_IPC_OWNER', 'enabled': False}, {'cap': 'CAP_KILL', 'enabled': False}, {'cap': 'CAP_LEASE', 'enabled': False}, 
-            {'cap': 'CAP_LINUX_IMMUTABLE', 'enabled': False}, {'cap': 'CAP_MAC_ADMIN', 'enabled': False}, {'cap': 'CAP_MAC_OVERRIDE', 'enabled': False}, 
-            {'cap': 'CAP_MKNOD', 'enabled': False}, {'cap': 'CAP_NET_ADMIN', 'enabled': False}, {'cap': 'CAP_NET_BIND_SERVICE', 'enabled': False},
-            {'cap': 'CAP_NET_BROADCAST', 'enabled': False}, {'cap': 'CAP_NET_RAW', 'enabled': False}, {'cap': 'CAP_PERFMON', 'enabled': False},
-            {'cap': 'CAP_SETGID', 'enabled': False}, {'cap': 'CAP_SETFCAP', 'enabled': False}, {'cap': 'CAP_SETPCAP', 'enabled': False}, 
-            {'cap': 'CAP_SETUID', 'enabled': False}, {'cap': 'CAP_SYS_ADMIN', 'enabled': False}, {'cap': 'CAP_SYS_BOOT', 'enabled': False}, 
-            {'cap': 'CAP_SYS_CHROOT', 'enabled': False}, {'cap': 'CAP_SYS_MODULE', 'enabled': False}, {'cap': 'CAP_SYS_NICE', 'enabled': False}, 
-            {'cap': 'CAP_SYS_PACCT', 'enabled': False}, {'cap': 'CAP_SYS_PTRACE', 'enabled': False}, {'cap': 'CAP_SYS_RAWIO', 'enabled': False},
-            {'cap':'CAP_SYS_RESOURCE', 'enabled': False}, {'cap': 'CAP_SYS_TIME', 'enabled': False}, {'cap': 'CAP_SYS_TTY_CONFIG', 'enabled': False}, 
-            {'cap': 'CAP_SYSLOG', 'enabled': False}, {'cap': 'CAP_WAKE_ALARM', 'enabled': False}]
 #namespace_heading = Label(root, text="Namespaces")
 #namespace_heading.pack()
 
@@ -40,57 +25,6 @@ def get_net_namespaces():
 
     net_namespaces = output.decode()
     return net_namespaces
-
-def get_user_namespaces():
-    output = []
-    if (utils.checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns -l -n --type user", shell=True)
-    else:
-        output = subprocess.check_output("lsns -l -n --type user", shell=True)
-
-    user_namespaces = output.decode()
-    #print ("userns output type: ", type(user_namespaces))
-    return user_namespaces
-
-def get_mount_namespaces():
-    output = []
-    if (utils.checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns --type mnt", shell=True)
-    else:
-        output = subprocess.check_output("lsns --type mnt", shell=True)
-
-    mount_namespaces = output.decode()
-    return mount_namespaces
-
-def get_proc_namespaces():
-    output = []
-    if (utils.checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns --type pid", shell=True)
-    else:
-        output = subprocess.check_output("lsns --type pid", shell=True)
-
-    proc_namespaces = output.decode()
-    return proc_namespaces
-    
-def get_uts_namespaces():
-    output = []
-    if (utils.checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns --type uts", shell=True)
-    else:
-        output = subprocess.check_output("lsns --type uts", shell=True)
-
-    uts_namespaces = output.decode()
-    return uts_namespaces
-
-def get_ipc_namespaces():
-    output = []
-    if (utils.checkuid[0] == "0"):
-        output = subprocess.check_output("sudo lsns --type ipc", shell=True)
-    else:
-        output = subprocess.check_output("lsns --type ipc", shell=True)
-
-    ipc_namespaces = output.decode()
-    return ipc_namespaces
 
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
@@ -156,54 +90,11 @@ def add_net_ns_window(net_namespace_frame):
         ip2 = Entry(add_net_ns_window)
         ip2.grid(row=4, column=2)
 
-        #ns_name_text = ns_name.get()
-        #print(ns_name_text)
         add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(net_namespace_frame, ns_name, device1, device2, ip1, ip2))
         add_ns_btn.grid(row=5, column=4)
         
     else:
         Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
-def add_user_ns_window():
-        add_user_ns_window = Toplevel(root)
-        add_user_ns_window.title("Add New User Namespace")
-        if(utils.checkuid[0] == "0"):
-            Label(add_user_ns_window, text ="Window to add a namespace").pack()
-        else:
-            Label(add_user_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
-def add_mount_ns_window():
-        add_mount_ns_window = Toplevel(root)
-        add_mount_ns_window.title("Add New Mount Namespace")
-        if(utils.checkuid[0] == "0"):
-            Label(add_mount_ns_window, text ="Window to add a namespace").pack()
-        else:
-            Label(add_mount_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
-def add_proc_ns_window():
-        add_proc_ns_window = Toplevel(root)
-        add_proc_ns_window.title("Add New Network Namespace")
-        if(utils.checkuid[0] == "0"):
-            Label(add_proc_ns_window, text ="Window to add a namespace").pack()
-        else:
-            Label(add_proc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
-def add_uts_ns_window():
-        add_uts_ns_window = Toplevel(root)
-        add_uts_ns_window.title("Add New Network Namespace")
-        if(utils.checkuid[0] == "0"):
-            Label(add_uts_ns_window, text ="Window to add a namespace").pack()
-        else:
-            Label(add_uts_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
-def add_ipc_ns_window():
-        add_ipc_ns_window = Toplevel(root)
-        add_ipc_ns_window.title("Add New Network Namespace")
-        if(utils.checkuid[0] == "0"):
-            Label(add_ipc_ns_window, text ="Window to add a namespace").pack()
-        else:
-            Label(add_ipc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
 
 #new window to view a namespace (on click of namespace name)
 def net_ns_view(ns): #passing in ns name
@@ -219,33 +110,7 @@ def net_ns_view(ns): #passing in ns name
 
     net_ns_header = Label(ns_view, text=ns)
     #ns_header.pack() #TODO : fix placement?? 
-    #creating frames
-    cap_frame = LabelFrame(ns_view, text=ns, padx=5, pady=5)
-    cap_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
-    process_frame = LabelFrame(ns_view, text="Processes", padx=5, pady=5)
-    process_frame.grid(row=0, column=1, padx=50, pady = 10)
-
-    # get capabilities for this namespace with C code
-    output = get_cap(ns)
-    caps = output.split("\n")
-    capabilities = caps[1].split('=')[1]
-    cap_list = capabilities.split(',')
-    cap_list = [cap.upper() for cap in cap_list]
-
-    cap_en  = IntVar()
-    for i, cap in enumerate(all_caps):
-        if(cap['cap'] in cap_list):
-            cap['enabled'] = True
-        if cap['enabled']:
-            color = '#0f0' # green for enabled
-        else:
-            color = '#f00' # red for disabled
-        cap_label = Label(cap_frame, text = cap['cap'], fg = color)
-        cap_label.grid(row=i, column=0, padx=5, pady=5)
-        cap_en.set(int(cap['enabled'])) ## this will be used for making changes to the capabilities, enforced on "save"
-        toggle = Checkbutton(cap_frame, text="enable", variable=cap_en)
-        toggle.grid(row=i, column=1, padx=20, pady=5)
 
     #TODO: iterate through list of processes
     procs = get_procs(ns)
@@ -268,64 +133,33 @@ def net_ns_view(ns): #passing in ns name
             columns.append(col)
 
     
-    proc_table = ttk.Treeview(process_frame, columns = columns)
-    for col in columns: 
-        proc_table.heading(col, text=col)
+    # proc_table = ttk.Treeview(process_frame, columns = columns)
+    # for col in columns: 
+    #     proc_table.heading(col, text=col)
 
 
-    ### PROC TABLE ###
-    # populate the table: #TODO: values are not lined up with the correct columns
-    for i, line in enumerate(body):
-        # print(line, type(line))
-        proc_table.insert(parent='', index='end', iid = i, text='', values = line)
-    proc_table.grid(row = 0, column = 1)
-    # procs[0] is header for table
-    for i, proc in enumerate(procs):
-        proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
-        #proc_label.grid(row=i, column=0)
+    # ### PROC TABLE ###
+    # # populate the table: #TODO: values are not lined up with the correct columns
+    # for i, line in enumerate(body):
+    #     # print(line, type(line))
+    #     proc_table.insert(parent='', index='end', iid = i, text='', values = line)
+    # proc_table.grid(row = 0, column = 1)
+    # # procs[0] is header for table
+    # for i, proc in enumerate(procs):
+    #     proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
+    #     #proc_label.grid(row=i, column=0)
 
     # TODO : Remove namespace button
 
-    
-
-
-##################################### FRAMES #########################################
+##################################### FRAME #########################################
 #creating frames
 net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
 net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
-
-user_namespace_frame = LabelFrame(root, text="User Namespaces", padx=5, pady=5)
-user_namespace_frame.grid(row = 0, column = 1, padx=10, pady=10)
-
-mount_namespace_frame = LabelFrame(root, text="Mount Namespaces", padx=5, pady=5)
-mount_namespace_frame.grid(row = 0, column = 2, padx=10, pady=10)
-
-proc_namespace_frame = LabelFrame(root, text="Process Namespaces", padx=5, pady=5)
-proc_namespace_frame.grid(row = 1, column = 0, padx=10, pady=10)
-
-uts_namespace_frame = LabelFrame(root, text="UTS Namespaces", padx=5, pady=5)
-uts_namespace_frame.grid(row = 1, column = 1, padx=10, pady=10)
-
-ipc_namespace_frame = LabelFrame(root, text="Process Namespaces", padx=5, pady=5)
-ipc_namespace_frame.grid(row = 1, column = 2, padx=10, pady=10)
-
-process_cpu_frame = LabelFrame(root, text="Top CPU Processes", padx=5, pady=5)
-process_cpu_frame.grid(row=2, column=0, padx=50, pady = 10)
-
-process_mem_frame = LabelFrame(root, text="Top Memory Processes")
-process_mem_frame.grid(row=2, column=0, padx=50, pady=10)
 
 ################################## List namespaces ##################################
 # get namespaces as list from C code
 net_ns = get_net_namespaces()
 net_ns_list = net_ns.split('\n')[:-1]
-
-user_ns = get_user_namespaces()
-#print(user_ns)
-
-#print(get_user_namespaces())
-
-#ns_list = ['ns1', 'ns2']
 
 for i, ns in enumerate(net_ns_list):
     ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
@@ -333,10 +167,8 @@ for i, ns in enumerate(net_ns_list):
 
 ############################### Home #######################
 
-add_ns_btn = Button(net_namespace_frame, text="+", command = lambda net_namespace_frame = net_namespace_frame: add_net_ns_window(net_namespace_frame))
+add_ns_btn = Button(net_namespace_frame, text="+", command = lambda net_namespace_frame = net_namespace_frame: add_net_ns_window(root))
 add_ns_btn.grid(row=0, column=1)
-
-#TODO: List processes
 
 mem_procs = top_5_mem()
 cpu_procs = top_5_cpu().split('\n')
