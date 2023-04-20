@@ -7,9 +7,9 @@ import utils, ns_view
 class AddNS:
     def __init__(self, parent):
         self.parent = parent
-        self.frame = tk.LabelFrame(parent)
-        self.frame.pack()
-        self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
+        self.frame = tk.Frame(parent)
+        #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
+        self.add_net_ns_window(self, self.frame)
 
     def add_net_ns_window(self, net_namespace_frame):
         add_net_ns_window = Toplevel(self.root)
