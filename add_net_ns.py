@@ -21,7 +21,7 @@ def set_ips(netns, device1, device2, ip1, ip2):
 
 def update_ns_list(net_namespace_frame):
     utils.list_namespaces(net_namespace_frame)
-    #net_namespace_frame.update()
+    net_namespace_frame.update()
 
 def add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
     ns_name = ns_name.get()
@@ -32,19 +32,15 @@ def add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
     #case 1: adding net ns without any device/ip specifications
     if ns_name and not device1 and not device2 and not ip1 and not ip2:
         add_ns(ns_name)
+        print("adding: " , ns_name)
         update_ns_list(net_namespace_frame)
+    # elif: #TODO check if namespace name already exists and show alert accordingly
+    #     show_alert
 
-    #case 2: add ns_name and make veth pair
-    elif ns_name and device1 and device2:
-        add_ns(ns_name)
-        update_ns_list(net_namespace_frame)
+    if ns_name and device1 and device2:
+        print("adding Veth pairs")
         add_veth(ns_name, device1, device2)
-        
-    #case 3: add ns_name, make veth pair, add ip addresses
-    elif ns_name and device1 and device2 and ip1 and ip2:
-        add_ns(ns_name)
-        update_ns_list(net_namespace_frame)
-        add_veth(ns_name, device1, device2)
+    if device1 and device2 and ip1 and ip2:
         set_ips(ns_name, device1, device2, ip1, ip2)
-    elif not ns_name:
+    if not ns_name:
         utils.show_alert("you must specify the namespace name in order to add a network namespace.")
