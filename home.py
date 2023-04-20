@@ -1,15 +1,15 @@
 from re import L
 from tkinter import *
-import tkinter as tk
 from tkinter import ttk
 from ctypes import *
 import subprocess
 import os
-from unicodedata import name
+
+import add_net_ns
+import utils
 
 root = Tk()
 root.title("Namespace GUI: Home")
-checkuid = subprocess.check_output("id -u", shell=True).decode()
 
 
 # list of all capabilities
@@ -33,7 +33,7 @@ all_caps = [{'cap': 'CAP_AUDIT_CONTROL', 'enabled': False},  {'cap': 'CAP_AUDIT_
 ############################ INTERFACING WITH PI #################################
 def get_net_namespaces():
     output = []
-    if(checkuid[0] == '0'):
+    if(utils.checkuid[0] == '0'):
         output = subprocess.check_output("sudo ip netns", shell=True)
     else:
         output = subprocess.check_output('ip netns', shell=True)
@@ -43,7 +43,7 @@ def get_net_namespaces():
 
 def get_user_namespaces():
     output = []
-    if (checkuid[0] == "0"):
+    if (utils.checkuid[0] == "0"):
         output = subprocess.check_output("sudo lsns -l -n --type user", shell=True)
     else:
         output = subprocess.check_output("lsns -l -n --type user", shell=True)
@@ -54,7 +54,7 @@ def get_user_namespaces():
 
 def get_mount_namespaces():
     output = []
-    if (checkuid[0] == "0"):
+    if (utils.checkuid[0] == "0"):
         output = subprocess.check_output("sudo lsns --type mnt", shell=True)
     else:
         output = subprocess.check_output("lsns --type mnt", shell=True)
@@ -64,7 +64,7 @@ def get_mount_namespaces():
 
 def get_proc_namespaces():
     output = []
-    if (checkuid[0] == "0"):
+    if (utils.checkuid[0] == "0"):
         output = subprocess.check_output("sudo lsns --type pid", shell=True)
     else:
         output = subprocess.check_output("lsns --type pid", shell=True)
@@ -74,7 +74,7 @@ def get_proc_namespaces():
     
 def get_uts_namespaces():
     output = []
-    if (checkuid[0] == "0"):
+    if (utils.checkuid[0] == "0"):
         output = subprocess.check_output("sudo lsns --type uts", shell=True)
     else:
         output = subprocess.check_output("lsns --type uts", shell=True)
@@ -84,7 +84,7 @@ def get_uts_namespaces():
 
 def get_ipc_namespaces():
     output = []
-    if (checkuid[0] == "0"):
+    if (utils.checkuid[0] == "0"):
         output = subprocess.check_output("sudo lsns --type ipc", shell=True)
     else:
         output = subprocess.check_output("lsns --type ipc", shell=True)
@@ -113,57 +113,26 @@ def get_procs(ns):
     procs = output.decode('utf-8').split('\n')
     return procs
 
-def add_ns(ns_name):
-    command_str = "ip netns add " + str(ns_name)
-    result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
-    if result.returncode != 0:
-        show_alert(result.stderr)
-def add_veth(netns, device1, device2):
-    command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
-    result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
-    if result.returncode != 0:
-        show_alert(result.stderr)
-def set_ips(netns, device1, device2, ip1, ip2):
-    subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
+# def add_ns(ns_name):
+#     command_str = "ip netns add " + str(ns_name)
+#     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
+#     if result.returncode != 0:
+#         show_alert(result.stderr)
+# def add_veth(netns, device1, device2):
+#     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
+#     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
+#     if result.returncode != 0:
+#         show_alert(result.stderr)
+# def set_ips(netns, device1, device2, ip1, ip2):
+#     subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
     # ips = output.decode()
     # return ips
 ########################### WINDOWS #####################################
-# alert window, can be used for various errors
-def show_alert(message):
-    alert_window = Toplevel()
-    alert_window.title("Alert")
-    alert_label = Label(alert_window, text=message)
-    alert_label.pack(padx=20, pady=20)
-    ok_button = Button(alert_window, text="OK", command=alert_window.destroy)
-    ok_button.pack(pady=10)
-
-#new window to add namespace on click of add-ns button
-def add_net_ns(ns_name, device1, device2, ip1, ip2):
-    ns_name = ns_name.get()
-    device1 = device1.get()
-    device2 = device2.get()
-    ip1 = ip1.get()
-    ip2 = ip2.get()
-    #case 1: adding net ns without any device/ip specifications
-    if ns_name and not device1 and not device2 and not ip1 and not ip2:
-        add_ns(ns_name)
-        print("adding: " , ns_name)
-        root.update()
-    # elif: #TODO check if namespace name already exists and show alert accordingly
-    #     show_alert
-
-    if ns_name and device1 and device2:
-        print("adding Veth pairs")
-        add_veth(ns_name, device1, device2)
-    if device1 and device2 and ip1 and ip2:
-        set_ips(ns_name, device1, device2, ip1, ip2)
-    if not ns_name:
-        show_alert("you must specify the namespace name in order to add a network namespace.")
 
 def add_net_ns_window():
     add_net_ns_window = Toplevel(root)
     add_net_ns_window.title("Add New Network Namespace")
-    if(checkuid[0] == "0"):
+    if(utils.checkuid[0] == "0"):
         Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
         ns_name = Entry(add_net_ns_window)
         ns_name.grid(row=0, column=1)
@@ -189,7 +158,7 @@ def add_net_ns_window():
 
         #ns_name_text = ns_name.get()
         #print(ns_name_text)
-        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns(ns_name, device1, device2, ip1, ip2))
+        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(root, ns_name, device1, device2, ip1, ip2))
         add_ns_btn.grid(row=5, column=4)
         
     else:
@@ -197,9 +166,8 @@ def add_net_ns_window():
 
 def add_user_ns_window():
         add_user_ns_window = Toplevel(root)
-        checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_user_ns_window.title("Add New User Namespace")
-        if(checkuid[0] == "0"):
+        if(utils.checkuid[0] == "0"):
             Label(add_user_ns_window, text ="Window to add a namespace").pack()
         else:
             Label(add_user_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
@@ -207,34 +175,31 @@ def add_user_ns_window():
 def add_mount_ns_window():
         add_mount_ns_window = Toplevel(root)
         add_mount_ns_window.title("Add New Mount Namespace")
-        if(checkuid[0] == "0"):
+        if(utils.checkuid[0] == "0"):
             Label(add_mount_ns_window, text ="Window to add a namespace").pack()
         else:
             Label(add_mount_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_proc_ns_window():
         add_proc_ns_window = Toplevel(root)
-        checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_proc_ns_window.title("Add New Network Namespace")
-        if(checkuid[0] == "0"):
+        if(utils.checkuid[0] == "0"):
             Label(add_proc_ns_window, text ="Window to add a namespace").pack()
         else:
             Label(add_proc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_uts_ns_window():
         add_uts_ns_window = Toplevel(root)
-        checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_uts_ns_window.title("Add New Network Namespace")
-        if(checkuid[0] == "0"):
+        if(utils.checkuid[0] == "0"):
             Label(add_uts_ns_window, text ="Window to add a namespace").pack()
         else:
             Label(add_uts_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
 
 def add_ipc_ns_window():
         add_ipc_ns_window = Toplevel(root)
-        checkuid = subprocess.check_output("id -u", shell=True).decode()
         add_ipc_ns_window.title("Add New Network Namespace")
-        if(checkuid[0] == "0"):
+        if(utils.checkuid[0] == "0"):
             Label(add_ipc_ns_window, text ="Window to add a namespace").pack()
         else:
             Label(add_ipc_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
@@ -247,9 +212,8 @@ def net_ns_view(ns): #passing in ns name
     #ns_view = tk.Canvas(root)
     ns_view.title("Namespace GUI: Namespace View")
     #scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
-    checkuid = subprocess.check_output("id -u", shell = True).decode()
 
-    if(checkuid[0] != "0"):
+    if(utils.checkuid[0] != "0"):
         Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
         return
 
@@ -369,7 +333,7 @@ for i, ns in enumerate(net_ns_list):
 
 ############################### Home #######################
 
-add_ns_btn = Button(net_namespace_frame, text="+", command = add_net_ns_window)
+add_ns_btn = Button(net_namespace_frame, text="+", command = add_net_ns.add_net_ns_window)
 add_ns_btn.grid(row=0, column=1)
 
 #TODO: List processes
