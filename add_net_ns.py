@@ -53,19 +53,19 @@ class AddNS:
         #case 1: adding net ns without any device/ip specifications
         if ns_name and not device1 and not device2 and not ip1 and not ip2:
             utils.add_ns(ns_name)
-            utils.update_ns_list(ns_name, net_namespace_frame)
+            utils.update_ns_list(ns_name, net_namespace_frame, self.root)
         # elif: #TODO check if namespace name already exists and show alert accordingly
         #     show_alert
         #case 2: add ns_name and make veth pair
         elif ns_name and device1 and device2:
             utils.add_ns(ns_name)
-            utils.update_ns_list(ns_name, net_namespace_frame)
             utils.add_veth(ns_name, device1, device2)
+            utils.update_ns_list(ns_name, net_namespace_frame, self.root)
         #case 3: add ns_name, make veth pair, add ip addresses
         elif ns_name and device1 and device2 and ip1 and ip2:
             utils.add_ns(ns_name)
-            utils.update_ns_list(ns_name, net_namespace_frame)
             utils.add_veth(ns_name, device1, device2)
             utils.set_ips(ns_name, device1, device2, ip1, ip2)
+            utils.update_ns_list(ns_name, net_namespace_frame, self.root)
         elif not ns_name:
             utils.show_alert("you must specify the namespace name in order to add a network namespace.")

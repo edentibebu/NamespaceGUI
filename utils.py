@@ -48,10 +48,10 @@ def add_veth(netns, device1, device2):
 def set_ips(netns, device1, device2, ip1, ip2):
     subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
 
-def update_ns_list(ns_name, net_namespace_frame):
+def update_ns_list(ns_name, net_namespace_frame, root):
     net_ns = get_net_namespaces()
     num_ns = len(net_ns.split('\n')[:-1])
-    ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.net_ns_view(ns_name)) #TODO: clicking on button brings up NS-view.py for editing
+    ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns_name)) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = num_ns+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
 
