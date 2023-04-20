@@ -39,18 +39,18 @@ def add(net_namespace_frame, ns_name, device1, device2, ip1, ip2):
     #case 1: adding net ns without any device/ip specifications
     if ns_name and not device1 and not device2 and not ip1 and not ip2:
         add_ns(ns_name)
-        update_ns_list(net_namespace_frame)
+        update_ns_list(ns_name, net_namespace_frame)
     # elif: #TODO check if namespace name already exists and show alert accordingly
     #     show_alert
     #case 2: add ns_name and make veth pair
     elif ns_name and device1 and device2:
         add_ns(ns_name)
-        update_ns_list(net_namespace_frame)
+        update_ns_list(ns_name, net_namespace_frame)
         add_veth(ns_name, device1, device2)
     #case 3: add ns_name, make veth pair, add ip addresses
     elif ns_name and device1 and device2 and ip1 and ip2:
         add_ns(ns_name)
-        update_ns_list(net_namespace_frame)
+        update_ns_list(ns_name, net_namespace_frame)
         add_veth(ns_name, device1, device2)
         set_ips(ns_name, device1, device2, ip1, ip2)
     elif not ns_name:
