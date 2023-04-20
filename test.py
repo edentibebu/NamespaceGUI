@@ -32,17 +32,18 @@ def add_veth(netns, device1, device2):
     ouput = []
     device1 = "veth0"
     device2 = "veth1"
-    output = subprocess.check_output("sudo ip link add" +str(device1) +"type veth peer name" +str(device2)+"; sudo ip link set" +str(device2)+" netns "+str(netns)+"", shell=True)
+    output = subprocess.check_output("sudo ip link add "+str(device1)+" type veth peer name "+str(device1)+"; sudo ip link set +"str(device2)+" netns +"str(netns)+"", shell=True)
     add = output.decode()
     return add
 
-def set_ips(netns, device1, device2):
-    output = []
-    ip1 = "10.1.1.1"
-    ip2 = "10.1.1.2"
-    output = subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig" +str(device2)+" "+str(ip2)+" up; sudo ifconfig"+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2)+"", shell=True)
-    ips = output.decode()
-    return ips
+def set_one_ip(netns, device1, device2, ip):
+    #output = subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig" +str(device2)+" "+str(ip2)+" up; sudo ifconfig"+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2)+"", shell=True)
+    subprocess.check_output("sudo ip addr add "+str(ip)+" dev "+str(device1)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up", shell=True)
+    #ips = output.decode()
+    #return ips
+
+def set_both_ip(netns, device1, device2, ip1, ip2):
+    subproces.check_output("sudo ip addr add "+str(ip1)+" dev "+str(device1)+"; sudo ip netns exec "+str(netns)+" ip addr add "+str(ip2)+" dev "+str(device2)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2)+" up", shell=True)
 
 def delete_ns():
     output = []
