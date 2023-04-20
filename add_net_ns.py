@@ -13,7 +13,7 @@ class AddNS:
         self.add_net_ns_window(self.net_namespace_frame)
 
     def add_net_ns_window(self, net_namespace_frame):
-        add_net_ns_window = Toplevel(self.root)
+        add_net_ns_window = Toplevel(self.parent)
         add_net_ns_window.title("Add New Network Namespace")
         if(utils.checkuid[0] == "0"):
             Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
