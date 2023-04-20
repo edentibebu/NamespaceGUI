@@ -114,8 +114,10 @@ def get_procs(ns):
     return procs
 
 def add_ns(ns_name):
-    subprocess.check_output("ip netns add " + str(ns_name), shell=True)
-
+    command_str = "ip netns add " + str(ns_name)
+    result = subprocess.check_output(command_str, text = True, stderr=subprocess.PIPE, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
@@ -142,18 +144,20 @@ def add_net_ns(ns_name, device1, device2, ip1, ip2):
     device2 = device2.get()
     ip1 = ip1.get()
     ip2 = ip2.get()
-    if ns_name:
+    #case 1: adding net ns without any device/ip specifications
+    if ns_name and not device1 and not device2 and not ip1 and not ip2:
         add_ns(ns_name)
         print("adding: " , ns_name)
     # elif: #TODO check if namespace name already exists and show alert accordingly
     #     show_alert
-    else:
-        show_alert("you must specify the namespace name in order to add a network namespace.")
-    if device1 and device2:
+
+    if ns_name and device1 and device2:
         print("adding Veth pairs")
         add_veth(ns_name, device1, device2)
     if device1 and device2 and ip1 and ip2:
         set_ips(ns_name, device1, device2, ip1, ip2)
+    if not ns_name:
+        show_alert("you must specify the namespace name in order to add a network namespace.")
 
 def add_net_ns_window():
     add_net_ns_window = Toplevel(root)
