@@ -143,7 +143,7 @@ def net_ns_view(ns): #passing in ns name
 
 ##################################### FRAME #########################################
 #creating frames
-net_namespace_frame = Frame(root, text="Network Namespaces", padx=5, pady=5)
+net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
 net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
 ################################## List namespaces ##################################
