@@ -44,7 +44,7 @@ class AddNS:
             
         else:
             Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-    def add(net_namespace_frame, ns_name, device1, device2, ip1, ip2):
+    def add(self, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
         ns_name = ns_name.get()
         device1 = device1.get()
         device2 = device2.get()
