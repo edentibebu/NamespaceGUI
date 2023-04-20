@@ -118,10 +118,9 @@ def add_ns(ns_name):
 
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
-    return_val = subprocess.call((command_str), shell=True)
-    msg = subprocess.check_output(command_str, shell=True)
-    if return_val != 0:
-        show_alert(msg)
+    result = subprocess.run((command_str), shell=True)
+    if result.returncode != 0:
+        show_alert(result.stdout)
 def set_ips(netns, device1, device2, ip1, ip2):
     subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
     # ips = output.decode()
@@ -146,6 +145,8 @@ def add_net_ns(ns_name, device1, device2, ip1, ip2):
     if ns_name:
         add_ns(ns_name)
         print("adding: " , ns_name)
+    # elif: #TODO check if namespace name already exists and show alert accordingly
+    #     show_alert
     else:
         show_alert("you must specify the namespace name in order to add a network namespace.")
     if device1 and device2:
