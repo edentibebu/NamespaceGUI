@@ -115,7 +115,7 @@ def get_procs(ns):
 
 def add_ns(ns_name):
     command_str = "ip netns add " + str(ns_name)
-    result = subprocess.check_output(command_str, text = True, stderr=subprocess.PIPE, shell=True)
+    result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
 def add_veth(netns, device1, device2):
