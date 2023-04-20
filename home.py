@@ -16,7 +16,7 @@ class Home:
         self.frame.pack()
         self.label = Label(self.frame, text="This is page 1")
 
-        self.display_ns(self.root)
+        self.display_ns()
 
         
 
