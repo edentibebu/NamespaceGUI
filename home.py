@@ -8,37 +8,35 @@ import os
 import add_net_ns
 import utils
 
-root = Tk()
-root.title("Namespace GUI: Home")
+
+class Home:
+    def __init__(self, root):
+        self.root = root
+        self.frame = Frame(root)
+        self.display_ns()
+
+    def display_ns(self):
+        net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
+        net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+
+        # List namespaces 
+        utils.list_namespaces(self.root, net_namespace_frame)
+
+        # Add Namespace button
+        add_ns_btn = Button(net_namespace_frame, text="+", command = lambda \
+            net_namespace_frame = net_namespace_frame: self.open_add_ns_window(net_namespace_frame))
+        add_ns_btn.grid(row=0, column=1)
+    
+    def open_add_ns_window(self, net_namespace_frame):
+        #top = Toplevel(self.root)
+        add_net_ns.AddNS(self.root, net_namespace_frame)
+#     def show_ns_view(self):
+#         self.frame.destroy()  # destroy the current frame
+#         page2.PageTwo(self.root)  # create the page 2 frame
 
 
-#namespace_heading = Label(root, text="Namespaces")
-#namespace_heading.pack()
 
-############################ INTERFACING WITH PI #################################
-
-def top_5_cpu():
-    output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
-    cpu = output.decode()
-    return cpu
-
-def top_5_mem():
-    output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
-    mem = output.decode()
-    return mem
-
-def get_cap(ns):
-    output = []
-    output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
-    caps = output.decode()
-    return caps
-
-def get_procs(ns):
-    output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
-    procs = output.decode('utf-8').split('\n')
-    return procs
-
-# def add_ns(ns_name):
+# # def add_ns(ns_name):
 #     command_str = "ip netns add " + str(ns_name)
 #     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
 #     if result.returncode != 0:
@@ -54,53 +52,10 @@ def get_procs(ns):
     # return ips
 ########################### WINDOWS #####################################
 
-def add_net_ns_window(net_namespace_frame):
-    add_net_ns_window = Toplevel(root)
-    add_net_ns_window.title("Add New Network Namespace")
-    if(utils.checkuid[0] == "0"):
-        Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
-        ns_name = Entry(add_net_ns_window)
-        ns_name.grid(row=0, column=1)
 
-        #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
-        
-        Label(add_net_ns_window, text ="VEth Pairs:").grid(row=2, column=0)
-        Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=1)
-        Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=2)
-        device1 = Entry(add_net_ns_window)
-        device1.grid(row=2, column=1)
-        device2 = Entry(add_net_ns_window)
-        device2.grid(row=2, column=2)
 
-        Label(add_net_ns_window, text ="IP Addresses:").grid(row=4, column=0)
-        Label(add_net_ns_window, text ="Address 1:").grid(row=3, column=1)
-        Label(add_net_ns_window, text ="Address 2:").grid(row=3, column=2)
 
-        ip1 = Entry(add_net_ns_window)
-        ip1.grid(row=4, column=1)
-        ip2 = Entry(add_net_ns_window)
-        ip2.grid(row=4, column=2)
-
-        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2))
-        add_ns_btn.grid(row=5, column=4)
-        
-    else:
-        Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-
-def net_ns_view(ns): #passing in ns name
-    #TODO: make this page scrollable!!
-    ns_view = Toplevel(root)
-    #ns_view = tk.Canvas(root)
-    ns_view.title("Namespace GUI: Namespace View")
-    #scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
-
-    if(utils.checkuid[0] != "0"):
-        Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-        return
-
-    net_ns_header = Label(ns_view, text=ns)
-    #ns_header.pack() #TODO : fix placement?? 
-
+    # TODO : Remove namespace button
 
     #TODO: iterate through list of processes
     # procs = get_procs(ns)
@@ -139,26 +94,14 @@ def net_ns_view(ns): #passing in ns name
     #     proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
     #     #proc_label.grid(row=i, column=0)
 
-    # TODO : Remove namespace button
 
-##################################### FRAME #########################################
-#creating frames
-net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
-net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
-################################## List namespaces ##################################
-utils.list_namespaces(net_namespace_frame)
 
-############################### Home #######################
-
-add_ns_btn = Button(net_namespace_frame, text="+", command = lambda net_namespace_frame = net_namespace_frame: add_net_ns_window(root))
-add_ns_btn.grid(row=0, column=1)
-
-mem_procs = top_5_mem()
-cpu_procs = top_5_cpu().split('\n')
+# mem_procs = top_5_mem()
+# cpu_procs = top_5_cpu().split('\n')
 
 # print((cpu_procs), type(cpu_procs))
-cpu_header_list = cpu_procs[0].split(' ')
+# cpu_header_list = cpu_procs[0].split(' ')
 
 # for i, proc in enumerate(cpu_procs):
 #     #print(proc)
@@ -167,5 +110,3 @@ cpu_header_list = cpu_procs[0].split(' ')
 
 #proc = Label(process_frame, text="process1")
 #proc.grid(row=0, column=0)
-
-root.mainloop()
