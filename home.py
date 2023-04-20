@@ -13,7 +13,6 @@ class Home:
     def __init__(self, root):
         self.root = root
         self.frame = Frame(root)
-        self.frame.pack()
         self.label = Label(self.frame, text="This is page 1")
 
         self.display_ns()
