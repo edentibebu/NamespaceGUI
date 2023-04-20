@@ -24,11 +24,11 @@ def get_net_namespaces():
     net_namespaces = output.decode()
     return net_namespaces
 
-def list_namespaces(net_namespace_frame):
+def list_namespaces(namespace_frame):
     # get namespaces as list from C code
     net_ns = get_net_namespaces()
     net_ns_list = net_ns.split('\n')[:-1]
 
     for i, ns in enumerate(net_ns_list):
-        ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
+        ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
         ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text

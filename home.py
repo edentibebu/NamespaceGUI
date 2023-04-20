@@ -99,8 +99,8 @@ def net_ns_view(ns): #passing in ns name
         return
 
     net_ns_header = Label(ns_view, text=ns)
-    #ns_header.pack() #TODO : fix placement?? 
-
+    
+    # TODO : Remove namespace button
 
     #TODO: iterate through list of processes
     # procs = get_procs(ns)
@@ -139,7 +139,6 @@ def net_ns_view(ns): #passing in ns name
     #     proc_label = Label(process_frame, text=(proc)) #TODO: get namespace name and insert here
     #     #proc_label.grid(row=i, column=0)
 
-    # TODO : Remove namespace button
 
 ##################################### FRAME #########################################
 #creating frames
@@ -151,7 +150,8 @@ utils.list_namespaces(net_namespace_frame)
 
 ############################### Home #######################
 
-add_ns_btn = Button(net_namespace_frame, text="+", command = lambda net_namespace_frame = net_namespace_frame: add_net_ns_window(net_namespace_frame))
+add_ns_btn = Button(net_namespace_frame, text="+", command = lambda \
+    net_namespace_frame = net_namespace_frame: add_net_ns_window(net_namespace_frame))
 add_ns_btn.grid(row=0, column=1)
 
 mem_procs = top_5_mem()
