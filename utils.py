@@ -32,7 +32,3 @@ def list_namespaces(net_namespace_frame):
     for i, ns in enumerate(net_ns_list):
         ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
         ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
-def clear_namespaces(net_namespace_frame):
-    print(net_namespace_frame.winfo_children())
-    for widget in net_namespace_frame.winfo_children():
-        widget.destroy()
