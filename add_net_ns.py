@@ -25,7 +25,7 @@ def update_ns_list(ns_name, net_namespace_frame):
     # num_ns = len(net_ns.split('\n')[:-1])
     # ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.net_ns_view(ns)) #TODO: clicking on button brings up NS-view.py for editing
     # ns_btn.grid(row = num_ns+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
-    utils.clear_namespaces(net_namespace_frame)
+    #utils.clear_namespaces(net_namespace_frame)
     utils.list_namespaces(net_namespace_frame)
     net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
     net_namespace_frame.update()
