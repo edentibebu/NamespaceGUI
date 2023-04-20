@@ -117,8 +117,8 @@ def add_ns(ns_name):
     subprocess.check_output("ip netns add " + str(ns_name), shell=True)
 
 def add_veth(netns, device1, device2):
-    subprocess.check_output("sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns), shell=True)
-
+    output = subprocess.check_output("sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns), shell=True)
+    print(output)
 def set_ips(netns, device1, device2, ip1, ip2):
     subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
     # ips = output.decode()
