@@ -21,10 +21,9 @@ def set_ips(netns, device1, device2, ip1, ip2):
 
 def update_ns_list(net_namespace_frame):
     utils.list_namespaces(net_namespace_frame)
-    #net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
     net_namespace_frame.update()
 
-def add(net_namespace_frame, ns_name, device1, device2, ip1, ip2):
+def add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
     ns_name = ns_name.get()
     device1 = device1.get()
     device2 = device2.get()

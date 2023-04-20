@@ -81,7 +81,7 @@ def add_net_ns_window(net_namespace_frame):
         ip2 = Entry(add_net_ns_window)
         ip2.grid(row=4, column=2)
 
-        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(net_namespace_frame, ns_name, device1, device2, ip1, ip2))
+        add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: add_net_ns.add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2))
         add_ns_btn.grid(row=5, column=4)
         
     else:
@@ -147,8 +147,7 @@ net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5
 net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
 ################################## List namespaces ##################################
-utils.list_namespaces(net_namespace_frame)
-net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+utils.list_namespaces(net_namespace_frame=net_namespace_frame)
 
 ############################### Home #######################
 
