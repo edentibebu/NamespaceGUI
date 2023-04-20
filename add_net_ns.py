@@ -19,11 +19,9 @@ def add_veth(netns, device1, device2):
 def set_ips(netns, device1, device2, ip1, ip2):
     subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
 
-def update_ns_list(root, net_namespace_frame):
-    utils.clear_namespaces(net_namespace_frame)
-    root.update()
+def update_ns_list(net_namespace_frame):
     utils.list_namespaces(net_namespace_frame)
-    root.update()
+    net_namespace_frame.update()
 
 def add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
     ns_name = ns_name.get()
@@ -35,7 +33,7 @@ def add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
     if ns_name and not device1 and not device2 and not ip1 and not ip2:
         add_ns(ns_name)
         print("adding: " , ns_name)
-        update_ns_list(root, net_namespace_frame)
+        update_ns_list(net_namespace_frame)
     # elif: #TODO check if namespace name already exists and show alert accordingly
     #     show_alert
 
