@@ -148,6 +148,7 @@ net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
 ################################## List namespaces ##################################
 utils.list_namespaces(net_namespace_frame)
+net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
 ############################### Home #######################
 
