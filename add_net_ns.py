@@ -29,6 +29,7 @@ def add(root, ns_name, device1, device2, ip1, ip2):
     if ns_name and not device1 and not device2 and not ip1 and not ip2:
         add_ns(ns_name)
         print("adding: " , ns_name)
+        print(type(root), root)
         root.update()
     # elif: #TODO check if namespace name already exists and show alert accordingly
     #     show_alert
