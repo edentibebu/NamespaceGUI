@@ -20,7 +20,7 @@ def set_ips(netns, device1, device2, ip1, ip2):
     subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
 
 def update_ns_list(root, net_namespace_frame):
-    update_ns_list(net_namespace_frame)
+    utils.list_namespaces(net_namespace_frame)
     root.update()
 
 def add(root, net_namespace_frame, ns_name, device1, device2, ip1, ip2):
