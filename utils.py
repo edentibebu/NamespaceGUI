@@ -86,7 +86,7 @@ def get_veth_pairs(ns):
     output = subprocess.check_output("ip netns exec " + str(ns) + "; ip link show type veth", shell=True)
     veths = output.decode()
 
-    veths.split("No command specified \n")[1]
+    veths.split("No command specified\n")[1]
     print(veths)
     veths.split("@")[0].split(':')[1]
     print(veths)
