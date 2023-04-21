@@ -82,16 +82,23 @@ def bridge(bridge):
     output = subprocess.check_output("sudo ip link add name "+str(bridge)+" type bridge", shell=True)
     return output
 
-def list_veth_pairs(ns):
+def get_veth_pairs(ns):
     output = subprocess.check_output("ip netns exec " + str(ns) + "; ip link show type veth", shell=True)
-    veth_list = output.decode()
-    return veth_list
+    veths = output.decode()
+
+    veths.split("No command specified \n")[1]
+    print(veths)
+    veths.split("@")[0].split(':')[1]
+    print(veths)
+    return veths
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     output = subprocess.check_output("sudo sysctl -w net.ipv4_forward=1; sudo iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip1)+ ":"+str(port2)+"", shell=True)
     print("port forwarded")
     return output
 
+
+### TOP 5 PROCESSES ###
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
     cpu = output.decode()
