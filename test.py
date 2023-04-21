@@ -111,15 +111,6 @@ def get_peer(device):
     device_name_2 = subprocess.check_output("ip link show "+str(device)+" | grep peer", shell=True)
 
 
-def create_veth_pairs(ns, device1, device2, ip1, ip2):
-    subprocess.run("sudo ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
-    subprocess.run("sudo ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
-    subprocess.run("sudo ip addr add "+str(ip1)+" dev "+str(device1)+"; sudo ip netns exec +"str(ns)+" ip addr add +"str(ip2)+" dev "+str(device2)+"", shell=True)
-    subprocess.run("sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(ns)+" ip link set "+str(device2)+" up", shell=True)
-
-
-
-
 
 
 ################
