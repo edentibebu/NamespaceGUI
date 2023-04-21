@@ -107,7 +107,7 @@ def get_peer(veth):
         show_alert(result.stderr)
     else:
         print(result.stdout)
-
+        
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     output = subprocess.check_output("sudo sysctl -w net.ipv4_forward=1; sudo iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip1)+ ":"+str(port2)+"", shell=True)

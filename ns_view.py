@@ -20,7 +20,9 @@ class NSView:
 
         #list device pairs
         veth_list = utils.get_veth_pairs(self.ns)
-        print(veth_list)
+        print("orig veth:", veth_list)
+        peer = utils.get_peer(veth_list)
+        print(peer)
         #print(veth_list)
 
         # for veth in veth_list:
