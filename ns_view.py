@@ -18,5 +18,9 @@ class NSView:
             Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
             return
 
+        #list device pairs
+        veth_list = utils.list_veth_pairs()
+        print(veth_list)
+
         net_ns_header = Label(ns_view, text=self.ns)
         net_ns_header.grid(row=0,column=0)
