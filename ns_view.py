@@ -23,10 +23,22 @@ class NSView:
         print("orig veth:", veth_list)
         peer = utils.get_peer(veth_list)
         print(peer)
-        #print(veth_list)
+
+        # # TODO: extend this to iterate through a list of device pairs
 
         # for veth in veth_list:
-        #     print(utils.get_peer(veth))
+        #     peer = utils.get_peer(veth)
+        #     print(veth, peer)
+
+        #     #TODO: with each device pair, show associated ip address mappings
+
+
 
         net_ns_header = Label(ns_view, text=self.ns)
         net_ns_header.grid(row=0,column=0)
+
+        # add_device = Button(self.root, text="Add Device", command = lambda \
+        # root = self.root: self.open_add_device_window(root))
+
+        # def open_add_device_window(self, root, ns):
+        #     add_device.AddDevice(self.root, self.ns)
