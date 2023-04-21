@@ -76,7 +76,10 @@ class AddNS:
             utils.add_veth(ns_name, device1, device2)
             utils.set_ips(ns_name, device1, device2, ip1, ip2)
             utils.update_ns_list(ns_name, net_namespace_frame, self.root)
+        ### user error handling ###
         elif not ns_name:
             utils.show_alert("you must specify the namespace name in order to add a network namespace.")
         elif (device1 or device2) and not ip1 and not ip2:
             utils.show_alert("you must specify the IP address in order to add devices.")
+        elif (device1 and not device2) or (device2 and not device1):
+            utils.show_alert("Devices must be added in pairs in order to connect them.")
