@@ -11,12 +11,8 @@ class NSView:
         self.ns = ns
         self.net_ns_view()
     def net_ns_view(self):
-
-        #TODO: make this page scrollable!!
         ns_view = Toplevel(self.root)
-        #ns_view = tk.Canvas(root)
         ns_view.title("Namespace GUI: Namespace View")
-        #scrollbar = ttk.Scrollbar(root, orient="vertical", command=ns_view.yview)
 
         if(utils.checkuid[0] != "0"):
             Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()

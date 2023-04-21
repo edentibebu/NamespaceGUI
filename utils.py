@@ -1,3 +1,4 @@
+from re import sub
 import subprocess
 from tkinter import *
 import tkinter as tk
@@ -32,7 +33,7 @@ def list_namespaces(root, namespace_frame):
     for i, ns in enumerate(net_ns_list):
         ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns)) #TODO: clicking on button brings up NS-view.py for editing
         ns_btn.grid(row = i+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
-
+### ADD NS WINDOW ###
 def add_ns(ns_name):
     command_str = "ip netns add " + str(ns_name)
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
@@ -45,8 +46,18 @@ def add_veth(netns, device1, device2):
     if result.returncode != 0:
         show_alert(result.stderr)
 
+def set_one_ip(netns, device1, device2, ip):
+    command_str = "sudo ip addr add "+str(ip)+" dev "+str(device1)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up"
+    result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+
+
 def set_ips(netns, device1, device2, ip1, ip2):
-    subprocess.check_output("sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2), shell=True)
+    command_str = "sudo ip netns exec "+str(netns)+" ifconfig " +str(device2)+" "+str(ip2)+" up; sudo ifconfig "+str(device1)+" " +str(ip1)+" up; ping "+str(ip2)+"; sudo ip netns exec "+str(netns)+" ping "+str(ip2)
+    result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
 
 def update_ns_list(ns_name, net_namespace_frame, root):
     net_ns = get_net_namespaces()
@@ -54,6 +65,32 @@ def update_ns_list(ns_name, net_namespace_frame, root):
     ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns_name)) #TODO: clicking on button brings up NS-view.py for editing
     ns_btn.grid(row = num_ns+1, column = 0) # TODO: row will change for each namespace, column will not. add padding around text
 
+#### NET NS VIEW ####
+def disp_routing():
+    output = subprocess.check_output("ip netns exec ns1 route", shell=True)
+    routes = output.decode()
+    print(routes)
+    return routes
+
+def list_sockets():
+    output = subprocess.check_output("ip netns exec ns1 ss -n -a", shell=True)
+    sockets = output.decode()
+    print(sockets)
+    return sockets
+
+def bridge(bridge):
+    output = subprocess.check_output("sudo ip link add name "+str(bridge)+" type bridge", shell=True)
+    return output
+
+def list_veth_pairs():
+    output = subprocess.check_output("ip link", shell=True)
+    veth_list = output.decode()
+    return veth_list
+
+def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
+    output = subprocess.check_output("sudo sysctl -w net.ipv4_forward=1; sudo iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip1)+ ":"+str(port2)+"", shell=True)
+    print("port forwarded")
+    return output
 
 def top_5_cpu():
     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)

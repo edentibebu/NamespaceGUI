@@ -57,6 +57,15 @@ class AddNS:
         # elif: #TODO check if namespace name already exists and show alert accordingly
         #     show_alert
         #case 2: add ns_name and make veth pair
+        elif ns_name and device1 and device2 and (ip1 or ip2):
+            utils.add_ns(ns_name)
+            utils.add_veth(ns_name, device1, device2)
+            if ip1:
+                utils.set_one_ip(ns_name, device1, device2, ip1)
+            else:
+                utils.set_one_ip(ns_name, device1, device2, ip2)
+            utils.update_ns_list(ns_name, net_namespace_frame, self.root)
+            
         elif ns_name and device1 and device2:
             utils.add_ns(ns_name)
             utils.add_veth(ns_name, device1, device2)
