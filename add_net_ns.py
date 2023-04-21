@@ -5,15 +5,15 @@ from tkinter import ttk
 import utils, ns_view
 
 class AddNS:
-    def __init__(self, parent, net_namespace_frame):
-        self.parent = parent
-        self.frame = tk.Frame(parent)
+    def __init__(self, root, net_namespace_frame):
+        self.root = root
+        self.frame = tk.Frame(root)
         #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
         self.net_namespace_frame = net_namespace_frame
         self.add_net_ns_window(self.net_namespace_frame)
 
     def add_net_ns_window(self, net_namespace_frame):
-        add_net_ns_window = Toplevel(self.parent)
+        add_net_ns_window = Toplevel(self.root)
         add_net_ns_window.title("Add New Network Namespace")
         if(utils.checkuid[0] == "0"):
             Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
