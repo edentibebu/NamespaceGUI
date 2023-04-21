@@ -83,7 +83,7 @@ def bridge(bridge):
     return output
 
 def list_veth_pairs(ns):
-    output = subprocess.check_output("ip netns exec " + str(ns) + " ip link show type veth", shell=True)
+    output = subprocess.check_output("ip netns exec " + str(ns) + "; ip link show type veth", shell=True)
     veth_list = output.decode()
     return veth_list
 
