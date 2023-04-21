@@ -55,7 +55,7 @@ def create_veth_pairs(ns, device1, device2, ip1, ip2):
 
 
 def set_one_ip(netns, device1, device2, ip):
-    command_str = "sudo ip addr add "+str(ip)+" dev "+str(device1)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up"
+    command_str = "sudo ip addr add "+str(ip)+" dev "+str(device2)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up"
     result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
