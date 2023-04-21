@@ -90,11 +90,11 @@ def get_veth_pairs(ns):
     else:
         print(ns)
     command_str = "ip netns exec " + str(ns) + " ip link show type veth"
-    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, shell=True)
+    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
     else:
-        output = (result.stdout)
+        output = result.stdout
         veths = output.decode()
         veths = veths.split("@")[0].split(':')[1]
     
@@ -103,7 +103,7 @@ def get_veth_pairs(ns):
 
 def get_peer(veth):
     command_str = 'ip link show ' + str(veth) + "  grep peer"
-    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, shell=True)
+    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
     else:
