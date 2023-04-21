@@ -83,11 +83,13 @@ def bridge(bridge):
     return output
 
 def get_veth_pairs(ns):
+    if ("(id:" in ns):
+        print(ns)
+        ns = ns.split('(id:')[0]
+    else:
+        print(ns)
     output = subprocess.check_output("ip netns exec " + str(ns) + "; ip link show type veth", shell=True)
     veths = output.decode()
-
-    veths = veths.split("No command specified")
-    print(veths)
     veths.split("@")[0].split(':')[1]
     print(veths)
     return veths
