@@ -22,7 +22,5 @@ class NSView:
         veth_list = utils.list_veth_pairs(self.ns)
         print(veth_list)
 
-        ip
-
         net_ns_header = Label(ns_view, text=self.ns)
         net_ns_header.grid(row=0,column=0)

@@ -94,8 +94,8 @@ def bridge(bridge):
     output = subprocess.check_output("sudo ip link add name "+str(bridge)+" type bridge", shell=True)
     return output
 
-def list_veth_pairs():
-    output = subprocess.check_output("ip link", shell=True)
+def list_veth_pairs(ns):
+    output = subprocess.check_output("ip netns exec " + str(ns) + "; ip link show type veth", shell=True)
     veth_list = output.decode()
     return veth_list
 
