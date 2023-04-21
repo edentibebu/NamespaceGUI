@@ -104,7 +104,25 @@ def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     print("port forwarded")
     return output
 
+def list_veth_pairs(ns):
+    device_name_1 = subprocess.check_output("sudo ip netns exec "+str(ns)+"; ip link show type veth;", shell=True)
 
+def get_peer(device):
+    device_name_2 = subprocess.check_output("ip link show "+str(device)+" | grep peer", shell=True)
+
+
+def create_veth_pairs(ns, device1, device2, ip1, ip2):
+    subprocess.run("sudo ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
+    subprocess.run("sudo ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
+    subprocess.run("sudo ip addr add "+str(ip1)+" dev "+str(device1)+"; sudo ip netns exec +"str(ns)+" ip addr add +"str(ip2)+" dev "+str(device2)+"", shell=True)
+    subprocess.run("sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(ns)+" ip link set "+str(device2)+" up", shell=True)
+
+
+
+
+
+
+################
 #def tcp():
 #   port = "7096"
 #    ns1 = "1"
@@ -121,7 +139,7 @@ def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
 
 # top_5_mem()
 
-port_forward()
+#port_forward()
 #top_5_cpu()
 # remove_cap()
 # get_namespaces()
