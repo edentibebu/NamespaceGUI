@@ -89,12 +89,26 @@ def get_veth_pairs(ns):
 
     else:
         print(ns)
-    output = subprocess.check_output("ip netns exec " + str(ns) + " ip link show type veth", shell=True)
-    veths = output.decode()
-    print(veths)
-    veths = veths.split("@")[0].split(':')[1]
-    print(veths)
-    return veths
+    command_str = "ip netns exec " + str(ns) + " ip link show type veth"
+    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, shell=True)
+    if(result.returncode != 0):
+        show_alert(result.stderr)
+    else:
+        output = (result.stdout)
+        veths = output.decode()
+        veths = veths.split("@")[0].split(':')[1]
+    
+        ## TODO: change this so that veths can become a list of veths
+        return veths
+
+def get_peer(veth):
+    command_str = 'ip link show ' + str(veth) + "  grep peer"
+    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, shell=True)
+    if(result.returncode != 0):
+        show_alert(result.stderr)
+    else:
+        print(result.stdout)
+
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     output = subprocess.check_output("sudo sysctl -w net.ipv4_forward=1; sudo iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip1)+ ":"+str(port2)+"", shell=True)

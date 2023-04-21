@@ -20,10 +20,11 @@ class NSView:
 
         #list device pairs
         veth_list = utils.get_veth_pairs(self.ns)
+        print(veth_list)
         #print(veth_list)
 
         # for veth in veth_list:
-        #     print(veth)
+        #     print(utils.get_peer(veth))
 
         net_ns_header = Label(ns_view, text=self.ns)
         net_ns_header.grid(row=0,column=0)
