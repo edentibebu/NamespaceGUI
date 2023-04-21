@@ -94,8 +94,7 @@ def get_veth_pairs(ns):
     if(result.returncode != 0):
         show_alert(result.stderr)
     else:
-        output = result.stdout
-        veths = output.decode()
+        veths = result.stdout
         veths = veths.split("@")[0].split(':')[1]
     
         ## TODO: change this so that veths can become a list of veths
