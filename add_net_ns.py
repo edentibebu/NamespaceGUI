@@ -38,7 +38,7 @@ class AddNS:
             ip1.grid(row=4, column=1)
             ip2 = Entry(add_net_ns_window)
             ip2.grid(row=4, column=2)
-            print(ns_name)
+            print(str(ns_name))
             add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: self.add(net_namespace_frame, ns_name, device1, device2, ip1, ip2))
             add_ns_btn.grid(row=5, column=4)
             
