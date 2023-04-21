@@ -101,7 +101,7 @@ def get_veth_pairs(ns):
         return veths
 
 def get_peer(veth):
-    command_str = 'ip link show ' + str(veth) + "  grep peer"
+    command_str = 'ip link show ' + str(veth) + " | grep peer"
     result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
