@@ -22,7 +22,7 @@ class AddNS:
 
             #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
             
-            Label(add_net_ns_window, text ="VEth Pairs:").grid(row=2, column=0)
+            #Label(add_net_ns_window, text ="VEth Pairs:").grid(row=2, column=0)
             # Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=1)
             # Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=2)
             # device1 = Entry(add_net_ns_window)
