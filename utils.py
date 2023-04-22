@@ -44,7 +44,7 @@ def add_ns(ns_name):
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
-        
+
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
@@ -137,8 +137,9 @@ def get_ns_in_subnet():
     for ns in ns_list:
         command_str = 'sudo ip netns exec ' + str(ns) + ' ifconfig | grep "inet "'
         result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
-        inet = result.stdout.split('\n')[1]
-        print(inet.split('netmask')[0].split("inet")[1].strip())
+        inet = result.stdout.split('\n')
+        print(inet)
+        #print(inet.split('netmask')[0].split("inet")[1].strip())
     return ns_list
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
