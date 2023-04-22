@@ -8,11 +8,10 @@ class AddDevice:
     def __init__(self, root, ns_view, ns):
         self.root = root
         self.frame = tk.Frame(root)
+        #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
         self.ns_view = ns_view
-        self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
-        self.label.grid(row=13 , column=13)
-        self.ns = ns
-        self.add_device_window()
+        self.add_device_window(self.ns_view)
+        #self.add_device_window()
 
     def add_device_window(self):
         add_device_window = Toplevel(self.root)
