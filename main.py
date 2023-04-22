@@ -5,5 +5,4 @@ root = Tk()
 root.title("Namespace GUI: Home")
 
 home.Home(root)
-
 root.mainloop()

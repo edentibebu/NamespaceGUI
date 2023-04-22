@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
-import utils
+import utils, add_device
 
 #new window to view a namespace (on click of namespace name)
 class NSView:
@@ -18,11 +18,11 @@ class NSView:
             Label(ns_view, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
             return
 
-        #list device pairs
-        veth_list = utils.get_veth_pairs(self.ns)
-        print("orig veth:", veth_list)
-        peer = utils.get_peer(veth_list)
-        print(peer)
+        # list device pairs
+        # veth_list = utils.get_veth_pairs(self.ns)
+        # print("orig veth:", veth_list)
+        # peer = utils.get_peer(veth_list)
+        # print(peer)
 
         # # TODO: extend this to iterate through a list of device pairs
 
@@ -37,8 +37,7 @@ class NSView:
         net_ns_header = Label(ns_view, text=self.ns)
         net_ns_header.grid(row=0,column=0)
 
-        add_device = Button(self.root, text="Add Device", command = lambda \
-        root = self.root: self.open_add_device_window(root))
+        add_device = Button(self.root, text="Add Device", command = self.open_add_device_window())
 
-        def open_add_device_window(self, root, ns):
-            add_device.AddDevice(self.root, self.ns)
+    def open_add_device_window(self):
+        add_device.AddDevice(self.root, self.ns)
