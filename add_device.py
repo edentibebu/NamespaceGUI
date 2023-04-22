@@ -17,13 +17,14 @@ class AddDevice:
         add_net_ns_window = Toplevel(self.root)
         add_net_ns_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
+            print(self.ns)
             Label(self.ns_view, text = self.ns).grid(row=0, column=1)
 
             #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
             
             Label(add_net_ns_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=1)
-            Label(add_net_ns_window, text ="Device 1:").grid(row=1, column=2)
+            Label(add_net_ns_window, text ="Device 2:").grid(row=1, column=2)
             device1 = Entry(add_net_ns_window)
             device1.grid(row=2, column=1)
             device2 = Entry(add_net_ns_window)
