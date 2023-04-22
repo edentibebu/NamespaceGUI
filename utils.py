@@ -116,11 +116,20 @@ def get_peer(veth):
     else:
         print(result.stdout)
         
+def get_ns_in_subnet():
+    subnet = '10.1.1.'
+    command_str = "for ns in $(ip netns list | cut -d'(' -f1 | sed 's/\s*//g'); do sudo ip netns exec $ns ip -4 addr show | grep -q '" + str(subnet) + "' && echo $ns; done"
+    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    if result.returncode!=0:
+        show_alert(result.stderr)
+    else:
+        return result.stdout
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     output = subprocess.check_output("sudo sysctl -w net.ipv4_forward=1; sudo iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip1)+ ":"+str(port2)+"", shell=True)
     print("port forwarded")
     return output
+
 
 
 ### TOP 5 PROCESSES ###

@@ -23,6 +23,8 @@ class AddDevice:
 
             #device 1 should just be listed
             #TODO: get list of other namespaces in the same subnet
+            namespaces_list = utils.get_ns_in_subnet()
+            print(namespaces_list)
             options = ['option1', 'option2']
             Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
