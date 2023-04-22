@@ -19,7 +19,7 @@ class AddDevice:
         add_device_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
             print(self.ns)
-            Label(self.ns_view, text = self.ns).grid(row=0, column=1)
+            Label(self.ns_view, text = self.ns).grid(row=0, column=0)
 
             #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
             
