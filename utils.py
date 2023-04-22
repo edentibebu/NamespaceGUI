@@ -131,9 +131,9 @@ def get_ns(ns):
     for i, ns in enumerate(ns_list):
         ns_list[i] = ns.split('(id')[0]
     #list of all namespaces
-    ns = ns.split('(id')[0]
+    # ns = ns.split('(id')[0]
     print(ns)
-    ns_list = list(filter(lambda s: s != "", ns_list)).remove(ns)
+    ns_list = list(filter(lambda s: s != "", ns_list))
     
     return ns_list
     #get subnet for each ns:
