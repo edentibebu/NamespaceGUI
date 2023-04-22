@@ -30,12 +30,11 @@ class AddDevice:
             device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="sunken", bd=2)
             device1.grid(row=2, column=1)
 
-            # TODO: create dropdown with list of other namespaces   
+            #create dropdown with list of other namespaces   
             selected_option = tk.StringVar()
             selected_option.set(options[0])
             dropdown_menu = tk.OptionMenu(add_device_window, selected_option, *options)
             dropdown_menu.grid(row=2, column=2)      
-            #TODO: 
             Label(add_device_window, text ="IP Addresses:").grid(row=4, column=0)
             Label(add_device_window, text ="Address 1:").grid(row=3, column=1)
             Label(add_device_window, text ="Address 2:").grid(row=3, column=2)
