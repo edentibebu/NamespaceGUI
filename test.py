@@ -24,7 +24,7 @@ def get_cap():
 def add_ns(ns_name):
     output = []
     NS = "added"
-    output = subprocess.check_output("ip netns add" + str(ns_name), shell=True)
+    output = subprocess.check_output("ip netns add" + str(ns_name)+"; ip netns exec "+str(ns_name)+" bash; ip link set dev lo up", shell=True)
     add = output.decode()
     return add
 
@@ -107,13 +107,22 @@ def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
 def list_veth_pairs(ns):
     device_name_1 = subprocess.check_output("sudo ip netns exec "+str(ns)+"; ip link show type veth;", shell=True)
 
-def get_peer(device):
-    device_name_2 = subprocess.check_output("ip link show "+str(device)+" | grep peer", shell=True)
+def get_peer(ns, device):
+    peer_ifindex = int(subprocess.check_output("ethtool -S "+str(device)+" | awk '/peer_ifindex/ {print $2}'", shell=True))
+
+    device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
 
 
+def create_veth_pairs(ns, device1, device2, ip1, ip2):
+    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)"", shell=True)
+    subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ifconfig "+str(device2)+" "+str(ip2)+"/24 up", shell=True)
+    subprocess.run("ifconfig "+str(device1)+" "+str(ip1)+"/24 up", shell=True)
+
+get_peer()
+#create_veth_pairs()
 
 
-################
 #def tcp():
 #   port = "7096"
 #    ns1 = "1"

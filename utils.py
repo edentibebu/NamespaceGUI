@@ -49,20 +49,20 @@ def add_veth(netns, device1, device2):
 def create_veth_pairs(ns, device1, device2, ip1, ip2):
     # subprocess.run("sudo ip link add "+str(device1)+" type veth peer name "+str(device2), shell=True)
     # subprocess.run("sudo ip link set "+str(device2)+" netns "+str(ns), shell=True)
-    subprocess.run("sudo ip addr add "+str(ip1)+" dev "+str(device1)+"; sudo ip netns exec "+str(ns)+" ip addr add "+str(ip2)+" dev "+str(device2), shell=True)
+    subprocess.run("sudo ip addr add "+str(ip1)+"/24 dev "+str(device1)+"; sudo ip netns exec "+str(ns)+" ip addr add "+str(ip2)+"/24 dev "+str(device2)+"", shell=True)
     subprocess.run("sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(ns)+" ip link set "+str(device2)+" up", shell=True)
 
 
 
 def set_one_ip(netns, device1, device2, ip):
-    command_str = "sudo ip addr add "+str(ip)+" dev "+str(device2)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up"
+    command_str = "sudo ip addr add "+str(ip)+"/24 dev "+str(device2)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up"
     result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
 
 
 def set_ips(netns, device1, device2, ip1, ip2):
-    command_str = "sudo ip addr add "+str(ip1)+" dev "+str(device1)+"; sudo ip netns exec "+str(netns)+" ip addr add "+str(ip2)+" dev "+str(device2)
+    command_str = "sudo ip addr add "+str(ip1)+"/24 dev "+str(device1)+"; sudo ip netns exec "+str(netns)+" ip addr add "+str(ip2)+"/24 dev "+str(device2)+""
     result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
