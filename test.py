@@ -131,27 +131,56 @@ def create_veth_pairs2(ns1, ns2, device1, device2, ip1, ip2):
 
 def create_veth_pairs3():
     subprocess.run("ip link add veth1 type veth peer name veth2", shell=True)
-    subprocess.run("ip link set veth1 netns ns3", shell=True)
-    subprocess.run("ip link set veth2 netns ns4", shell=True)
-    subprocess.run("ip netns exec ns3 ip addr add 10.1.1.3/24 dev veth1", shell=True)
-    subprocess.run("ip netns exec ns4 ip addr add 10.1.1.4/24 dev veth2", shell=True)
-    subprocess.run("ip netns exec ns3 ifconfig veth1 10.1.1.3/24 up", shell=True)
-    subprocess.run("ip netns exec ns4 ifconfig veth2 10.1.1.4/24 up", shell=True)
+    #subprocess.run("ip link add veth0b type veth peer name veth1b", shell=True)
 
+    subprocess.run("ip link set veth1 netns ns1", shell=True)
+    subprocess.run("ip link set veth2  netns ns2", shell=True)
+
+    subprocess.run("ip netns exec ns1 ip addr add 10.0.0.1/24 dev veth1", shell=True)
+    subprocess.run("ip netns exec ns2 ip addr add 10.0.0.2/24 dev veth2", shell=True)
+
+    subprocess.run("ip netns exec ns1 ip link set dev veth1 up", shell=True)
+    subprocess.run("ip netns exec ns2 ip link set dev veth2 up", shell=True)
+    
+    
+ 
 #command for getting list of ns within same subnet
 #for ns in $(ip netns list | cut -d'(' -f1 | sed 's/\s*//g'); do sudo ip netns exec $ns ip -4 addr show | grep -q '10.1.1.' && echo $ns; done
 
+#command for getting list of subnets within namespace
+#sudo ip netns exec "+str(ns)+" ip addr show | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | sed 's/\.[0-9]*$/\ /'
+
+
+def create_veth_host_to_namespace():
+    subprocess.run("ip link add veth0 type veth peer name veth1", shell=True)
+    #subprocess.run("ip link add veth0b type veth peer name veth1b", shell=True)
+
+    subprocess.run("ip link set veth1 netns myns", shell=True)
+
+    subprocess.run("ip addr add 10.1.1.1/24 dev veth0", shell=True)
+    subprocess.run("ip netns exec myns ip addr add 10.1.1.2/24 dev veth1", shell=True)
+
+    subprocess.run("ip link set veth0 up", shell=True)
+    subprocess.run("ip netns exec myns ip link set veth1 up", shell=True)
 
 
 
 
-#def enable_ip_forwarding():
-#subprocess.run("", shell=True)
+def enable_ip_forwarding():
+    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+    #subprocess.run("iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 80 -j DNAT --to-destination 10.1.1.2:8080", shell=True)
+    #subprocess.run("iptables -t nat -A OUTPUT -p tcp --dport 80 -j DNAT --to-destination 127.0.0.1:8080", shell=True)
+    #subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
+
+    #subprocess.run("ip netns exec myns iptables -t nat -A OUTPUT -p tcp -o veth1 --dport 80 -j DNAT --to-destination 10.1.1.1:8080", shell=True)
+    #subprocess.run("ip netns exec myns iptables -t nat -A POSTROUTING -o veth1 -j MASQUERADE", shell=True)
+    subprocess.run("sudo ip netns exec ns1 iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.2:8080", shell=True)
+    
 
 
-#get_peer()
-#create_veth_pairs3()
-
+    #get_peer()
+create_veth_pairs3()
+enable_ip_forwarding()
 
 #def tcp():
 #   port = "7096"
