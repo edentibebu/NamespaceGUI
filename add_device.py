@@ -13,7 +13,7 @@ class AddDevice:
         self.add_device_window(self.ns_view)
         #self.add_device_window()
 
-    def add_device_window(self):
+    def add_device_window(self, ns_view):
         add_device_window = Toplevel(self.root)
         add_device_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
