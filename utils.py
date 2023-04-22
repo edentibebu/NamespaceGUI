@@ -95,24 +95,49 @@ def bridge(bridge):
     output = subprocess.check_output("sudo ip link add name "+str(bridge)+" type bridge", shell=True)
     return output
 
-def get_veth_pairs(ns):
-    if ("(id:" in ns):
-        ns = ns.split('(id:')[0]
-        print(ns)
+def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
+    command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
+    if result.returncode != 0:
+        print(result.stderr)
+        return
 
-    else:
-        print(ns)
-    command_str = "ip netns exec " + str(ns) + " ip link show type veth"
-    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-    if(result.returncode != 0):
-        show_alert(result.stderr)
-    else:
-        veths = result.stdout
-        veths = veths.split("@")[0].split(':')[1]
+    #link devices to respective namespaces
+    command_str = "ip link set "+str(device1)+" netns "+str(ns1)
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        return
+    command_str = "ip link set "+str(device2)+" netns "+str(ns2)
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        return
+
+    #in NS1, set ipaddr for device 1 (same for NS2)
+    command_str = "ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        return
+    command_str = "ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        return
+
+    #set up network interfaces
+    command_str = "ip netns exec "+str(ns1)+" ifconfig "+str(device1)+" "+str(ip1)+" up"
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        return
+    command_str = "ip netns exec "+str(ns2)+" ifconfig "+str(device2)+" "+str(ip2)+" up"
+    result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        return
     
-        ## TODO: change this so that veths can become a list of veths
-        return veths
-
 def get_peer(veth):
     command_str = 'ip link show ' + str(veth) + " | grep peer"
     result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
@@ -126,23 +151,13 @@ def get_ns(ns_name):
     current_subnet = '10.1.1.'
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
     ns_list = result.stdout.split('\n')
-    #if result.returncode!=0:
-    #    print(result.stderr)
-    #else:
+
     for i, ns in enumerate(ns_list):
         ns_list[i] = ns.split('(id')[0]
     #list of all namespaces
     # ns = ns.split('(id')[0]
     ns_list = list(filter(lambda s: s != "", ns_list))
     ns_list.remove(ns_name)
-    return ns_list
-    #get subnet for each ns:
-    for ns in ns_list:
-        command_str = 'sudo ip netns exec ' + str(ns) + ' ifconfig | grep "inet "'
-        result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
-        inet = result.stdout.split('\n')
-        print(inet)
-        #print(inet.split('netmask')[0].split("inet")[1].strip())
     return ns_list
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):

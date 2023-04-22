@@ -1,3 +1,4 @@
+from ctypes import util
 import subprocess
 from tkinter import *
 import tkinter as tk
@@ -55,35 +56,18 @@ class AddDevice:
             Label(add_device_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
     def add_device(self, add_device_window, device1, device2, device1_num, device2_num, subnet):
         print("adding device")
+        if device1_num and device2_num:
+            device2 = device2.get()
+            device1_num = device1_num.get()
+            device2_num = device2_num.get()
 
-        device2 = device2.get()
-        print(device2)
-        device1_num = device1_num.get()
-        device2_num = device2_num.get()
+            port1 = device1 + "_" + device2
+            port2  = device2 + "_" + device1
 
-        port1 = device1 + "_" + device2
-        port2  = device2 + "_" + device1
-        # elif: #TODO check if namespace name already exists and show alert accordingly
-        # #     show_alert
-        # #case 2: add ns_name and make veth pair
-        # if device1 and device2 and (ip1 or ip2):
-        #     utils.add_ns(ns_name)
-        #     utils.add_veth(ns_name, device1, device2)
-        #     if ip1:
-        #         utils.set_one_ip(ns_name, device1, device2, ip1)
-        #     else:
-        #         utils.set_one_ip(ns_name, device1, device2, ip2)
-        #     utils.update_ns_list(ns_name, self.ns_view, self.root)
-            
-        # elif ns_name and device1 and device2:
-        #     utils.add_ns(ns_name)
-        #     utils.add_veth(ns_name, device1, device2)
-        #     utils.update_ns_list(ns_name, self.ns_view, self.root)
-        # #case 3: add ns_name, make veth pair, add ip addresses
-        # elif ns_name and device1 and device2 and ip1 and ip2:
-        #     utils.add_ns(ns_name)
-        #     utils.add_veth(ns_name, device1, device2)
-        #     utils.set_ips(ns_name, device1, device2, ip1, ip2)
-        #     utils.update_ns_list(ns_name, self.ns_view, self.root)
-        # elif not ns_name:
-        #     utils.show_alert("you must specify the namespace name in order to add a network namespace.")
+            ip1 = subnet + device1_num
+            ip2 = subnet + device2_num
+
+            utils.create_veth_pairs(device1, device2, port1, port2, ip1, ip2)
+            print("successfully connected devices")
+        else: 
+            utils.show_alert("you must provide a device number for both namespaces inorder to make the connection.")
