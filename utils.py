@@ -132,7 +132,8 @@ def get_ns_in_subnet():
     for ns in ns_list:
         command_str = 'sudo ip netns exec ' + str(ns) + ' ifconfig | grep "inet "'
         result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
-        print("inet for " + str(ns) + ": " + result.stdout)
+        inet = result.stdout.split('\n')[1]
+        print(inet.split('netmask')[0])
     return ns_list
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
