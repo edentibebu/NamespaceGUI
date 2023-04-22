@@ -96,6 +96,7 @@ def bridge(bridge):
     return output
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
+    print(device1, device2)
     print("creating devices")
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
