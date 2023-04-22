@@ -101,7 +101,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
-        print(result.stderr)
+        show_alert(result.stderr)
         return
 
     #link devices to respective namespaces
@@ -109,13 +109,13 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     command_str = "ip link set "+str(device1)+" netns "+str(ns1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
-        print(result.stderr)
+        show_alert(result.stderr)
         return
     print("link ns2 with device2")
     command_str = "ip link set "+str(device2)+" netns "+str(ns2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
-        print(result.stderr)
+        show_alert(result.stderr)
         return
 
     #in NS1, set ipaddr for device 1 (same for NS2)
@@ -123,13 +123,13 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     command_str = "ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
-        print(result.stderr)
+        show_alert(result.stderr)
         return
     print("set ipaddr for device2")
     command_str = "ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
-        print(result.stderr)
+        show_alert(result.stderr)
         return
 
     #set up network interfaces
