@@ -121,6 +121,7 @@ def get_ns_in_subnet():
     command_str = "for ns in $(ip netns list | cut -d'(' -f1 | sed 's/\s*//g'); do sudo ip netns exec $ns ip -4 addr show | grep -q '" + str(subnet) + "' && echo $ns; done"
     result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     if result.returncode!=0:
+        print(result.returncode)
         show_alert(result.stderr)
     else:
         return result.stdout

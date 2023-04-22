@@ -18,13 +18,12 @@ class AddDevice:
         add_device_window = Toplevel(self.root)
         add_device_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
-            print(self.ns)
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)
 
             #device 1 should just be listed
             #TODO: get list of other namespaces in the same subnet
             namespaces_list = utils.get_ns_in_subnet()
-            print(namespaces_list)
+            print("LIST OF NAMESPACES: ", namespaces_list)
             options = ['option1', 'option2']
             Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
@@ -52,7 +51,7 @@ class AddDevice:
         else:
             Label(add_device_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
     def add_device(self, ns_name, device1, device2, ip1, ip2):
-        print(ns_name)
+        print("add device window opened")
         # device1 = device1.get()
         # device2 = device2.get()
         # ip1 = ip1.get()
