@@ -11,9 +11,9 @@ class AddDevice:
         self.ns_view = ns_view
         #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
         self.ns = ns
-        self.add_device_window(self.root)
+        self.add_device_window()
 
-    def add_device_window(self, root, ns):
+    def add_device_window(self):
         add_net_ns_window = Toplevel(self.root)
         add_net_ns_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
