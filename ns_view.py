@@ -40,4 +40,4 @@ class NSView:
         add_device = Button(self.root, text="Add Device", command = self.open_add_device_window())
 
     def open_add_device_window(self):
-        add_device.AddDevice(self.root, self.ns)
+        add_device.AddDevice(self.root, self.frame, self.ns)

@@ -13,7 +13,7 @@ class AddDevice:
         self.ns = ns
         self.add_device_window(self.root)
 
-    def add_device_window(self):
+    def add_device_window(self, root, ns):
         add_net_ns_window = Toplevel(self.root)
         add_net_ns_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
