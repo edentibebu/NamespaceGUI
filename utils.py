@@ -132,6 +132,7 @@ def get_ns(ns):
         ns_list[i] = ns.split('(id')[0]
     #list of all namespaces
     ns = ns.split('(id')[0]
+    print(ns)
     ns_list = list(filter(lambda s: s != "", ns_list)).remove(ns)
     
     return ns_list
