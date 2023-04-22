@@ -21,16 +21,20 @@ class AddDevice:
             print(self.ns)
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)
 
-            ##TODO: device 1 should just be listed
+            #device 1 should just be listed
             #TODO: get list of other namespaces in the same subnet
-
             options = ['option1', 'option2']
-            # TODO: create dropdown with list of other namespaces
             Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
             Label(add_device_window, text ="Device 2:").grid(row=1, column=2)
-            device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="sunken", bd=4)
+            device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="sunken", bd=2)
             device1.grid(row=2, column=1)
+
+            # TODO: create dropdown with list of other namespaces   
+            selected_option = tk.StringVar()
+            selected_option.set(options[0])   
+            dropdown_menu = tk.OptionMenu(add_device_window, selected_option, *options)
+            dropdown_menu.grid(row=2, column=2)      
             device2 = Entry(add_device_window)
             device2.grid(row=2, column=2)
             #TODO: 
@@ -38,12 +42,13 @@ class AddDevice:
             Label(add_device_window, text ="Address 1:").grid(row=3, column=1)
             Label(add_device_window, text ="Address 2:").grid(row=3, column=2)
 
-            ip1 = Entry(add_device_window)
-            ip1.grid(row=4, column=1)
-            ip2 = Entry(add_device_window)
-            ip2.grid(row=4, column=2)
-            add_ns_btn = Button(add_device_window, text='Submit', command = lambda: self.add_device(add_device_window, device1, device2, ip1, ip2))
-            add_ns_btn.grid(row=5, column=4)
+            #TODO: get subnet, leave entry for device numbers
+            # ip1 = Entry(add_device_window)
+            # ip1.grid(row=4, column=1)
+            # ip2 = Entry(add_device_window)
+            # ip2.grid(row=4, column=2)
+            # add_ns_btn = Button(add_device_window, text='Submit', command = lambda: self.add_device(add_device_window, device1, device2, ip1, ip2))
+            # add_ns_btn.grid(row=5, column=4)
             
         else:
             Label(add_device_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
