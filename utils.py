@@ -123,8 +123,8 @@ def get_ns_in_subnet():
     #if result.returncode!=0:
     #    print(result.stderr)
     #else:
-    for ns in ns_list:
-        ns = ns.split('(id')[0]
+    for i, ns in enumerate(ns_list):
+        ns_list[i] = ns.split('(id')[0]
     return ns_list
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
