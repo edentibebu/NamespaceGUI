@@ -58,10 +58,11 @@ class AddDevice:
 
         device2 = device2.get()
         print(device2)
-        # device1_num = device1_num.get()
-        # device2_num = device2_num.get()
+        device1_num = device1_num.get()
+        device2_num = device2_num.get()
 
-        #port1 = device1 + device2
+        port1 = device1 + "_" + device2
+        port2  = device2 + "_" + device1
         # elif: #TODO check if namespace name already exists and show alert accordingly
         # #     show_alert
         # #case 2: add ns_name and make veth pair
