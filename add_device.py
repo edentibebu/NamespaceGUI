@@ -9,7 +9,8 @@ class AddDevice:
         self.root = root
         self.frame = tk.Frame(root)
         self.ns_view = ns_view
-        #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
+        self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
+        self.label.grid(row=13 , column=13)
         self.ns = ns
         self.add_device_window()
 

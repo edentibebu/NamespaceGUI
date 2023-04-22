@@ -37,7 +37,7 @@ class NSView:
         net_ns_header = Label(ns_view, text=self.ns)
         net_ns_header.grid(row=0,column=0)
 
-        add_device = Button(self.root, text="Add Device", command = self.open_add_device_window())
-
+        add_device_btn = Button(self.root, text="Add Device", command = self.open_add_device_window())
+        add_device_btn.grid(row=1, column=1)
     def open_add_device_window(self):
         add_device.AddDevice(self.root, self.frame, self.ns)
