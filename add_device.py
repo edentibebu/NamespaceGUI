@@ -35,30 +35,34 @@ class AddDevice:
             device1.grid(row=2, column=1)
 
             #create dropdown with list of other namespaces   
-            selected_option = tk.StringVar()
-            selected_option.set(namespaces_list[0])
-            dropdown_menu = tk.OptionMenu(add_device_window, selected_option, *namespaces_list)
+            device2 = tk.StringVar()
+            device2.set(namespaces_list[0])
+            dropdown_menu = tk.OptionMenu(add_device_window, device2, *namespaces_list)
             dropdown_menu.grid(row=2, column=2)      
             Label(add_device_window, text ="Subnet: " + subnet).grid(row=3, column=0)
-            Label(add_device_window, text = "device numbers").grid(row=4, column=0)
+            Label(add_device_window, text = "Device numbers").grid(row=4, column=0)
 
-            #TODO: get subnet, leave entry for device numbers
+            #get subnet, leave entry for device numbers
             device1_num = Entry(add_device_window)
             device1_num.grid(row=4, column=1)
             device2_num = Entry(add_device_window)
             device2_num.grid(row=4, column=2)
-            # add_ns_btn = Button(add_device_window, text='Submit', command = lambda: self.add_device(add_device_window, device1, device2, ip1, ip2))
-            # add_ns_btn.grid(row=5, column=4)
+            
+            add_ns_btn = Button(add_device_window, text='Submit', command = lambda: self.add_device(add_device_window, self.ns, device2, device1_num, device2_num, subnet))
+            add_ns_btn.grid(row=5, column=4)
             
         else:
             Label(add_device_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-    def add_device(self, ns_name, device1, device2, ip1, ip2):
-        print("add device window opened")
-        # device1 = device1.get()
-        # device2 = device2.get()
-        # ip1 = ip1.get()
-        # ip2 = ip2.get()
-        # # elif: #TODO check if namespace name already exists and show alert accordingly
+    def add_device(self, add_device_window, device1, device2, device1_num, device2_num, subnet):
+        print("adding device")
+
+        device2 = device2.get()
+        print(device2)
+        # device1_num = device1_num.get()
+        # device2_num = device2_num.get()
+
+        #port1 = device1 + device2
+        # elif: #TODO check if namespace name already exists and show alert accordingly
         # #     show_alert
         # #case 2: add ns_name and make veth pair
         # if device1 and device2 and (ip1 or ip2):
