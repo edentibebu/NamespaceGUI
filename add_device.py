@@ -11,6 +11,7 @@ class AddDevice:
         #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
         self.ns_view = ns_view
         self.add_device_window(self.ns_view)
+        self.ns = ns
         #self.add_device_window()
 
     def add_device_window(self, ns_view):
