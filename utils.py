@@ -118,7 +118,7 @@ def get_peer(veth):
         
 def get_ns_in_subnet():
     subnet = '10.1.1.'
-    command_str = "ip netns list | cut -d'(' -f1 | sed 's/\s*//g')"
+    command_str = "ip netns list"
 
     #ns_list = 
     #command_str = "for ns in $(ip netns list | cut -d'(' -f1 | sed 's/\s*//g'); do sudo ip netns exec $ns ip -4 addr show | grep -q '10.1.1.' && echo $ns; done"
