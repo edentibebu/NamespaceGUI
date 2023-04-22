@@ -96,6 +96,7 @@ def bridge(bridge):
     return output
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
+    print("creating devices")
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
@@ -103,11 +104,13 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
 
     #link devices to respective namespaces
+    print("link ns1 with device 1")
     command_str = "ip link set "+str(device1)+" netns "+str(ns1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         print(result.stderr)
         return
+    print("link ns2 with device2")
     command_str = "ip link set "+str(device2)+" netns "+str(ns2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -115,11 +118,13 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
 
     #in NS1, set ipaddr for device 1 (same for NS2)
+    print("set ipaddr for device 1")
     command_str = "ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         print(result.stderr)
         return
+    print("set ipaddr for device2")
     command_str = "ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -127,11 +132,13 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
 
     #set up network interfaces
+    print("set up first network interface")
     command_str = "ip netns exec "+str(ns1)+" ifconfig "+str(device1)+" "+str(ip1)+" up"
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         print(result.stderr)
         return
+    print("set up second network interface")
     command_str = "ip netns exec "+str(ns2)+" ifconfig "+str(device2)+" "+str(ip2)+" up"
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
