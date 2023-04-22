@@ -46,31 +46,31 @@ class AddDevice:
             Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
     def add_device(self, ns_name, device1, device2, ip1, ip2):
         print(ns_name)
-        device1 = device1.get()
-        device2 = device2.get()
-        ip1 = ip1.get()
-        ip2 = ip2.get()
-        # elif: #TODO check if namespace name already exists and show alert accordingly
-        #     show_alert
-        #case 2: add ns_name and make veth pair
-        if device1 and device2 and (ip1 or ip2):
-            utils.add_ns(ns_name)
-            utils.add_veth(ns_name, device1, device2)
-            if ip1:
-                utils.set_one_ip(ns_name, device1, device2, ip1)
-            else:
-                utils.set_one_ip(ns_name, device1, device2, ip2)
-            utils.update_ns_list(ns_name, self.ns_view, self.root)
+        # device1 = device1.get()
+        # device2 = device2.get()
+        # ip1 = ip1.get()
+        # ip2 = ip2.get()
+        # # elif: #TODO check if namespace name already exists and show alert accordingly
+        # #     show_alert
+        # #case 2: add ns_name and make veth pair
+        # if device1 and device2 and (ip1 or ip2):
+        #     utils.add_ns(ns_name)
+        #     utils.add_veth(ns_name, device1, device2)
+        #     if ip1:
+        #         utils.set_one_ip(ns_name, device1, device2, ip1)
+        #     else:
+        #         utils.set_one_ip(ns_name, device1, device2, ip2)
+        #     utils.update_ns_list(ns_name, self.ns_view, self.root)
             
-        elif ns_name and device1 and device2:
-            utils.add_ns(ns_name)
-            utils.add_veth(ns_name, device1, device2)
-            utils.update_ns_list(ns_name, self.ns_view, self.root)
-        #case 3: add ns_name, make veth pair, add ip addresses
-        elif ns_name and device1 and device2 and ip1 and ip2:
-            utils.add_ns(ns_name)
-            utils.add_veth(ns_name, device1, device2)
-            utils.set_ips(ns_name, device1, device2, ip1, ip2)
-            utils.update_ns_list(ns_name, self.ns_view, self.root)
-        elif not ns_name:
-            utils.show_alert("you must specify the namespace name in order to add a network namespace.")
+        # elif ns_name and device1 and device2:
+        #     utils.add_ns(ns_name)
+        #     utils.add_veth(ns_name, device1, device2)
+        #     utils.update_ns_list(ns_name, self.ns_view, self.root)
+        # #case 3: add ns_name, make veth pair, add ip addresses
+        # elif ns_name and device1 and device2 and ip1 and ip2:
+        #     utils.add_ns(ns_name)
+        #     utils.add_veth(ns_name, device1, device2)
+        #     utils.set_ips(ns_name, device1, device2, ip1, ip2)
+        #     utils.update_ns_list(ns_name, self.ns_view, self.root)
+        # elif not ns_name:
+        #     utils.show_alert("you must specify the namespace name in order to add a network namespace.")

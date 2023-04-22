@@ -104,17 +104,17 @@ def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     print("port forwarded")
     return output
 
-def list_veth_pairs(ns):
+def get_veths(ns):
     device_name_1 = subprocess.check_output("sudo ip netns exec "+str(ns)+"; ip link show type veth;", shell=True)
+    return device_name_1
 
 def get_peer(ns, device):
     peer_ifindex = int(subprocess.check_output("ethtool -S "+str(device)+" | awk '/peer_ifindex/ {print $2}'", shell=True))
 
     device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
 
-
 def create_veth_pairs(ns, device1, device2, ip1, ip2):
-    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)"", shell=True)
+    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2), shell=True)
     subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
     subprocess.run("ip netns exec "+str(ns)+" ifconfig "+str(device2)+" "+str(ip2)+"/24 up", shell=True)
     subprocess.run("ifconfig "+str(device1)+" "+str(ip1)+"/24 up", shell=True)

@@ -83,3 +83,4 @@ class AddNS:
             utils.show_alert("you must specify the IP address in order to add devices.")
         elif (device1 and not device2) or (device2 and not device1):
             utils.show_alert("Devices must be added in pairs in order to connect them.")
+        ## TODO: check that ip1 and ip2 are both on the same subnet
