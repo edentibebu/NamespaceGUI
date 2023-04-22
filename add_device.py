@@ -21,16 +21,19 @@ class AddDevice:
             print(self.ns)
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)
 
-            #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
-            
+            ##TODO: device 1 should just be listed
+            #TODO: get list of other namespaces in the same subnet
+
+            options = ['option1', 'option2']
+            # TODO: create dropdown with list of other namespaces
             Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
             Label(add_device_window, text ="Device 2:").grid(row=1, column=2)
-            device1 = Entry(add_device_window)
+            device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="groove", bd=4)
             device1.grid(row=2, column=1)
-            device2 = Entry(self.ns_view)
+            device2 = Entry(add_device_window)
             device2.grid(row=2, column=2)
-
+            #TODO: 
             Label(add_device_window, text ="IP Addresses:").grid(row=4, column=0)
             Label(add_device_window, text ="Address 1:").grid(row=3, column=1)
             Label(add_device_window, text ="Address 2:").grid(row=3, column=2)
