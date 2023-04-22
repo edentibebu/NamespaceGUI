@@ -117,7 +117,7 @@ def get_peer(veth):
         print(result.stdout)
         
 def get_ns_in_subnet():
-    subnet = '10.1.1.'
+    current_subnet = '10.1.1.'
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
     ns_list = result.stdout.split('\n')
     #if result.returncode!=0:
@@ -125,9 +125,14 @@ def get_ns_in_subnet():
     #else:
     for i, ns in enumerate(ns_list):
         ns_list[i] = ns.split('(id')[0]
-
+    #list of all namespaces
     ns_list = list(filter(lambda s: s != "", ns_list))
-    return ns_list
+
+    #get subnet for each ns:
+    for ns in ns_list:
+        command_str = 'sudo ip netns exec ' + str(ns) + '" ifconfig | grep \"inet "'
+        result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
+        print("inet for " + str(ns) + ": " + result.stdout)
 
 def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     output = subprocess.check_output("sudo sysctl -w net.ipv4_forward=1; sudo iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip1)+ ":"+str(port2)+"", shell=True)
