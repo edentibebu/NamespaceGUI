@@ -119,8 +119,38 @@ def create_veth_pairs(ns, device1, device2, ip1, ip2):
     subprocess.run("ip netns exec "+str(ns)+" ifconfig "+str(device2)+" "+str(ip2)+"/24 up", shell=True)
     subprocess.run("ifconfig "+str(device1)+" "+str(ip1)+"/24 up", shell=True)
 
-get_peer()
-#create_veth_pairs()
+#########################testing creating veth pairs in separate namespaces###########
+def create_veth_pairs2(ns1, ns2, device1, device2, ip1, ip2):
+    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2), shell=True)
+    subprocess.run("ip link set "+str(device1)+" netns "+str(ns1)+"", shell=True)
+    subprocess.run("ip link set "+str(device2)+" netns "+str(ns2)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns1)+" ifconfig "+str(device1)+" "+str(ip1)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns2)+" ifconfig "+str(device2)+" "+str(ip2)+" up", shell=True)
+
+def create_veth_pairs3():
+    subprocess.run("ip link add veth1 type veth peer name veth2", shell=True)
+    subprocess.run("ip link set veth1 netns ns3", shell=True)
+    subprocess.run("ip link set veth2 netns ns4", shell=True)
+    subprocess.run("ip netns exec ns3 ip addr add 10.1.1.3/24 dev veth1", shell=True)
+    subprocess.run("ip netns exec ns4 ip addr add 10.1.1.4/24 dev veth2", shell=True)
+    subprocess.run("ip netns exec ns3 ifconfig veth1 10.1.1.3/24 up", shell=True)
+    subprocess.run("ip netns exec ns4 ifconfig veth2 10.1.1.4/24 up", shell=True)
+
+#command for getting list of ns within same subnet
+#for ns in $(ip netns list | cut -d'(' -f1 | sed 's/\s*//g'); do sudo ip netns exec $ns ip -4 addr show | grep -q '10.1.1.' && echo $ns; done
+
+
+
+
+
+#def enable_ip_forwarding():
+#subprocess.run("", shell=True)
+
+
+#get_peer()
+#create_veth_pairs3()
 
 
 #def tcp():
