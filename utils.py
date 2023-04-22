@@ -122,7 +122,7 @@ def get_peer(veth):
         print(result.stdout)
         
 def get_ns(ns_name):
-    print(ns_name)
+    ns_name = ns_name.split(('(id')[0])
     current_subnet = '10.1.1.'
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
     ns_list = result.stdout.split('\n')
