@@ -39,7 +39,12 @@ def add_ns(ns_name):
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
-
+    ## Adding Loopback
+    command_str = 'ip netns exec ' + str(ns_name) + ' ip link set dev lo up'
+    result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+        
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
