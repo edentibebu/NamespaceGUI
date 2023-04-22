@@ -130,7 +130,7 @@ def get_ns_in_subnet():
 
     #get subnet for each ns:
     for ns in ns_list:
-        command_str = 'sudo ip netns exec ' + str(ns) + '" ifconfig | grep \"inet "'
+        command_str = 'sudo ip netns exec ' + str(ns) + '" ifconfig | grep "inet "'
         result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
         print("inet for " + str(ns) + ": " + result.stdout)
     return ns_list
