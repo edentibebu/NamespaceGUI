@@ -2,6 +2,7 @@ import subprocess
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
+from tkinter.font import names
 import utils
 
 class AddDevice:
@@ -22,9 +23,10 @@ class AddDevice:
 
             #device 1 should just be listed
             #TODO: get list of other namespaces in the same subnet
-            namespaces_list = utils.get_ns_in_subnet()
-            print("LIST OF NAMESPACES: ", namespaces_list)
-            options = ['option1', 'option2']
+            namespaces_list = utils.get_ns(self.ns)
+            if len(namespaces_list) < 1:
+                utils.show_alert("you must have more than one namespace created in order to connect via Veth ports.")
+                return
             Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
             Label(add_device_window, text ="Device 2:").grid(row=1, column=2)
@@ -33,8 +35,8 @@ class AddDevice:
 
             #create dropdown with list of other namespaces   
             selected_option = tk.StringVar()
-            selected_option.set(options[0])
-            dropdown_menu = tk.OptionMenu(add_device_window, selected_option, *options)
+            selected_option.set(namespaces_list[0])
+            dropdown_menu = tk.OptionMenu(add_device_window, selected_option, *namespaces_list)
             dropdown_menu.grid(row=2, column=2)      
             Label(add_device_window, text ="IP Addresses:").grid(row=4, column=0)
             Label(add_device_window, text ="Address 1:").grid(row=3, column=1)

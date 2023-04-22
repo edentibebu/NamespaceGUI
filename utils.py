@@ -121,7 +121,7 @@ def get_peer(veth):
     else:
         print(result.stdout)
         
-def get_ns_in_subnet():
+def get_ns(ns):
     current_subnet = '10.1.1.'
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
     ns_list = result.stdout.split('\n')
@@ -131,8 +131,8 @@ def get_ns_in_subnet():
     for i, ns in enumerate(ns_list):
         ns_list[i] = ns.split('(id')[0]
     #list of all namespaces
-    ns_list = list(filter(lambda s: s != "", ns_list))
-
+    ns_list = list(filter(lambda s: s != "", ns_list)).remove(ns)
+    return ns_list
     #get subnet for each ns:
     for ns in ns_list:
         command_str = 'sudo ip netns exec ' + str(ns) + ' ifconfig | grep "inet "'
