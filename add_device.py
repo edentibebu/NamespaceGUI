@@ -17,9 +17,7 @@ class AddDevice:
         add_net_ns_window = Toplevel(self.root)
         add_net_ns_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
-            Label(add_net_ns_window, text ="Name:").grid(row=0, column=0)
-            ns_name = Label(self.ns)
-            ns_name.grid(row=0, column=1)
+            Label(self.ns_view, text = self.ns).grid(row=0, column=1)
 
             #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
             
@@ -39,7 +37,7 @@ class AddDevice:
             ip1.grid(row=4, column=1)
             ip2 = Entry(add_net_ns_window)
             ip2.grid(row=4, column=2)
-            add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: self.add_device(ns_name, device1, device2, ip1, ip2))
+            add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: self.add_device(self.ns, device1, device2, ip1, ip2))
             add_ns_btn.grid(row=5, column=4)
             
         else:
