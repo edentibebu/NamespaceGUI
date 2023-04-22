@@ -16,6 +16,7 @@ class AddDevice:
         #self.add_device_window()
 
     def add_device_window(self, ns_view):
+        subnet = '10.1.1.'
         add_device_window = Toplevel(self.root)
         add_device_window.title("Add Device to Namespace")
         if(utils.checkuid[0] == "0"):
@@ -23,7 +24,6 @@ class AddDevice:
 
             #device 1 should just be listed
             #TODO: get list of other namespaces in the same subnet
-            print(self.ns)
             namespaces_list = utils.get_ns(self.ns)
             if len(namespaces_list) < 1:
                 utils.show_alert("you must have more than one namespace created in order to connect via Veth ports.")
@@ -40,14 +40,14 @@ class AddDevice:
             dropdown_menu = tk.OptionMenu(add_device_window, selected_option, *namespaces_list)
             dropdown_menu.grid(row=2, column=2)      
             Label(add_device_window, text ="IP Addresses:").grid(row=4, column=0)
-            Label(add_device_window, text ="Address 1:").grid(row=3, column=1)
-            Label(add_device_window, text ="Address 2:").grid(row=3, column=2)
+            Label(add_device_window, text =subnet).grid(row=3, column=1)
+            Label(add_device_window, text =subnet).grid(row=3, column=2)
 
             #TODO: get subnet, leave entry for device numbers
-            # ip1 = Entry(add_device_window)
-            # ip1.grid(row=4, column=1)
-            # ip2 = Entry(add_device_window)
-            # ip2.grid(row=4, column=2)
+            device1_num = Entry(add_device_window)
+            device1_num.grid(row=4, column=1)
+            device2_num = Entry(add_device_window)
+            device2_num.grid(row=4, column=2)
             # add_ns_btn = Button(add_device_window, text='Submit', command = lambda: self.add_device(add_device_window, device1, device2, ip1, ip2))
             # add_ns_btn.grid(row=5, column=4)
             
