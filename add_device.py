@@ -29,7 +29,7 @@ class AddDevice:
             Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
             Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
             Label(add_device_window, text ="Device 2:").grid(row=1, column=2)
-            device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="sunken", bd=4)
+            device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="solid", bd=4)
             device1.grid(row=2, column=1)
             device2 = Entry(add_device_window)
             device2.grid(row=2, column=2)
