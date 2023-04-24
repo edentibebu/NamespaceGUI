@@ -170,7 +170,7 @@ def show_devices(ns_view, ns):
     veths = get_veths(ns)
     for i, veth in enumerate(veths): 
         print("GETTING PEERS")
-        print(get_peer(veth))
+        print(get_peer(ns, veth))
         ns_btn = Label(ns_view, text=veth)
         ns_btn.grid(row = i+1, column = 0)
 
@@ -181,13 +181,11 @@ def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
     ns_btn = Label(ns_view, text=text)
     ns_btn.grid(row = num_veths+1, column = 0)
     
-def get_peer(veth):
-    command_str = 'ip link show ' + str(veth) + " | grep peer"
-    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-    if(result.returncode != 0):
-        show_alert(result.stderr)
-    else:
-        print(result.stdout)
+def get_peer(ns, veth):
+    peer_ifindex = int(subprocess.check_output("ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'", shell=True))
+
+    device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
+    print(device_name_2)
         
 def get_ns(ns_name):
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
