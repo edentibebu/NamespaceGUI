@@ -157,6 +157,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
     occupied_devices.append(device1)
     occupied_devices.append(device2)
+    return get_veths(ns1)
 
 #def update_device_list():
 
