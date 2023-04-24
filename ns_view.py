@@ -23,8 +23,8 @@ class NSView:
         devs_list = (utils.get_veths(self.ns.strip()).split("\n")[0::2])
         print(devs_list)
         for i, dev in enumerate(devs_list):
-            print(dev)
             devs_list[i] = dev.split("@")[0]
+        print(devs_list)
 
         # print("orig veth:", veth_list)
         # peer = utils.get_peer(veth_list)
