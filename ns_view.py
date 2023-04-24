@@ -20,9 +20,10 @@ class NSView:
 
         # list device pairs
         devs = utils.get_veths(self.ns.strip())
-        print(devs)
-        devs_list = (devs.split("\n")[0::2])
+        devs_list = (utils.get_veths(self.ns.strip()).split("\n")[0::2])
         print(devs_list)
+        for i, dev in enumerate(devs_list):
+            devs_list[i] = dev[dev.index(':'):dev.index('@')]
 
         # print("orig veth:", veth_list)
         # peer = utils.get_peer(veth_list)
