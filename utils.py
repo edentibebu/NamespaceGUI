@@ -169,7 +169,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
     for i, veth in enumerate(veths): 
-        print("GETTING PEERS")
+        print("GETTING PEERS for " + veth)
         print(get_peer(ns, veth))
         ns_btn = Label(ns_view, text=veth)
         ns_btn.grid(row = i+1, column = 0)
@@ -182,7 +182,8 @@ def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
     ns_btn.grid(row = num_veths+1, column = 0)
     
 def get_peer(ns, veth):
-    peer_ifindex = int(subprocess.check_output("ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'", shell=True))
+    peer_ifindex = subprocess.check_output("ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'", shell=True)
+    print(peer_ifindex)
 
     device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
     print(device_name_2)
