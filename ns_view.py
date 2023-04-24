@@ -24,7 +24,7 @@ class NSView:
         print(devs_list)
         for i, dev in enumerate(devs_list):
             print(dev)
-            devs_list[i] = dev[:dev.index('@')]
+            devs_list[i] = dev.split("@")[0]
 
         # print("orig veth:", veth_list)
         # peer = utils.get_peer(veth_list)
