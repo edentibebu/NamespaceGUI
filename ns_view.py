@@ -8,7 +8,7 @@ class NSView:
     def __init__(self, root, ns):
         self.root = root
         self.frame = Frame(root)
-        self.ns = ns
+        self.ns = ns.split("(id")[0]
         self.net_ns_view()
     def net_ns_view(self):
         ns_view = Toplevel(self.root)
