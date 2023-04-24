@@ -1,4 +1,5 @@
 from ctypes import util
+from dis import show_code
 import subprocess
 from tkinter import *
 import tkinter as tk
@@ -70,8 +71,7 @@ class AddDevice:
             ip1 = subnet + device1_num
             ip2 = subnet + device2_num
 
-            device_list = utils.create_veth_pairs(device1, device2, device1_num, device2_num, ip1, ip2)
-            print(device_list)
-            #utils.update_device_list(device2, ip2, self.ns_view, self.root)
+            utils.create_veth_pairs(device1, device2, device1_num, device2_num, ip1, ip2)
+            utils.update_device_list(device1_num, device2, ip2, self.ns_view, self.root)
         else: 
             utils.show_alert("you must provide a device number for both namespaces inorder to make the connection.")

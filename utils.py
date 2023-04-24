@@ -102,7 +102,15 @@ def get_veths(ns):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    return result.stdout
+    devs_list = (result.stdout).split("\n")[0::2]
+    for i, dev in enumerate(devs_list):
+        devs_list[i] = dev.split("@")[0]
+    devs_list = [dev for dev in devs_list if dev.strip()]        
+    for i, dev in enumerate(devs_list):
+        if(dev.split(":")[1]):
+            devs_list[i] = dev.split(":")[1]
+    devs_list = [dev.strip() for dev in devs_list]
+    return devs_list
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     ##check if device is already connected to a different device
@@ -157,10 +165,18 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
     occupied_devices.append(device1)
     occupied_devices.append(device2)
-    return get_veths(ns1)
 
-#def update_device_list():
+def show_devices(ns_view, ns):
+    veths = get_veths(ns)
+    for i, veth in enumerate(veths):    
+        ns_btn = Label(ns_view, text=veth)
+        ns_btn.grid(row = i+1, column = 0)
+def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
+    num_veths = len(get_veths(ns1))
+    text = "device " + device1_num + " is connected to " + "device " + device2_num + " in network namespace " + ns2
 
+    ns_btn = Label(ns_view, text=text)
+    ns_btn.grid(row = num_veths+1, column = 0)
     
 # def get_peer(veth):
 #     command_str = 'ip link show ' + str(veth) + " | grep peer"

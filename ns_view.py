@@ -20,20 +20,8 @@ class NSView:
 
         # list device pairs
         devs = utils.get_veths(self.ns.strip())
-        devs_list = (utils.get_veths(self.ns.strip()).split("\n")[0::2])
-        for i, dev in enumerate(devs_list):
-            devs_list[i] = dev.split("@")[0]
-        devs_list = [dev for dev in devs_list if dev.strip()]        
-        for i, dev in enumerate(devs_list):
-            if(dev.split(":")[1]):
-                devs_list[i] = dev.split(":")[1]
-        devs_list = [dev.strip() for dev in devs_list]
-
-        # display device pairs:
-        print(devs_list)
-        # print("orig veth:", veth_list)
-        # peer = utils.get_peer(veth_list)
-        # print(peer)
+        print(devs)
+        utils.show_devices(self.ns.strip())
 
         # # TODO: extend this to iterate through a list of device pairs
 
