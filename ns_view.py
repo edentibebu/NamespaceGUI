@@ -21,7 +21,7 @@ class NSView:
         # list device pairs
         devs = utils.get_veths(self.ns.strip())
         print(devs)
-        utils.show_devices(self.ns.strip())
+        utils.show_devices(self.frame, self.ns.strip())
 
         # # TODO: extend this to iterate through a list of device pairs
 
