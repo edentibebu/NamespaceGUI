@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+       <title>Test Port Forwarding</title>
+
+</head>
+
+<body>
+
+       <h1>Test Port Forwarding</h1>
+
+       <p>This page tests whether port forwarding is working between two network namespaces.</p>
+
+       <p>The forwarded port is: <strong><span id="port"></span></strong></p>
+
+       <p>The response from the forwarded port is: <strong><span id="response"></span></strong></p>
+
+ 
+
+       <script>
+
+              var xhr = new XMLHttpRequest();
+
+              xhr.open("GET", "http://10.1.1.2:8080/", true);
+
+              xhr.onreadystatechange = function() {
+
+                    if (xhr.readyState === 4) {
+
+                           document.getElementById("port").innerHTML = "8080";
+
+                           document.getElementById("response").innerHTML = xhr.responseText;
+
+                    }
+
+              };
+
+              xhr.send();
+
+       </script>
+
+</body>
+
+</html>

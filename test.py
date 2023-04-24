@@ -136,8 +136,8 @@ def create_veth_pairs3():
     subprocess.run("ip link set veth1 netns ns1", shell=True)
     subprocess.run("ip link set veth2  netns ns2", shell=True)
 
-    subprocess.run("ip netns exec ns1 ip addr add 10.0.0.1/24 dev veth1", shell=True)
-    subprocess.run("ip netns exec ns2 ip addr add 10.0.0.2/24 dev veth2", shell=True)
+    subprocess.run("ip netns exec ns1 ip addr add 10.1.1.1/24 dev veth1", shell=True)
+    subprocess.run("ip netns exec ns2 ip addr add 10.1.1.2/24 dev veth2", shell=True)
 
     subprocess.run("ip netns exec ns1 ip link set dev veth1 up", shell=True)
     subprocess.run("ip netns exec ns2 ip link set dev veth2 up", shell=True)
@@ -174,10 +174,12 @@ def enable_ip_forwarding():
 
     #subprocess.run("ip netns exec myns iptables -t nat -A OUTPUT -p tcp -o veth1 --dport 80 -j DNAT --to-destination 10.1.1.1:8080", shell=True)
     #subprocess.run("ip netns exec myns iptables -t nat -A POSTROUTING -o veth1 -j MASQUERADE", shell=True)
-    subprocess.run("sudo ip netns exec ns1 iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.2:8080", shell=True)
-    
-
-
+    #subprocess.run("sudo ip netns exec ns1 iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.2:8080", shell=True)
+    #subprocess.check_output("ip netns exec ns1 socat TCP-LISTEN:80, fork, reuseaddr TCP:10.0.0.2:8080", shell=True)
+    #subprocess.check_output("iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1:8080", shell=True)
+    subprocess.check_output("iptables -t nat -A PREROUTING -i veth1 -p tcp --dport 80 -j DNAT --to-destination 10.1.1.2:8080", shell=True)
+    #subprocess.check_output("ip netns exec ns1 iptables -A FORWARD -i veth1 -o veth2 -p tcp --dport 8080 -j ACCEPT", shell=True)
+    #subprocess.check_output("ip netns exec ns2 iptables -A FORWARD -i veth2 -o veth1 -p tcp --sport 8080 -j ACCEPT", shell=True)
     #get_peer()
 create_veth_pairs3()
 enable_ip_forwarding()
