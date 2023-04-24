@@ -106,6 +106,7 @@ def get_veths(ns):
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     print("creating dev pair")
+    print(device1, device2)
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
