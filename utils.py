@@ -168,7 +168,9 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
 
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
+    print(veths)
     for i, veth in enumerate(veths):    
+        print(veth)
         ns_btn = Label(ns_view, text=veth)
         ns_btn.grid(row = i+1, column = 0)
 def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
