@@ -62,15 +62,15 @@ class AddDevice:
             device1_num = device1_num.get()
             device2_num = device2_num.get()
 
-            port1 = device1_num + "_" + device2_num
-            port2  = device2_num + "_" + device1_num
+            #port1 = device1_num + "_" + device2_num
+            #port2  = device2_num + "_" + device1_num
 
             ## TODO: check for duplicate device numbers in the subnet
 
             ip1 = subnet + device1_num
             ip2 = subnet + device2_num
 
-            utils.create_veth_pairs(device1, device2, port1, port2, ip1, ip2)
+            utils.create_veth_pairs(device1, device2, device1_num, device2_num, ip1, ip2)
             #utils.update_device_list(device2, ip2, self.ns_view, self.root)
         else: 
             utils.show_alert("you must provide a device number for both namespaces inorder to make the connection.")
