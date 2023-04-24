@@ -1,3 +1,4 @@
+from cgi import test
 from re import sub
 import subprocess
 from tkinter import *
@@ -95,6 +96,14 @@ def bridge(bridge):
     output = subprocess.check_output("sudo ip link add name "+str(bridge)+" type bridge", shell=True)
     return output
 
+def get_veths(ns):
+    command_str = "sudo ip netns exec "+str(ns)+"; ip link show type veth;"
+    result = subprocess.run(command_str, text = True, capture_output=True, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+        return
+    print(result.stdout)
+
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
@@ -137,6 +146,8 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     if result.returncode != 0:
         print(result.stderr)
         return
+#def update_device_list():
+
     
 # def get_peer(veth):
 #     command_str = 'ip link show ' + str(veth) + " | grep peer"

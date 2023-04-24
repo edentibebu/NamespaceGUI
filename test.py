@@ -113,22 +113,6 @@ def get_peer(ns, device):
 
     device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
 
-def create_veth_pairs(ns, device1, device2, ip1, ip2):
-    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2), shell=True)
-    subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
-    subprocess.run("ip netns exec "+str(ns)+" ifconfig "+str(device2)+" "+str(ip2)+"/24 up", shell=True)
-    subprocess.run("ifconfig "+str(device1)+" "+str(ip1)+"/24 up", shell=True)
-
-#########################testing creating veth pairs in separate namespaces###########
-def create_veth_pairs2(ns1, ns2, device1, device2, ip1, ip2):
-    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2), shell=True)
-    subprocess.run("ip link set "+str(device1)+" netns "+str(ns1)+"", shell=True)
-    subprocess.run("ip link set "+str(device2)+" netns "+str(ns2)+"", shell=True)
-    subprocess.run("ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)+"", shell=True)
-    subprocess.run("ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)+"", shell=True)
-    subprocess.run("ip netns exec "+str(ns1)+" ifconfig "+str(device1)+" "+str(ip1)+" up", shell=True)
-    subprocess.run("ip netns exec "+str(ns2)+" ifconfig "+str(device2)+" "+str(ip2)+" up", shell=True)
-
 def create_veth_pairs3():
     subprocess.run("ip link add veth1 type veth peer name veth2", shell=True)
     #subprocess.run("ip link add veth0b type veth peer name veth1b", shell=True)

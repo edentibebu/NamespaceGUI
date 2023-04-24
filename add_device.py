@@ -69,6 +69,6 @@ class AddDevice:
             ip2 = subnet + device2_num
 
             utils.create_veth_pairs(device1, device2, port1, port2, ip1, ip2)
-            utils.update_device_list(device2, ip2, self.ns_view, self.root)
+            #utils.update_device_list(device2, ip2, self.ns_view, self.root)
         else: 
             utils.show_alert("you must provide a device number for both namespaces inorder to make the connection.")
