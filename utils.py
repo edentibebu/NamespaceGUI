@@ -97,7 +97,8 @@ def bridge(bridge):
     return output
 
 def get_veths(ns):
-    command_str = "sudo ip netns exec "+str(ns)+"; ip link show type veth;"
+    print(ns)
+    command_str = "sudo ip netns exec "+str(ns.strip())+"; ip link show type veth;"
     result = subprocess.run(command_str, text = True, capture_output=True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
@@ -106,7 +107,6 @@ def get_veths(ns):
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     print("creating dev pair")
-    print(device1, device2)
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
