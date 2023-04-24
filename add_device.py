@@ -65,6 +65,8 @@ class AddDevice:
             port1 = device1.strip() + "_" + device1_num + "_" + device2.strip() + "_" + device2_num
             port2  = device2.strip() + "_" + device2_num + "_" + device1.strip() + "_" + device1_num
 
+            ## TODO: check for duplicate device numbers in the subnet
+
             ip1 = subnet + device1_num
             ip2 = subnet + device2_num
 

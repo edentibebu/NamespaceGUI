@@ -98,7 +98,7 @@ def bridge(bridge):
 
 def get_veths(ns):
     print(ns)
-    command_str = "sudo ip netns exec "+str(ns.strip())+"; ip link show type veth;"
+    command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show type veth;"
     result = subprocess.run(command_str, text = True, capture_output=True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)

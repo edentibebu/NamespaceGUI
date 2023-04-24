@@ -19,7 +19,8 @@ class NSView:
             return
 
         # list device pairs
-        utils.get_veths(self.ns)
+        print(self.net_ns)
+        utils.get_veths(self.ns.strip())
         # print("orig veth:", veth_list)
         # peer = utils.get_peer(veth_list)
         # print(peer)
