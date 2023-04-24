@@ -7,7 +7,7 @@ from tkinter import ttk
 import ns_view
 
 checkuid = subprocess.check_output("id -u", shell=True).decode()
-
+occupied_devices = []
 def show_alert(message):
     alert_window = Toplevel()
     alert_window.title("Alert")
@@ -105,13 +105,15 @@ def get_veths(ns):
     return result.stdout
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
+    ##check if device is already connected to a different device
+    if(device1 in occupied_devices):
+        show_alert("this device is already connected to something else. choose another device number.")
     print("creating dev pair")
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-
     #link devices to respective namespaces
     print("link device1 to ns")
     command_str = "ip link set "+str(device1)+" netns "+str(ns1)
@@ -153,6 +155,8 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     if result.returncode != 0:
         print(result.stderr)
         return
+    occupied_devices.append(device1, device2)
+
 #def update_device_list():
 
     
