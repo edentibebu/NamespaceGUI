@@ -62,8 +62,8 @@ class AddDevice:
             device1_num = device1_num.get()
             device2_num = device2_num.get()
 
-            port1 = device1 + "_" + device2
-            port2  = device2 + "_" + device1
+            port1 = device1 + "_" + device1_num + "_" + device2 + "_" + device2_num
+            port2  = device2 + "_" + device2_num + "_" + device1 + "_" + device1_num
 
             ip1 = subnet + device1_num
             ip2 = subnet + device2_num
