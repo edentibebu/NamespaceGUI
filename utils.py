@@ -168,9 +168,12 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
 
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
-    for i, veth in enumerate(veths):    
+    for i, veth in enumerate(veths): 
+        print("GETTING PEERS")
+        print(get_peer(veth))
         ns_btn = Label(ns_view, text=veth)
         ns_btn.grid(row = i+1, column = 0)
+
 def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
     num_veths = len(get_veths(ns1))
     text = "device " + device1_num + " is connected to " + "device " + device2_num + " in network namespace " + ns2
@@ -178,13 +181,13 @@ def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
     ns_btn = Label(ns_view, text=text)
     ns_btn.grid(row = num_veths+1, column = 0)
     
-# def get_peer(veth):
-#     command_str = 'ip link show ' + str(veth) + " | grep peer"
-#     result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-#     if(result.returncode != 0):
-#         show_alert(result.stderr)
-#     else:
-#         print(result.stdout)
+def get_peer(veth):
+    command_str = 'ip link show ' + str(veth) + " | grep peer"
+    result = subprocess.run(command_str, text=True, stderr = subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    if(result.returncode != 0):
+        show_alert(result.stderr)
+    else:
+        print(result.stdout)
         
 def get_ns(ns_name):
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
