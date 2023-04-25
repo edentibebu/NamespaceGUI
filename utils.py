@@ -94,8 +94,8 @@ def update_ns(net_namespace_frame, root):
     net_ns = get_net_namespaces()
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
-    net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
-    net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+    #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
+    #net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
     # List namespaces 
     list_namespaces(root, net_namespace_frame)
 #### NET NS VIEW ####
