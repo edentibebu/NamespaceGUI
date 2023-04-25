@@ -1,4 +1,5 @@
 from cgi import test
+from os import device_encoding
 from re import sub
 import subprocess
 from tkinter import *
@@ -182,9 +183,16 @@ def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
     ns_btn.grid(row = num_veths+1, column = 0)
     
 def get_peer(ns, veth):
-    peer_ifindex = int(subprocess.check_output("sudo ip netns exec " + str(ns) + " ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'", shell=True))
+    command_str = "sudo ip netns exec " + str(ns) + " ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'"
+    peer_ifindex = int(subprocess.check_output(command_str, shell=True))
     print(peer_ifindex)
-    device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
+
+    command_str = "ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+""
+    result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
+    if(result.returncode != 0):
+        show_alert(result.stderr)
+        return
+    device_name_2 = result.stdout
     print(device_name_2.split('\n')[1:])
         
 def get_ns(ns_name):
