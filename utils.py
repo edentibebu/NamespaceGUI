@@ -51,7 +51,7 @@ def add_ns(ns_name):
 def rm_ns(ns_name, net_namespace_frame):
     print("removing ", ns_name.strip())
     command_str = "ip netns delete " + ns_name.strip()
-    result = subprocess.run(command_str, text=True, capture_output=True shell=True)
+    result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
