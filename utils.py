@@ -194,6 +194,7 @@ def show_devices(ns_view, ns):
     for i, veth in enumerate(veths): 
         print("GETTING PEERS for " + veth)
         peer_ns = (get_peer(ns, veth))
+        print(peer_ns)
         device = Label(ns_view, text= "device " + veth + " is connected to " + peer_ns)
         device.grid(row = i+1, column = 0)
 
