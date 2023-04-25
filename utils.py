@@ -216,6 +216,7 @@ def get_peer(ns, veth):
     if(result.returncode != 0):
         show_alert(result.stderr)
         return
+    print(result.stdout)
     devices = result.stdout.split('\n')[1:]
     devices = [s.strip() for s in devices if s.strip()]
     print(devices, len(devices))
