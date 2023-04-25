@@ -69,12 +69,18 @@ int main(int argc, char* argv[]){
 			ptr += sizeof(struct inotify_event) + event->len;
             	
      	            /* Print the name of the file. */
-
-        	    	if (event->len && event->mask == IN_CREATE){ 		
-
+					
+			if (event->len && event->mask == IN_CREATE){ 		
+				fs = fopen(argv[2], "a");
+			        if(fs == NULL){
+           				printf("could not open file. press crtl-c to exit\n");
+           				while(1){}
+			        }
 				fprintf(fs, "%s\n", event->name);
 				fflush(fs);
-		        }
+		    	}else if(event->len && event->mask == IN_DELETE){
+				fprintf(fs,"%s was deleted. \n", event->name);
+			}
 		}
 
 	}
