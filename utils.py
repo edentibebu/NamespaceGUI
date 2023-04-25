@@ -37,7 +37,7 @@ def list_namespaces(root, namespace_frame):
         ns_btn.grid(row = i+1, column = 0)
 
 ### ADD NS WINDOW ###
-def add_ns(ns_name):
+def add_ns(ns_name, net_namespace_frame, root):
     command_str = "ip netns add " + str(ns_name)
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
@@ -47,7 +47,7 @@ def add_ns(ns_name):
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
-
+    update_ns(net_namespace_frame, root)
 def rm_ns(ns_name, net_namespace_frame, root):
     print("removing ", ns_name.strip())
     command_str = "ip netns delete " + ns_name.strip()
@@ -91,7 +91,6 @@ def show_added_ns(ns_name, net_namespace_frame, root):
     ns_btn.grid(row = num_ns+1, column = 0)
 
 def update_ns(net_namespace_frame, root):
-    net_ns = get_net_namespaces()
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
     #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
