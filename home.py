@@ -14,7 +14,7 @@ class Home:
         self.root = root
         self.frame = Frame(root)
         self.home()
-        self.display_ns()
+        #self.display_ns()
 
     def home(self):
         # Add Namespace button

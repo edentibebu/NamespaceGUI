@@ -87,11 +87,11 @@ def set_ips(netns, device1, device2, ip1, ip2):
     if result.returncode != 0:
         show_alert(result.stderr)
 
-def show_added_ns(ns_name, net_namespace_frame, root):
-    net_ns = get_net_namespaces()
-    num_ns = len(net_ns.split('\n')[:-1])
-    ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns, net_namespace_frame))
-    ns_btn.grid(row = num_ns+1, column = 0)
+# def show_added_ns(ns_name, net_namespace_frame, root):
+#     net_ns = get_net_namespaces()
+#     num_ns = len(net_ns.split('\n')[:-1])
+#     ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns, net_namespace_frame))
+#     ns_btn.grid(row = num_ns+1, column = 0)
 
 def update_ns(net_namespace_frame, root):
     for widget in net_namespace_frame.winfo_children():
