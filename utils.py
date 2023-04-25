@@ -187,7 +187,7 @@ def get_peer(ns, veth):
     peer_ifindex = int(subprocess.check_output(command_str, shell=True))
     print(ns)
 
-    command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show | grep '^" +str(peer_ifindex) + ":'"
+    command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show | grep " +str(peer_ifindex)
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
