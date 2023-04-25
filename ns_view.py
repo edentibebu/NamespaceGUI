@@ -45,5 +45,5 @@ class NSView:
     def open_add_device_window(self, ns_view):
         add_device.AddDevice(self.root, ns_view, self.ns)
     
-    def delete_ns(ns, net_namespace_frame):
+    def delete_ns(self, ns, net_namespace_frame):
         utils.rm_ns(ns)
