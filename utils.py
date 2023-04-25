@@ -33,7 +33,7 @@ def list_namespaces(root, namespace_frame):
     net_ns_list = net_ns.split('\n')[:-1]
 
     for i, ns in enumerate(net_ns_list):
-        ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns))
+        ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, namespace_frame))
         ns_btn.grid(row = i+1, column = 0)
 ### ADD NS WINDOW ###
 def add_ns(ns_name):
@@ -47,6 +47,9 @@ def add_ns(ns_name):
     if result.returncode != 0:
         show_alert(result.stderr)
 
+def rm_ns(ns_name, net_namespace_frame):
+    # command for removing namespace 
+    show_remove_ns(ns_name, net_namespace_frame)
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
@@ -77,7 +80,7 @@ def set_ips(netns, device1, device2, ip1, ip2):
 def show_added_ns(ns_name, net_namespace_frame, root):
     net_ns = get_net_namespaces()
     num_ns = len(net_ns.split('\n')[:-1])
-    ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns_name))
+    ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns, net_namespace_frame))
     ns_btn.grid(row = num_ns+1, column = 0)
 
 def show_remove_ns(ns_name, net_namespace_frame, root):

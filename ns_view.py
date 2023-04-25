@@ -6,10 +6,11 @@ import utils, add_device
 
 #new window to view a namespace (on click of namespace name)
 class NSView:
-    def __init__(self, root, ns):
+    def __init__(self, root, ns, net_namespace_frame):
         self.root = root
         self.frame = Frame(root)
         self.ns = ns.split("(id")[0]
+        self.net_namespace_frame = net_namespace_frame
         self.net_ns_view()
     def net_ns_view(self):
         ns_view = Toplevel(self.root)
@@ -32,9 +33,14 @@ class NSView:
         add_device_btn.grid(row=1, column=1)
 
         delete_ns_btn = Button (ns_view, text = "Delete Namespace", command = lambda : 
-            self.delete_ns(self.ns.strip()))
+            self.delete_ns(self.ns.strip(), self.net_namespace_frame))
         delete_ns_btn.grid(row=2, column=1)
 
+        port_forward_btn = Button(ns_view, text = "Add Port for Forwarding", command = lambda \
+            ns = self.ns.strip() : self.open_port_forwarding_window(ns))
+        port_forward_btn.grid(row=3, column=1)
+    def open_port_forwarding_window():
+        print("window for port forwarding")
 
     def open_add_device_window(self, ns_view):
         add_device.AddDevice(self.root, ns_view, self.ns)
