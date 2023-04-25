@@ -187,13 +187,15 @@ def get_peer(ns, veth):
     peer_ifindex = int(subprocess.check_output(command_str, shell=True))
     print(peer_ifindex)
 
-    command_str = "ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+""
+    command_str = "ip netns exec "+str(ns)+" ip link show | grep '^" +str(peer_ifindex)+":'"
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
         return
-    device_name_2 = result.stdout
-    print(device_name_2.split('\n'))
+    print(result.stdout)
+    # devices = result.stdout.split('\n')[1:]
+    # devices = [s.strip() for s in devices if s.strip()]
+    # print(devices, len(devices))
         
 def get_ns(ns_name):
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
