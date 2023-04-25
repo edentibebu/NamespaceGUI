@@ -42,12 +42,15 @@ def add_ns(ns_name, net_namespace_frame, root):
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
+        return
     ## Adding Loopback
     command_str = 'ip netns exec ' + str(ns_name) + ' ip link set dev lo up'
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
+        return
     update_ns(net_namespace_frame, root)
+
 def rm_ns(ns_name, net_namespace_frame, root):
     print("removing ", ns_name.strip())
     command_str = "ip netns delete " + ns_name.strip()
