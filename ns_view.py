@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 #from test import delete_ns
-import utils, add_device
+import utils, add_device, port_forwarding
 
 #new window to view a namespace (on click of namespace name)
 class NSView:
@@ -39,8 +39,9 @@ class NSView:
         port_forward_btn = Button(ns_view, text = "Add Port for Forwarding", command = lambda \
             ns = self.ns.strip() : self.open_port_forwarding_window(ns))
         port_forward_btn.grid(row=3, column=1)
-    def open_port_forwarding_window():
+    def open_port_forwarding_window(self, ns):
         print("window for port forwarding")
+        port_forwarding.PortForwarding(self.root, self.net_namespace_frame, ns)
 
     def open_add_device_window(self, ns_view):
         add_device.AddDevice(self.root, ns_view, self.ns)
