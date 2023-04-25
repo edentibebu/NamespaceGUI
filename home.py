@@ -14,7 +14,6 @@ class Home:
         self.root = root
         self.frame = Frame(root)
         self.home()
-        #self.display_ns()
 
     def home(self):
         # Add Namespace button
@@ -22,10 +21,11 @@ class Home:
             net_namespace_frame = self.root: self.open_add_ns_window(net_namespace_frame))
         add_ns_btn.grid(row=0, column=1)
 
-    def display_ns(self):
         net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
         net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+        self.display_ns(net_namespace_frame)
 
+    def display_ns(self, net_namespace_frame):
         # List namespaces 
         utils.list_namespaces(self.root, net_namespace_frame)
 
@@ -33,7 +33,6 @@ class Home:
     def open_add_ns_window(self, net_namespace_frame):
         #top = Toplevel(self.root)
         add_net_ns.AddNS(self.root, net_namespace_frame)
-        print(type(net_namespace_frame))
 #     def show_ns_view(self):
 #         self.frame.destroy()  # destroy the current frame
 #         page2.PageTwo(self.root)  # create the page 2 frame
