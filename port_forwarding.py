@@ -33,14 +33,15 @@ class PortForwarding:
                 # device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="sunken", bd=2)
                 # device1.grid(row=2, column=1)
 
-                #create dropdown with list of other namespaces   
-                # device2 = tk.StringVar()
-                # device2.set(namespaces_list[0])
-                # dropdown_menu = tk.OptionMenu(add_device_window, device2, *namespaces_list)
-                # dropdown_menu.grid(row=2, column=2)      
-                # Label(add_device_window, text ="Subnet: " + subnet).grid(row=3, column=0)
-                # Label(add_device_window, text = "Device numbers").grid(row=4, column=0)
+                # create dropdown with list of other namespaces   
+                device2 = tk.StringVar()
+                device2.set(namespaces_list[0])
+                dropdown_menu = tk.OptionMenu(port_forward_window, device2, *namespaces_list) ## change namespaces list to something else
+                dropdown_menu.grid(row=2, column=2)      
+                #Label(port_forward_window, text ="Subnet: " + subnet).grid(row=3, column=0)
+                Label(port_forward_window, text = "Device numbers").grid(row=4, column=0)
 
+                
                 # #get subnet, leave entry for device numbers
                 # device1_num = Entry(add_device_window)
                 # device1_num.grid(row=4, column=1)

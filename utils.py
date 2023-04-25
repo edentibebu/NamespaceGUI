@@ -60,6 +60,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
         return
     # command for removing namespace 
     update_ns(net_namespace_frame, root)
+    # TODO: unoccupy_devices() ## Remove devices from our list
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
