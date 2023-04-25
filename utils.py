@@ -48,8 +48,9 @@ def add_ns(ns_name):
         show_alert(result.stderr)
 
 def rm_ns(ns_name, net_namespace_frame):
+    print("removing ", ns_name.strip())
     # command for removing namespace 
-    show_remove_ns(ns_name, net_namespace_frame)
+    show_remove_ns(net_namespace_frame)
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)
@@ -83,7 +84,7 @@ def show_added_ns(ns_name, net_namespace_frame, root):
     ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns, net_namespace_frame))
     ns_btn.grid(row = num_ns+1, column = 0)
 
-def show_remove_ns(ns_name, net_namespace_frame, root):
+def show_remove_ns(net_namespace_frame, root):
     net_ns = get_net_namespaces()
     net_namespace_frame.destroy()
     net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
