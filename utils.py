@@ -193,7 +193,7 @@ def get_peer(ns, veth):
         show_alert(result.stderr)
         return
     device_name_2 = result.stdout
-    print(device_name_2.split('\n')[1:])
+    print(device_name_2.split('\n'))
         
 def get_ns(ns_name):
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
