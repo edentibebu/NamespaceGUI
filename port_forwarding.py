@@ -41,7 +41,7 @@ class PortForwarding:
                 #Label(port_forward_window, text ="Subnet: " + subnet).grid(row=3, column=0)
                 Label(port_forward_window, text = "Device numbers").grid(row=4, column=0)
 
-                
+
                 # #get subnet, leave entry for device numbers
                 # device1_num = Entry(add_device_window)
                 # device1_num.grid(row=4, column=1)
