@@ -37,7 +37,8 @@ class PortForwarding:
                 veths_list = []
                 for ns in namespaces_list:
                     veths = utils.get_veths(ns)
-                    veths_list.append(veths)
+                    if veths:
+                        veths_list.append(veths)
                     print(veths)
                 Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0) 
                 device2 = tk.StringVar()
