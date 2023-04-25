@@ -195,6 +195,9 @@ def get_peer(ns, veth):
     devices = result.stdout.split('\n')[1:]
     devices = [s.strip() for s in devices if s.strip()]
     print(devices, len(devices))
+    for device in devices:
+        if "link-netns" in device:
+            print(device.split(' ')[-1])
         
 def get_ns(ns_name):
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
