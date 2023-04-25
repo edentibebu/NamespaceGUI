@@ -90,7 +90,7 @@ def show_added_ns(ns_name, net_namespace_frame, root):
     ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns, net_namespace_frame))
     ns_btn.grid(row = num_ns+1, column = 0)
 
-def show_remove_ns(net_namespace_frame, root):
+def update_ns(net_namespace_frame, root):
     net_ns = get_net_namespaces()
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
