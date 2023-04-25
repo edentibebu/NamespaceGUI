@@ -185,7 +185,7 @@ def get_peer(ns, veth):
     peer_ifindex = int(subprocess.check_output("sudo ip netns exec " + str(ns) + " ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'", shell=True))
     print(peer_ifindex)
     device_name_2 = subprocess.check_output("ip netns exec "+str(ns)+" ip link show | grep " +str(peer_ifindex)+"", shell=True)
-    print(device_name_2)
+    print(device_name_2.split('\n')[1:])
         
 def get_ns(ns_name):
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
