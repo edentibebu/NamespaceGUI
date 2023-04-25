@@ -33,6 +33,7 @@ class Home:
     def open_add_ns_window(self, net_namespace_frame):
         #top = Toplevel(self.root)
         add_net_ns.AddNS(self.root, net_namespace_frame)
+        net_namespace_frame.destroy()
 #     def show_ns_view(self):
 #         self.frame.destroy()  # destroy the current frame
 #         page2.PageTwo(self.root)  # create the page 2 frame

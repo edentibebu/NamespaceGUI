@@ -10,9 +10,9 @@ class AddNS:
         self.frame = tk.Frame(root)
         #self.label = tk.Label(self.frame, text="This is to Add Net Namespace")
         self.net_namespace_frame = net_namespace_frame
-        self.add_net_ns_window(self.net_namespace_frame)
+        self.add_net_ns_window()
 
-    def add_net_ns_window(self, net_namespace_frame):
+    def add_net_ns_window(self):
         add_net_ns_window = Toplevel(self.root)
         add_net_ns_window.title("Add New Network Namespace")
         if(utils.checkuid[0] == "0"):

@@ -94,6 +94,7 @@ def set_ips(netns, device1, device2, ip1, ip2):
 #     ns_btn.grid(row = num_ns+1, column = 0)
 
 def update_ns(net_namespace_frame, root):
+    print("updating")
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
     #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
