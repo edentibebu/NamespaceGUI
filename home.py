@@ -27,7 +27,7 @@ class Home:
         net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
 
         # List namespaces 
-        utils.list_namespaces(self.root, self.root)
+        utils.list_namespaces(self.root, net_namespace_frame)
 
     
     def open_add_ns_window(self, net_namespace_frame):
