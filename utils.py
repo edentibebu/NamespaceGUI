@@ -35,6 +35,7 @@ def list_namespaces(root, namespace_frame):
     for i, ns in enumerate(net_ns_list):
         ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, namespace_frame))
         ns_btn.grid(row = i+1, column = 0)
+
 ### ADD NS WINDOW ###
 def add_ns(ns_name):
     command_str = "ip netns add " + str(ns_name)
@@ -49,6 +50,11 @@ def add_ns(ns_name):
 
 def rm_ns(ns_name, net_namespace_frame):
     print("removing ", ns_name.strip())
+    command_str = "ip netns delete " + ns_name.strip()
+    result = subprocess.run(command_str, text=True, capture_output=True shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+        return
     # command for removing namespace 
     show_remove_ns(net_namespace_frame)
 def add_veth(netns, device1, device2):
