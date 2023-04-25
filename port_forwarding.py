@@ -17,7 +17,7 @@ class PortForwarding:
         self.port_forwarding_window(self.ns_view)
     def port_forwarding_window(self, ns_view):
         if(utils.checkuid[0] == "0"):
-            Label(self.ns_view, text = self.ns).grid(row=0, column=0)
+            Label(self.ns_view, text = ("Port forwarding with " + self.ns)).grid(row=0, column=0)
 
             #get list of other namespaces in the same subnet
             namespaces_list = utils.get_ns(self.ns)
@@ -37,9 +37,15 @@ class PortForwarding:
                 device2 = tk.StringVar()
                 device2.set(namespaces_list[0])
                 dropdown_menu = tk.OptionMenu(port_forward_window, device2, *namespaces_list) ## change namespaces list to something else
-                dropdown_menu.grid(row=2, column=2)      
+                Label(port_forward_window, text="Select Device: ").grid(row=1, column=0)
+                dropdown_menu.grid(row=1, column=1)      
                 #Label(port_forward_window, text ="Subnet: " + subnet).grid(row=3, column=0)
-                Label(port_forward_window, text = "Device numbers").grid(row=4, column=0)
+                Label(port_forward_window, text = "Forward from").grid(row=2, column=0)
+                forward_from = Entry(port_forward_window)
+                forward_from.grid(row=2, column=1)
+                forward_to = Entry(port_forward_window)
+                forward_to.grid(row=2, column=3)
+                Label(port_forward_window, text="Forward to").grid(row=2, column=2)
 
 
                 # #get subnet, leave entry for device numbers
