@@ -15,7 +15,7 @@ def inotify():
                 lines = file.readlines()
                 if lines:
                     last_line = lines[-1]
-                    print(last_line)
+                    print("last line", last_line)
                 last_modified = current_modified
             time.sleep(0.1)
 
