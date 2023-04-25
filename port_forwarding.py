@@ -34,10 +34,15 @@ class PortForwarding:
                 # device1.grid(row=2, column=1)
 
                 # create dropdown with list of other namespaces  
+                veths_list = []
+                for ns in namespaces_list:
+                    veths = utils.get_veths(ns)
+                    veths_list.append(veths)
+                    print(veths)
                 Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0) 
                 device2 = tk.StringVar()
                 device2.set(namespaces_list[0])
-                dropdown_menu = tk.OptionMenu(port_forward_window, device2, *namespaces_list) ## change namespaces list to something else
+                dropdown_menu = tk.OptionMenu(port_forward_window, device2, *veths_list) ## change namespaces list to something else
                 Label(port_forward_window, text="Select Device: ").grid(row=1, column=0)
                 dropdown_menu.grid(row=1, column=1)      
                 #Label(port_forward_window, text ="Subnet: " + subnet).grid(row=3, column=0)
