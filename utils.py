@@ -48,7 +48,7 @@ def add_ns(ns_name):
     if result.returncode != 0:
         show_alert(result.stderr)
 
-def rm_ns(ns_name, net_namespace_frame):
+def rm_ns(ns_name, net_namespace_frame, root):
     print("removing ", ns_name.strip())
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
@@ -56,7 +56,7 @@ def rm_ns(ns_name, net_namespace_frame):
         show_alert(result.stderr)
         return
     # command for removing namespace 
-    show_remove_ns(net_namespace_frame)
+    show_remove_ns(net_namespace_frame, root)
 def add_veth(netns, device1, device2):
     command_str = "sudo ip link add " +str(device1) +" type veth peer name " +str(device2)+"; sudo ip link set " +str(device2)+" netns "+str(netns)
     result = subprocess.run((command_str), text=True, stderr=subprocess.PIPE, shell=True)

@@ -33,7 +33,7 @@ class NSView:
         add_device_btn.grid(row=1, column=1)
 
         delete_ns_btn = Button (ns_view, text = "Delete Namespace", command = lambda : 
-            self.delete_ns(self.ns.strip(), self.net_namespace_frame))
+            utils.rm_ns(self.ns.strip(), self.net_namespace_frame, self.root))
         delete_ns_btn.grid(row=2, column=1)
 
         port_forward_btn = Button(ns_view, text = "Add Port for Forwarding", command = lambda \
@@ -44,6 +44,3 @@ class NSView:
 
     def open_add_device_window(self, ns_view):
         add_device.AddDevice(self.root, ns_view, self.ns)
-    
-    def delete_ns(self, ns, net_namespace_frame):
-        utils.rm_ns(ns, net_namespace_frame)
