@@ -74,12 +74,19 @@ def set_ips(netns, device1, device2, ip1, ip2):
     if result.returncode != 0:
         show_alert(result.stderr)
 
-def update_ns_list(ns_name, net_namespace_frame, root):
+def show_added_ns(ns_name, net_namespace_frame, root):
     net_ns = get_net_namespaces()
     num_ns = len(net_ns.split('\n')[:-1])
     ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns_name))
     ns_btn.grid(row = num_ns+1, column = 0)
 
+def show_remove_ns(ns_name, net_namespace_frame, root):
+    net_ns = get_net_namespaces()
+    net_namespace_frame.destroy()
+    net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
+    net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+    # List namespaces 
+    list_namespaces(root, net_namespace_frame)
 #### NET NS VIEW ####
 def disp_routing():
     output = subprocess.check_output("ip netns exec ns1 route", shell=True)
@@ -175,9 +182,9 @@ def show_devices(ns_view, ns):
         device = Label(ns_view, text= "device " + veth + " is connected to " + peer_ns)
         device.grid(row = i+1, column = 0)
 
-def update_device_list(device1_num, device2_num, ns1, ns2, ns_view):
+def update_device_list(device1_num, ns1, ns2, ns_view):
     num_veths = len(get_veths(ns1))
-    text = "device " + device1_num + " is connected to " + "device " + device2_num + " in network namespace " + ns2
+    text = "device " + device1_num + " is connected to " + ns2
 
     ns_btn = Label(ns_view, text=text)
     ns_btn.grid(row = num_veths+1, column = 0)

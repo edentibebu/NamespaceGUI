@@ -13,7 +13,14 @@ class Home:
     def __init__(self, root):
         self.root = root
         self.frame = Frame(root)
+        self.home()
         self.display_ns()
+
+    def home(self):
+        # Add Namespace button
+        add_ns_btn = Button(self.root, text="+", command = lambda \
+            net_namespace_frame = self.root: self.open_add_ns_window(net_namespace_frame))
+        add_ns_btn.grid(row=0, column=1)
 
     def display_ns(self):
         net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
@@ -22,10 +29,6 @@ class Home:
         # List namespaces 
         utils.list_namespaces(self.root, net_namespace_frame)
 
-        # Add Namespace button
-        add_ns_btn = Button(net_namespace_frame, text="+", command = lambda \
-            net_namespace_frame = net_namespace_frame: self.open_add_ns_window(net_namespace_frame))
-        add_ns_btn.grid(row=0, column=1)
     
     def open_add_ns_window(self, net_namespace_frame):
         #top = Toplevel(self.root)
