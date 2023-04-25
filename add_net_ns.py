@@ -33,4 +33,4 @@ class AddNS:
             utils.show_alert("you must specify the namespace name in order to add a network namespace.")
         else:
             utils.add_ns(ns_name)
-            utils.update_ns(ns_name, net_namespace_frame, self.root)
+            utils.update_ns(net_namespace_frame, self.root)
