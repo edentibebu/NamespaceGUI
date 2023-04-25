@@ -193,7 +193,7 @@ def show_devices(ns_view, ns):
     veths = get_veths(ns)
     for i, veth in enumerate(veths): 
         print("GETTING PEERS for " + veth)
-        peer_ns = (get_peer(ns, veth))
+        peer_ns = get_peer(ns, veth)
         print(peer_ns)
         device = Label(ns_view, text= "device " + veth + " is connected to " + peer_ns)
         device.grid(row = i+1, column = 0)
@@ -216,10 +216,12 @@ def get_peer(ns, veth):
     if(result.returncode != 0):
         show_alert(result.stderr)
         return
+    print(result.stdout)
     devices = result.stdout.split('\n')[1:]
     devices = [s.strip() for s in devices if s.strip()]
     print(devices, len(devices))
     for device in devices:
+        print(device)
         if "link-netns" in device:
             peer = device.split(' ')[-1]
     return peer
