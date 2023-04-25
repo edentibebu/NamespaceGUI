@@ -22,15 +22,16 @@ class AddNS:
 
             #TODO: add functionality to make placeholder text grey that goes away after clicking in cell
 
-            add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: self.add(net_namespace_frame, ns_name))
+            add_ns_btn = Button(add_net_ns_window, text='Submit', command = lambda: self.add(ns_name))
             add_ns_btn.grid(row=5, column=4)
             
         else:
             Label(add_net_ns_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
-    def add(self, net_namespace_frame, ns_name):
+    def add(self, ns_name):
         ns_name = ns_name.get()
         if not ns_name:
             utils.show_alert("you must specify the namespace name in order to add a network namespace.")
         else:
+            print(self.net_namespace_frame)
             utils.add_ns(ns_name, self.net_namespace_frame, self.root)
             #utils.update_ns(net_namespace_frame, self.root)
