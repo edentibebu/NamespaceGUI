@@ -17,12 +17,13 @@ class Home:
 
     def home(self):
         # Add Namespace button
-        add_ns_btn = Button(self.root, text="+", command = lambda \
-            net_namespace_frame = self.root: self.open_add_ns_window(net_namespace_frame))
-        add_ns_btn.grid(row=0, column=1)
-
         net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
         net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+        add_ns_btn = Button(self.root, text="+", command = lambda \
+            net_namespace_frame = net_namespace_frame: self.open_add_ns_window(net_namespace_frame))
+        add_ns_btn.grid(row=0, column=1)
+
+   
         self.display_ns(net_namespace_frame)
 
     def display_ns(self, net_namespace_frame):
@@ -33,8 +34,7 @@ class Home:
     def open_add_ns_window(self, net_namespace_frame):
         #top = Toplevel(self.root)
         add_net_ns.AddNS(self.root, net_namespace_frame)
-        for widget in net_namespace_frame.winfo_children():
-            widget.destroy()
+
 #     def show_ns_view(self):
 #         self.frame.destroy()  # destroy the current frame
 #         page2.PageTwo(self.root)  # create the page 2 frame
