@@ -40,7 +40,7 @@ class HostPortForwarding:
             forward_to.grid(row=2, column=3)
             Label(port_forward_window, text="Forward to").grid(row=2, column=2)
 
-            host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: host_ip_forwarding(device1, device2, forward_from, forward_to))
+            host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: self.host_ip_forwarding(device1, device2, forward_from, forward_to))
             host_port_fwd.grid(row=4, column=4)
         def host_ip_forwarding(self, device1, device2, forward_from, forward_to):
             utils.create_veth(self.ns, device1.get(), device2.get(), ('10.1.1.'+ forward_from.get()))
