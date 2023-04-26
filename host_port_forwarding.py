@@ -8,8 +8,10 @@ from tkinter.font import names
 import utils
 
 class HostPortForwarding:
-    def __init__(self, root):
+    def __init__(self, root, ns_view, ns):
         self.root = root
+        self.ns_view = ns_view
+        self.ns = ns
         self.host_port_forwarding_window()
         
     def host_port_forwarding_window(self):
