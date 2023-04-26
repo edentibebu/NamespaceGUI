@@ -20,7 +20,7 @@ class PortForwarding:
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)
 
             #get list of other namespaces in the same subnet
-            namespaces_list = utils.get_ns(self.ns)
+            namespaces_list = utils.get_ns(self.ns.strip())
             if len(namespaces_list) < 1:
                 utils.show_alert("you must have more than one namespace created in order to connect via Veth ports.")
                 return
