@@ -28,8 +28,11 @@ def inotify():
 
 root = Tk()
 root.title("Namespace GUI: Home")
+print("launching home")
 home.Home(root)
 
+print("starting thread")
 thread = threading.Thread(target=inotify)
 thread.start()
+print("main loop")
 root.mainloop()
