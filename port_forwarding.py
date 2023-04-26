@@ -15,7 +15,9 @@ class PortForwarding:
         self.ns_view = ns_view
         self.ns = ns.split("(id")[0]
         self.port_forwarding_window(self.ns_view)
+        self.subnet = "10.1.1."
     def port_forwarding_window(self, ns_view):
+        
         if(utils.checkuid[0] == "0"):
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)
 
@@ -63,5 +65,5 @@ class PortForwarding:
                 forward_to.grid(row=2, column=3)
                 Label(port_forward_window, text="Forward to").grid(row=2, column=2)
                 
-                add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: self.add_device(port_forward_window))
+                add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_ns_ip_forwarding(self.subnet, device1.get(), device2.get(), forward_from, forward_to))
                 add_ns_btn.grid(row=4, column=4)
