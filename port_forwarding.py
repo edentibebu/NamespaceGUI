@@ -47,15 +47,15 @@ class PortForwarding:
                 #devs1_list.extend(devices1)
                 Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0) 
 
-                device1 = tk.StringVar()
-                device1.set(devs1_list[0])
+         
 
                 dropdown_list = []
 
                 for dev in devs1_list:
                     peer_ns = utils.get_peer(self.ns, dev)
                     dropdown_list.append("add " + dev + " to " +  peer_ns)
-
+                device1 = tk.StringVar()
+                device1.set(dropdown_list[0])
                 dropdown_menu = tk.OptionMenu(port_forward_window, device1, *dropdown_list)
                 
                 Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0)
