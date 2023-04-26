@@ -160,11 +160,18 @@ def enable_ns_to_ns_ip_forwarding(device1, port1, port2, ip1, ip2):
 def enable_ns_to_ns_ip_forwarding_copy():
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     subprocess.check_output("iptables -t nat -A PREROUTING -i veth1 -p tcp --dport 80 -j DNAT --to-destination 10.1.1.2:8080", shell=True)
- 
+
+
+def run_python_server(ns2, port2):
+    subprocess.run("ip netns exec "+str(ns2)+" python -m http.server "+str(port2)+"", shell=True)
+
+def verify_ns_to_ns_port_forwarding(ns1, device2, port2):
+    subprocess.run("ip netns exec "+str(ns1)+" lynx http://10.1.1."+str(device2)+":"+str(port2)+"", shell=True)
+
 #get_peer()
 
-create_veth_pairs3()
-enable_ns_to_ns_ip_forwarding_copy()
+#create_veth_pairs3()
+#enable_ns_to_ns_ip_forwarding_copy()
 
 #create_veth_pairs3()
 #enable_ip_forwarding()
