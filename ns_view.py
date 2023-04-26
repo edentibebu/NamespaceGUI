@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
+from test import get_veths
 #from test import delete_ns
 import utils, add_device, port_forwarding
 
@@ -41,6 +42,9 @@ class NSView:
         port_forward_btn.grid(row=3, column=1)
 
     def open_port_forwarding_window(self, ns, ns_view):
+        veths = get_veths(ns)
+        if len(veths) == 0:
+            utils.show_alert("you must have at least one device created in order to forward the port.")
         print("window for port forwarding")
         port_forwarding.PortForwarding(self.root, ns_view, ns)
 
