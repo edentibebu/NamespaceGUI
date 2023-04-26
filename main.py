@@ -22,7 +22,6 @@ def inotify():
                         if last_line == gui_lines[-1]:
                             print("GUI!!!")
                     utils.show_alert(last_line)
-                    print("last line", last_line)
                 last_modified = current_modified
             time.sleep(0.1)
 
