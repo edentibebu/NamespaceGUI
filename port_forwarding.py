@@ -72,5 +72,5 @@ class PortForwarding:
                 ## get namespace associated to a device
 
 
-                #add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_ns_ip_forwarding('10.1.1.', device1.get(), device2.get(), forward_from.get(), forward_to.get(), ns2))
-                #add_ns_btn.grid(row=4, column=4)
+                # add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_ns_ip_forwarding('10.1.1.', device1.get(), forward_from.get(), forward_to.get(), ns2))
+                # add_ns_btn.grid(row=4, column=4)
