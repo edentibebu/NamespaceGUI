@@ -7,7 +7,7 @@ import threading
 def inotify():
     inotify_process = subprocess.Popen(["sudo", "./inotify_gui", "/var/run/netns", "output.txt"])
     filename = 'output.txt'
-    gui_log = open('gui_log.txt', 'r')
+    gui_log = 'gui_log.txt'
     time.sleep(2)
     last_modified = os.path.getmtime(filename)
     while(True):
@@ -17,11 +17,12 @@ def inotify():
                 lines = f.readlines()
                 if lines:
                     last_line = lines[-1]
-                    gui_lines = gui_log.readlines()
-                    if gui_lines:
-                        if last_line != gui_lines[-1]:
-                            print("command line changes!!!")
-                            utils.show_alert(last_line)
+                    with open(gui_log, 'r') as g:
+                        gui_lines = g.readlines()
+                        if gui_lines:
+                            if last_line != gui_lines[-1]:
+                                print("command line changes!!!")
+                                utils.show_alert(last_line)
                 last_modified = current_modified
             time.sleep(0.1)
 
