@@ -7,6 +7,7 @@ import threading
 def inotify():
     inotify_process = subprocess.Popen(["sudo", "./inotify_gui", "/var/run/netns", "output.txt"])
     filename = 'output.txt'
+    time.sleep(2)
     last_modified = os.path.getmtime(filename)
     while(True):
         current_modified = os.path.getmtime(filename)
