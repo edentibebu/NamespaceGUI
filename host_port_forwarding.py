@@ -44,4 +44,4 @@ class HostPortForwarding:
             host_port_fwd.grid(row=4, column=4)
         def host_ip_forwarding(self, device1, device2, forward_from, forward_to):
             utils.create_veth(self.ns, device1.get(), device2.get(), ('10.1.1.'+ forward_from.get()))
-            utils.enable_ns_to_host_ip_forwarding(self.ns, device1.get(), forward_from.get(), forward_to.get())
+            utils.enable_ns_to_host_ip_forwarding('10.1.1.', device1.get(), forward_from.get(), forward_to.get())
