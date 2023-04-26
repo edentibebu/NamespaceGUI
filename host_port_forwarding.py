@@ -14,7 +14,7 @@ class HostPortForwarding:
         self.ns = ns
         self.host_port_forwarding_window(self.ns_view)
         
-    def host_port_forwarding_window(self):
+    def host_port_forwarding_window(self, ns_view):
         
         if(utils.checkuid[0] == "0"):
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)

@@ -41,7 +41,7 @@ class NSView:
             ns = self.ns.strip() : self.open_port_forwarding_window(ns, ns_view))
         port_forward_btn.grid(row=3, column=1)
         
-        host_port_forward_btn = Button(ns_view, text = "Port Forward to Another Namespace", command = lambda \
+        host_port_forward_btn = Button(ns_view, text = "Port Forward to Host", command = lambda \
             ns = self.ns.strip() : self.open_host_port_forwarding_window(ns, ns_view))
         host_port_forward_btn.grid(row=4, column=1)
     def open_port_forwarding_window(self, ns, ns_view):
