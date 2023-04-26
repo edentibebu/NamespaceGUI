@@ -221,6 +221,7 @@ def get_ns(ns_name):
 
     #list of all namespaces
     ns_list = list(filter(lambda s: s != "", ns_list))
+    print(ns_list, ns_name)
     if ns_name in ns_list:
         ns_list.remove(ns_name)
     return ns_list
