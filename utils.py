@@ -111,6 +111,7 @@ def get_veths(ns):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
+    print(result.stdout)
     devs_list = (result.stdout).split("\n")[0::2]
     for i, dev in enumerate(devs_list):
         devs_list[i] = dev.split("@")[0]
@@ -232,6 +233,7 @@ def enable_ns_to_host_ip_forwarding(port1, port2):
     subprocess.check_output("iptables -t nat -A OUTPUT -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), shell=True)
 
 def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
+    print("enable_ns_to_ns_ip_forwarding")
     ip2 = subnet + device2
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip2)+":"+str(port2), text=True, check_output=True, shell=True)
