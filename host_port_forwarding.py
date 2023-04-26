@@ -12,7 +12,7 @@ class HostPortForwarding:
         self.root = root
         self.ns_view = ns_view
         self.ns = ns
-        self.host_port_forwarding_window()
+        self.host_port_forwarding_window(self.ns_view)
         
     def host_port_forwarding_window(self):
         
@@ -23,9 +23,27 @@ class HostPortForwarding:
             namespaces_list = utils.get_ns(self.ns.strip())
  
             port_forward_window = Toplevel(self.root)
-            port_forward_window.title("Port Forwarding")
-            # Label(add_device_window, text ="VEth Pairs:").grid(row=2, column=0)
-            # Label(add_device_window, text ="Device 1:").grid(row=1, column=1)
+            port_forward_window.title("Host Port Forwarding")
+
+            devs1_list = []
+            devices1 = utils.get_veths(self.ns)
+            devs1_list.extend(devices1)
+            Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0)
+
+            device1 = tk.StringVar()
+            device1.set(devs1_list[0])
+            dropdown_menu1 = tk.OptionMenu(port_forward_window, device1, *devs1_list) 
+            
+            Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0)
+            dropdown_menu1.grid(row=1,column=1)     
+
+            Label(port_forward_window, text = "Forward from").grid(row=2, column=0)
+            forward_from = Entry(port_forward_window)
+            forward_from.grid(row=2, column=1)
+            forward_to = Entry(port_forward_window)
+            forward_to.grid(row=2, column=3)
+            Label(port_forward_window, text="Forward to").grid(row=2, column=2)        
+            # Label(add_device_window, text ="Device 1").grid(row=1, column=1)
             # Label(add_device_window, text ="Device 2:").grid(row=1, column=2)
             # device1 = Label(add_device_window, text=self.ns, bg = 'white', relief="sunken", bd=2)
             # device1.grid(row=2, column=1)
