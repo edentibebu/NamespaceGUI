@@ -30,12 +30,10 @@ class HostPortForwarding:
             devs1_list.extend(devices1)
             Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0)
 
-            device1 = tk.StringVar()
-            device1.set(devs1_list[0])
-            dropdown_menu1 = tk.OptionMenu(port_forward_window, device1, *devs1_list) 
+            device1 = Entry(port_forward_window)
+            device1.grid(row=1, column=1)
             
-            Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0)
-            dropdown_menu1.grid(row=1,column=1)     
+            Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0) 
 
             Label(port_forward_window, text = "Forward from").grid(row=2, column=0)
             forward_from = Entry(port_forward_window)
