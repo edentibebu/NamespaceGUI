@@ -84,7 +84,7 @@ int main(int argc, char* argv[]){
 				   printf("could not open file. press crtl-c to exit\n");
 				   while(1){}
 				}
-				fprintf(fs,"%s was deleted. \n", event->name);
+				fprintf(fs,"%s was deleted \n", event->name);
 				fflush(fs);
 			}
 		}

@@ -5,3 +5,6 @@ ns7 was created
 ns8 was created 
 ns10 was created 
 ns10 was created 
+ns1 was created 
+ns2 was created 
+ns3 was created 
