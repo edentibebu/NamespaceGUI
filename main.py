@@ -19,9 +19,9 @@ def inotify():
                     last_line = lines[-1]
                     gui_lines = gui_log.readlines()
                     if gui_lines:
-                        if last_line == gui_lines[-1]:
-                            print("GUI!!!")
-                    utils.show_alert(last_line)
+                        if last_line != gui_lines[-1]:
+                            print("command line changes!!!")
+                            utils.show_alert(last_line)
                 last_modified = current_modified
             time.sleep(0.1)
 
