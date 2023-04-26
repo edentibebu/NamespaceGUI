@@ -35,6 +35,7 @@ class PortForwarding:
 
                 # create dropdown with list of other namespaces  
                 devs1_list, devs2_list = [], []
+                print(namespaces_list)
                 for ns in namespaces_list:
                     veths = utils.get_veths(ns)
                     if veths:
