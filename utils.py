@@ -217,12 +217,13 @@ def get_ns(ns_name):
     ns_list = result.stdout.split('\n')
 
     for i, ns in enumerate(ns_list):
-        ns_list[i] = ns.split('(id')[0] #clean up outputaa
+        ns_list[i] = ns.split('(id')[0] #clean up outputs
 
     #list of all namespaces
     ns_list = list(filter(lambda s: s != "", ns_list))
     print(ns_list, ns_name)
     if ns_name in ns_list:
+        print ("HERE")
         ns_list.remove(ns_name)
     return ns_list
 
