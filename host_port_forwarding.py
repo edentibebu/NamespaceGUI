@@ -44,5 +44,5 @@ class HostPortForwarding:
             forward_to.grid(row=2, column=3)
             Label(port_forward_window, text="Forward to").grid(row=2, column=2)
 
-            host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_host_ip_forwarding(device1.get(), forward_from.get(), forward_to.get()))
+            host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_host_ip_forwarding(self.ns, device1.get(), forward_from.get(), forward_to.get()))
             host_port_fwd.grid(row=4, column=4)

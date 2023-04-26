@@ -232,10 +232,12 @@ def get_ns(ns_name):
         ns_list.remove(ns_name)
     return ns_list
 
-def enable_ns_to_host_ip_forwarding(device1, port1, port2):
+def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
     print("enable_ns_to_host_ip_forwarding")
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     subprocess.check_output("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), shell=True)
+    
+    result = subprocess.run("ip netns exec "+str(ns1)+" python -m http.server "+str(port2)+"", text=True, capture_output=True, shell=True)
 
 def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
     print(subnet, type(device1), type(device2), port1, port2)
@@ -247,7 +249,6 @@ def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
         show_alert(result.stderr)
         return
     
-    result = subprocess.run("ip netns exec "+str(ns2)+" python -m http.server "+str(port2)+"", text=True, capture_output=True, shell=True)
 
 
 # ### TOP 5 PROCESSES ###
