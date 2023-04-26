@@ -163,8 +163,8 @@ def enable_ns_to_ns_ip_forwarding_copy():
  
 #get_peer()
 
-create_veth_pairs3()
-enable_ns_to_ns_ip_forwarding_copy()
+#create_veth_pairs3()
+#enable_ns_to_ns_ip_forwarding_copy()
 
 #create_veth_pairs3()
 #enable_ip_forwarding()

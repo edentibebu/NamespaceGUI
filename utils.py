@@ -54,6 +54,8 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
+    with open("gui_log.txt","a") as f:
+        f.write(ns_name + " was deleted \n")
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
