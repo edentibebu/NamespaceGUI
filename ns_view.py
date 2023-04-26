@@ -51,7 +51,7 @@ class NSView:
         print("window for port forwarding")
         port_forwarding.PortForwarding(self.root, ns_view, ns)
     def open_host_port_forwarding_window(self, ns, ns_view):
-        port_forwarding.HostPortForwarding()
+        host_port_forwarding.HostPortForwarding()
 
     def open_add_device_window(self, ns_view):
         add_device.AddDevice(self.root, ns_view, self.ns)
