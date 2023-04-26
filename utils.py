@@ -72,26 +72,17 @@ def create_veth_pairs(ns, device1, device2, ip1, ip2):
     subprocess.run("sudo ip addr add "+str(ip1)+"/24 dev "+str(device1)+"; sudo ip netns exec "+str(ns)+" ip addr add "+str(ip2)+"/24 dev "+str(device2)+"", shell=True)
     subprocess.run("sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(ns)+" ip link set "+str(device2)+" up", shell=True)
 
-
-
 def set_one_ip(netns, device1, device2, ip):
     command_str = "sudo ip addr add "+str(ip)+"/24 dev "+str(device2)+"; sudo ip link set "+str(device1)+" up; sudo ip netns exec "+str(netns)+" ip link set "+str(device2) +" up"
     result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
 
-
 def set_ips(netns, device1, device2, ip1, ip2):
     command_str = "sudo ip addr add "+str(ip1)+"/24 dev "+str(device1)+"; sudo ip netns exec "+str(netns)+" ip addr add "+str(ip2)+"/24 dev "+str(device2)+""
     result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
-
-# def show_added_ns(ns_name, net_namespace_frame, root):
-#     net_ns = get_net_namespaces()
-#     num_ns = len(net_ns.split('\n')[:-1])
-#     ns_btn = Button(net_namespace_frame, text=ns_name, command=lambda ns=ns_name: ns_view.NSView(root, ns, net_namespace_frame))
-#     ns_btn.grid(row = num_ns+1, column = 0)
 
 def update_ns(net_namespace_frame, root):
     print("updating")
@@ -113,10 +104,6 @@ def list_sockets():
     sockets = output.decode()
     print(sockets)
     return sockets
-
-def bridge(bridge):
-    output = subprocess.check_output("sudo ip link add name "+str(bridge)+" type bridge", shell=True)
-    return output
 
 def get_veths(ns):
     command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show type veth;"
@@ -243,26 +230,35 @@ def port_forward(ns, device1, device2, ip1, ip2, port1, port2):
     print("port forwarded")
     return output
 
+def enable_ns_to_host_ip_forwarding(port1, port2):
+    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+    subprocess.check_output("iptables -t nat -A OUTPUT -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2)+"", shell=True)
 
 
-### TOP 5 PROCESSES ###
-def top_5_cpu():
-    output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
-    cpu = output.decode()
-    return cpu
+def enable_ns_to_ns_ip_forwarding(device1, port1, port2, ip1, ip2):
+    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+    subprocess.check_output("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip2)+":"+str(port2)+"", shell=True)
 
-def top_5_mem():
-    output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
-    mem = output.decode()
-    return mem
 
-def get_cap(ns):
-    output = []
-    output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
-    caps = output.decode()
-    return caps
 
-def get_procs(ns):
-    output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
-    procs = output.decode('utf-8').split('\n')
-    return procs
+# ### TOP 5 PROCESSES ###
+# def top_5_cpu():
+#     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
+#     cpu = output.decode()
+#     return cpu
+
+# def top_5_mem():
+#     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
+#     mem = output.decode()
+#     return mem
+
+# def get_cap(ns):
+#     output = []
+#     output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
+#     caps = output.decode()
+#     return caps
+
+# def get_procs(ns):
+#     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
+#     procs = output.decode('utf-8').split('\n')
+#     return procs

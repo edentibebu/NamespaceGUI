@@ -149,14 +149,6 @@ def create_veth_host_to_namespace():
     subprocess.run("ip netns exec myns ip link set veth1 up", shell=True)
 
 
-def enable_ns_to_host_ip_forwarding():
-    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-    subprocess.check_output("iptables -t nat -A OUTPUT -p tcp --dport 80 -j DNAT --to-destination 127.0.0.1:8080", shell=True)
-
-
-def enable_ns_to_ns_ip_forwarding(device1, port1, port2, ip1, ip2):
-    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-    subprocess.check_output("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip2)+":"+str(port2)+"", shell=True)
 
 def enable_ns_to_ns_ip_forwarding_copy():
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
