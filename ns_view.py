@@ -37,16 +37,21 @@ class NSView:
             self.delete_ns(ns_view))
         delete_ns_btn.grid(row=2, column=1)
 
-        port_forward_btn = Button(ns_view, text = "Add Port for Forwarding", command = lambda \
+        port_forward_btn = Button(ns_view, text = "Port Forward to Another Namespace", command = lambda \
             ns = self.ns.strip() : self.open_port_forwarding_window(ns, ns_view))
         port_forward_btn.grid(row=3, column=1)
-
+        
+        host_port_forward_btn = Button(ns_view, text = "Port Forward to Another Namespace", command = lambda \
+            ns = self.ns.strip() : self.open_host_port_forwarding_window(ns, ns_view))
+        host_port_forward_btn.grid(row=4, column=1)
     def open_port_forwarding_window(self, ns, ns_view):
         veths = get_veths(ns)
         if len(veths) == 0:
             utils.show_alert("you must have at least one device created in order to forward the port.")
         print("window for port forwarding")
         port_forwarding.PortForwarding(self.root, ns_view, ns)
+    def open_host_port_forwarding_window(self, ns, ns_view):
+        port_forwarding.HostPortForwarding()
 
     def open_add_device_window(self, ns_view):
         add_device.AddDevice(self.root, ns_view, self.ns)
