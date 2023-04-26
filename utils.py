@@ -246,6 +246,8 @@ def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
+    
+    result = subprocess.run("ip netns exec "+str(ns2)+" python -m http.server "+str(port2)+"", text=True, capture_output=True, shell=True)
 
 
 # ### TOP 5 PROCESSES ###
