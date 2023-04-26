@@ -54,6 +54,8 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
+    with open("gui_log.txt","a") as f:
+        f.write(ns_name + " was deleted \n")
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
@@ -244,6 +246,8 @@ def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
+    
+    result = subprocess.run("ip netns exec "+str(ns2)+" python -m http.server "+str(port2)+"", text=True, capture_output=True, shell=True)
 
 
 # ### TOP 5 PROCESSES ###
