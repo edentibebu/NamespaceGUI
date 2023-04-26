@@ -45,7 +45,7 @@ class PortForwarding:
                 Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0) 
 
                 device1 = tk.StringVar()
-                device2.set(devs1_list[0])
+                device1.set(devs1_list[0])
 
                 device2 = tk.StringVar()
                 device2.set(devs2_list[0])
