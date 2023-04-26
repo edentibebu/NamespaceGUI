@@ -25,14 +25,12 @@ class HostPortForwarding:
             port_forward_window = Toplevel(self.root)
             port_forward_window.title("Host Port Forwarding")
 
-            devs1_list = []
-            devices1 = utils.get_veths(self.ns)
-            devs1_list.extend(devices1)
             Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0)
 
             device1 = Entry(port_forward_window)
             device1.grid(row=1, column=1)
-            
+            device2 = Entry(port_forward_window)
+            device2.grid(row=1, column=3)
             Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0) 
 
             Label(port_forward_window, text = "Forward from").grid(row=2, column=0)
@@ -42,5 +40,8 @@ class HostPortForwarding:
             forward_to.grid(row=2, column=3)
             Label(port_forward_window, text="Forward to").grid(row=2, column=2)
 
-            host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_host_ip_forwarding(self.ns, device1.get(), forward_from.get(), forward_to.get()))
+            host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: host_ip_forwarding(self.ns, device1.get(), device2.get(), ('10.1.1.'+ forward_from.get())))
             host_port_fwd.grid(row=4, column=4)
+        def host_ip_forwarding(self, device1, device2, forward_from, forward_to):
+            utils.create_veth(self.ns, device1.get(), device2.get(), ('10.1.1.'+ forward_from.get()))
+            utils.enable_ns_to_host_ip_forwarding(self.ns, device1.get(), forward_from.get(), forward_to.get())

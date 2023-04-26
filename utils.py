@@ -248,7 +248,11 @@ def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    
+
+def create_veth(ns, device1, device2, ip2):
+    # puts device 2 inside of netns
+    subprocess.run("sudo ip link add "+str(device1)+" type veth peer name "+str(device2)+" netns "+str(ns)+"", shell=True)    
+    subprocess.run("ip netns exec "+str(ns)+" ip addr add "+(ip2)+"/24 dev "+str(device2)+"", shell=True)
 
 
 # ### TOP 5 PROCESSES ###
