@@ -76,10 +76,16 @@ int main(int argc, char* argv[]){
            				printf("could not open file. press crtl-c to exit\n");
            				while(1){}
 			        }
-				fprintf(fs, "%s\n", event->name);
+				fprintf(fs, "%s was created \n", event->name);
 				fflush(fs);
 		    	}else if(event->len && event->mask == IN_DELETE){
+				fs = fopen(argv[2], "a");
+				if(fs == NULL){
+				   printf("could not open file. press crtl-c to exit\n");
+				   while(1){}
+				}
 				fprintf(fs,"%s was deleted. \n", event->name);
+				fflush(fs);
 			}
 		}
 
