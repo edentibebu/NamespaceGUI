@@ -18,6 +18,7 @@ def show_alert(message):
     ok_button.pack(pady=10)
 
 def get_net_namespaces():
+    print("get namespaces")
     output = []
     if(checkuid[0] == '0'):
         output = subprocess.check_output("sudo ip netns", shell=True)
@@ -29,6 +30,7 @@ def get_net_namespaces():
 
 def list_namespaces(root, namespace_frame):
     # get namespaces as list from C code
+    print("listing namespaces")
     net_ns = get_net_namespaces()
     net_ns_list = net_ns.split('\n')[:-1]
 
@@ -38,6 +40,7 @@ def list_namespaces(root, namespace_frame):
 
 ### ADD NS WINDOW ###
 def add_ns(ns_name, net_namespace_frame, root):
+    print("add ns")
     command_str = "ip netns add " + str(ns_name)
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
