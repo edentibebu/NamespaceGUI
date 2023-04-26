@@ -217,7 +217,7 @@ def get_ns(ns_name):
     ns_list = result.stdout.split('\n')
 
     for i, ns in enumerate(ns_list):
-        ns_list[i] = ns.split('(id')[0] #clean up outputs
+        ns_list[i] = ns.split('(id')[0].strip() #clean up outputs
 
     #list of all namespaces
     ns_list = list(filter(lambda s: s != "", ns_list))
