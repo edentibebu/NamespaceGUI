@@ -10,8 +10,9 @@ import utils
 class HostPortForwarding:
     def __init__(self, root):
         self.root = root
+        self.host_port_forwarding_window()
         
-    def host_port_forwarding_window(self, ns_view):
+    def host_port_forwarding_window(self):
         
         if(utils.checkuid[0] == "0"):
             Label(self.ns_view, text = self.ns).grid(row=0, column=0)

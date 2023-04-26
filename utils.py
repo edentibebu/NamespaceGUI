@@ -1,4 +1,3 @@
-from cgi import test
 from os import device_encoding
 from re import sub
 import subprocess
