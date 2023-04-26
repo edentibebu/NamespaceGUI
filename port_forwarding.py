@@ -53,13 +53,6 @@ class PortForwarding:
                 forward_to = Entry(port_forward_window)
                 forward_to.grid(row=2, column=3)
                 Label(port_forward_window, text="Forward to").grid(row=2, column=2)
-
-
-                # #get subnet, leave entry for device numbers
-                # device1_num = Entry(add_device_window)
-                # device1_num.grid(row=4, column=1)
-                # device2_num = Entry(add_device_window)
-                # device2_num.grid(row=4, column=2)
                 
-                # add_ns_btn = Button(add_device_window, text='Submit', command = lambda: self.add_device(add_device_window, self.ns, device2, device1_num, device2_num, subnet))
-                # add_ns_btn.grid(row=5, column=4)
+                add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: self.add_device(port_forward_window))
+                add_ns_btn.grid(row=4, column=4)
