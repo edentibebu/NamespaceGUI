@@ -16,6 +16,7 @@ class PortForwarding:
         self.ns = ns.split("(id")[0]
         self.port_forwarding_window(self.ns_view)
         self.subnet = "10.1.1."
+        print(self.subnet)
     def port_forwarding_window(self, ns_view):
         
         if(utils.checkuid[0] == "0"):
