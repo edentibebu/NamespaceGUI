@@ -232,6 +232,7 @@ def get_ns(ns_name):
     return ns_list
 
 def enable_ns_to_host_ip_forwarding(port1, port2):
+    print("enable_ns_to_ns_ip_forwarding")
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     subprocess.check_output("iptables -t nat -A OUTPUT -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), shell=True)
 

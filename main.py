@@ -25,7 +25,7 @@ def inotify():
                                 utils.show_alert(last_line)
                 last_modified = current_modified
             time.sleep(0.1)
-
+print("before root")
 root = Tk()
 root.title("Namespace GUI: Home")
 print("launching home")
