@@ -28,13 +28,13 @@ def inotify():
                 last_modified = current_modified
             time.sleep(0.1)
     
-print("before root")
+# print("before root")
 root = Tk()
 root.title("Namespace GUI: Home")
-print("launching home")
+# print("launching home")
 home.Home(root)
 
-print("starting thread")
+# print("starting thread")
 thread = threading.Thread(target=inotify)
 thread.start()
 
@@ -43,7 +43,7 @@ def on_closing():
     thread.join()
     root.destroy()
 
-print("main loop")
+# print("main loop")
 root.protocol("WM_DELETE_WINDOW",on_closing)
 root.mainloop()
 
