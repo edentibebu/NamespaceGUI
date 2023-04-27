@@ -55,11 +55,11 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-    # command_str = "pkill -f python -ns "+str(ns_name)+""
-    # result = subprocess.run(command_str, text=True, capture_output = True, shell=True)
-    # if result.returncode != 0:
-    #     show_alert(result.stderr)
-    #     return
+    command_str = "killport 8080"
+    result = subprocess.run(command_str, text=True, capture_output = True, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+        return
 
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
