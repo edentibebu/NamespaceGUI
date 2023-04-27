@@ -59,7 +59,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     print(type(pid))
     print(pid)
     subprocess.run("kill "+str(pid)+"", shell=True)
-    
+
     with open("gui_log.txt","a") as f:
         f.write(ns_name + " was deleted \n")
     command_str = "ip netns delete " + ns_name.strip()
