@@ -55,5 +55,9 @@ class HostPortForwarding:
         if int(forward_to.get()) in unsafe_ports_chrome:
             utils.show_alert("The port you are forwarding to is deemed unsafe by Chrome. Please select a different one.")
             return
+
+        if int(forward_to.get()) < 1024:
+            utils.show_alert("The port you are forwarding to is already allocated for other services. Please select a different one.")
+            return
         utils.create_veth_host_to_namespace(self.ns, device1.get(), device2.get())
         utils.enable_ns_to_host_ip_forwarding(self.ns, device2.get(), forward_from.get(), forward_to.get())

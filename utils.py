@@ -55,12 +55,13 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-    command_str = "killport 8080"
+    command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'"
     result = subprocess.run(command_str, text=True, capture_output = True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-
+    pids = result.stdout
+    print(pids)
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
