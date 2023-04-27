@@ -231,13 +231,17 @@ def get_ns(ns_name):
         ns_list.remove(ns_name)
     return ns_list
 
-def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
-    print("enable_ns_to_host_ip_forwarding")
+# def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
+#     print("enable_ns_to_host_ip_forwarding")
+#     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+#     result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), text= True, capture_output = True, shell=True)
+#     if result.returncode != 0:
+#         show_alert(result.stderr)
+def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-    result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), text= True, capture_output = True, shell=True)
-    if result.returncode != 0:
-        show_alert(result.stderr)
-    subprocess.run("ip netns exec "+str(ns1)+" python -m http.server "+str(port2)+" &", text=True, capture_output=True, shell=True)
+    subprocess.run("iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination 10.1.1."+str(device)+":"+str(port2)+"", shell=True)
+    subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" python -m http.server "+str(port2)+" &", text=True, capture_output=True, shell=True)
 
 # def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
 #     print(subnet, type(device1), type(device2), port1, port2)
@@ -249,12 +253,14 @@ def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
 #         show_alert(result.stderr)
 #         return
 
-def create_veth(ns, device1, device2, ip2):
-    # puts device 2 inside of netns
-    subprocess.run("sudo ip link add "+str(device1)+" type veth peer name "+str(device2)+" netns "+str(ns)+"", shell=True)    
-    subprocess.run("ip netns exec "+str(ns)+" ip addr add "+(ip2)+"/24 dev "+str(device2)+"", shell=True)
-
-
+def create_veth_host_to_namespace(ns, device1, device2):
+    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
+    subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
+    subprocess.run("ip addr add 10.1.1."+str(device1)+"/24 dev "+str(device1)+"", shell=True)
+    subprocess.run("ip link set dev "+str(device1)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip addr add 10.1.1."+str(device2)+"/24 dev "+str(device2)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip link set dev "+str(device2)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip route add default via 10.1.1."+str(device1)+"", shell=True)
 # ### TOP 5 PROCESSES ###
 # def top_5_cpu():
 #     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)

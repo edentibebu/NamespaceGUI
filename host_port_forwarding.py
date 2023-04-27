@@ -31,8 +31,8 @@ class HostPortForwarding:
             device1.grid(row=1, column=1)
             device2 = Entry(port_forward_window)
             device2.grid(row=1, column=3)
-            Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0) 
-
+            Label(port_forward_window, text="Host Device #").grid(row=1, column=0) 
+            Label(port_forward_window, text="Namespace Device #").grid(row=1, column=2) 
             Label(port_forward_window, text = "Forward from").grid(row=2, column=0)
             forward_from = Entry(port_forward_window)
             forward_from.grid(row=2, column=1)
@@ -43,5 +43,12 @@ class HostPortForwarding:
             host_port_fwd = Button(port_forward_window, text='Submit', command = lambda: self.host_ip_forwarding(device1, device2, forward_from, forward_to))
             host_port_fwd.grid(row=4, column=4)
     def host_ip_forwarding(self, device1, device2, forward_from, forward_to):
-        utils.create_veth(self.ns, device1.get(), device2.get(), ('10.1.1.'+ forward_from.get()))
-        utils.enable_ns_to_host_ip_forwarding('10.1.1.', device1.get(), forward_from.get(), forward_to.get())
+
+        if not device1.get().isdigit() or not device2.get().isdigit():
+            utils.show_alert("Please make sure that both device number inputs are numeric.")
+            return
+        if not forward_from.get().isdigit() or not forward_to.get().isdigit():
+            utils.show_alert("Please make sure that the port number is numeric.")
+            return
+        utils.create_veth_host_to_namespace(self.ns, device1.get(), device2.get())
+        utils.enable_ns_to_host_ip_forwarding(self.ns, device2.get(), forward_from.get(), forward_to.get())

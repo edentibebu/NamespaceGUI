@@ -69,6 +69,13 @@ class PortForwarding:
                 forward_to.grid(row=2, column=3)
                 Label(port_forward_window, text="Forward to").grid(row=2, column=2)
                 
+                # if not device1.get().isdigit() or not device2.get().isdigit():
+                #     utils.show_alert("Please make sure that both device number inputs are numeric.")
+                #     return
+                # if not forward_from.get().isdigit():
+                #     utils.show_alert("Please make sure that the port number is numeric.")
+                #     return
+
                 ## get namespace associated to a device
 
 
