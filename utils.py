@@ -55,14 +55,11 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-    command_str = "ip netns exec "+str(ns_name)+" ps aux | grep python | grep http.server"
+    command_str = "pkill -f python -ns "+str(ns_name)+""
     result = subprocess.run(command_str, text=True, capture_output = True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    pid = result.stdout
-    print(pid)
-    subprocess.run("kill "+str(pid)+"", shell=True)
 
     with open("gui_log.txt","a") as f:
         f.write(ns_name + " was deleted \n")
