@@ -61,7 +61,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
         show_alert(result.stderr)
         return
     pid = result.stdout
- 
+    print(pid)
     subprocess.run("kill "+str(pid)+"", shell=True)
 
     with open("gui_log.txt","a") as f:
