@@ -1,5 +1,6 @@
 from os import device_encoding
 from re import sub
+import re
 import subprocess
 from tkinter import *
 import tkinter as tk
@@ -54,10 +55,13 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-
-    pid = subprocess.check_output("ip netns exec "+str(ns_name)+" ps aux | grep python | grep http.server", shell=True)
-    print(type(pid))
-    print(pid)
+    command_str = "ip netns exec "+str(ns_name)+" ps aux | grep python | grep http.server"
+    result = subprocess.run(command_str, text=True, capture_output = True, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+        return
+    pid = result.stdout
+ 
     subprocess.run("kill "+str(pid)+"", shell=True)
 
     with open("gui_log.txt","a") as f:
