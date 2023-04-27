@@ -56,8 +56,8 @@ def add_ns(ns_name, net_namespace_frame, root):
 
 def rm_ns(ns_name, net_namespace_frame, root):
     print("DELETING")
-    command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'"
-    result = subprocess.run(command_str, text=True, capture_output = True, shell=True)
+    #command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1=="COMMAND" {next } {print S2}'"
+    result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
