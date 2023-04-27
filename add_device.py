@@ -63,6 +63,10 @@ class AddDevice:
             device1_num = device1_num.get()
             device2_num = device2_num.get()
 
+            # check if numbers are numeric
+            if not device1_num.isdigit() or not device2_num.isdigit():
+                utils.show_alert("Please make sure that both device number inputs are numeric.")
+                return
             #port1 = device1_num + "_" + device2_num
             #port2  = device2_num + "_" + device1_num
 

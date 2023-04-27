@@ -36,14 +36,10 @@ class NSView:
         delete_ns_btn = Button (ns_view, text = "Delete Namespace", command = lambda : 
             self.delete_ns(ns_view))
         delete_ns_btn.grid(row=2, column=1)
-
-        port_forward_btn = Button(ns_view, text = "Port Forward to Another Namespace", command = lambda \
-            ns = self.ns.strip() : self.open_port_forwarding_window(ns, ns_view))
-        port_forward_btn.grid(row=3, column=1)
         
         host_port_forward_btn = Button(ns_view, text = "Port Forward to Host", command = lambda \
             ns = self.ns.strip() : self.open_host_port_forwarding_window(ns, ns_view))
-        host_port_forward_btn.grid(row=4, column=1)
+        host_port_forward_btn.grid(row=3, column=1)
     def open_port_forwarding_window(self, ns, ns_view):
         veths = get_veths(ns)
         if len(veths) == 0:

@@ -36,7 +36,7 @@ def inotify():
             time.sleep(0.1)
     
 
-print("starting thread")
+# print("starting thread")
 thread = threading.Thread(target=inotify)
 thread.start()
 
@@ -45,7 +45,7 @@ def on_closing():
     thread.join()
     root.destroy()
 
-print("main loop")
+# print("main loop")
 root.protocol("WM_DELETE_WINDOW",on_closing)
 root.mainloop()
 
