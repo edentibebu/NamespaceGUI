@@ -241,7 +241,7 @@ def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     subprocess.run("iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination 10.1.1."+str(device)+":"+str(port2)+"", shell=True)
     subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
-    subprocess.run("ip netns exec "+str(ns)+" python -m http.server "+str(port2)+" &", text=True, capture_output=True, shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" nohup python -m http.server "+str(port2)+" > /dev/null 2>&1 &", text=True, capture_output=True, shell=True)
 
 # def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
 #     print(subnet, type(device1), type(device2), port1, port2)
