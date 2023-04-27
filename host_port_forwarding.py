@@ -52,7 +52,7 @@ class HostPortForwarding:
         if not forward_from.get().isdigit() or not forward_to.get().isdigit():
             utils.show_alert("Please make sure that the port number is numeric.")
             return
-        if forward_to.get() in unsafe_ports_chrome:
+        if int(forward_to.get()) in unsafe_ports_chrome:
             utils.show_alert("The port you are forwarding to is deemed unsafe by Chrome. Please select a different one.")
             return
         utils.create_veth_host_to_namespace(self.ns, device1.get(), device2.get())
