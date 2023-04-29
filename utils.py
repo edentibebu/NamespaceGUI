@@ -98,9 +98,9 @@ def update_ns(net_namespace_frame, root):
     #print(net_namespace_frame.winfo_children())
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
-    net_ns = get_net_namespaces()
-    net_ns_list = net_ns.split('\n')[:-1]
-    print(net_ns_list)
+    # net_ns = get_net_namespaces()
+    # net_ns_list = net_ns.split('\n')[:-1]
+    # print(net_ns_list)
     # for i, ns in enumerate(net_ns_list):
     #     ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, net_namespace_frame))
     #     ns_btn.grid(row = i+1, column = 0)
