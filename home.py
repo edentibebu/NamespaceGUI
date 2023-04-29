@@ -17,7 +17,6 @@ class Home:
 
     def home(self):
         # Add Namespace button
-        print("loading home")
         net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
         net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
         add_ns_btn = Button(self.root, text="+", command = lambda \

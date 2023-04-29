@@ -8,8 +8,7 @@ stop_flag = threading.Event()
 print("before root")
 root = Tk()
 root.title("Namespace GUI: Home")
-print("launching home")
-home = home.Home(root)
+home.Home(root)
 
 if not os.path.isfile('gui_log.txt'):
     with open('gui_log.txt', "w") as file:
@@ -34,7 +33,7 @@ def inotify():
                             if last_line != gui_lines[-1]:
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
-                                home.display_ns   
+                                home.Home(root).home   
                                 last_modified = current_modified
             time.sleep(0.1)
     
