@@ -54,5 +54,8 @@ class NSView:
 
     def delete_ns(self, ns_view):
         utils.rm_ns(self.ns.strip(), self.net_namespace_frame, self.root)
+        with open("gui_log.txt","a") as f:
+            f.write(self.ns + " was deleted \n")
+        
         ns_view.destroy()        
         
