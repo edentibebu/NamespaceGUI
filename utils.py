@@ -106,7 +106,7 @@ def update_ns(net_namespace_frame, root):
     #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
     #net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
     #List namespaces 
-    #list_namespaces(root, net_namespace_frame)
+    list_namespaces(root, net_namespace_frame)
 #### NET NS VIEW ####
 def disp_routing():
     output = subprocess.check_output("ip netns exec ns1 route", shell=True)
