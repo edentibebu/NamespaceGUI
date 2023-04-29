@@ -265,6 +265,7 @@ def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
 def server_cleanup(ns):
     pid = subprocess.check_output("sudo ip netns exec "+str(ns)+" ps -ef | grep 'python -m http.server' | grep -v grep | awk '{print $2}'", shell=True)
     pid = pid.decode()
+    print(pid)
     result = subprocess.run("kill "+str(pid)+"", text=True, capture_output=True, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
