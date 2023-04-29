@@ -38,7 +38,7 @@ def inotify():
                             else:
                                 print(gui_lines[-1], last_line)
                                 print("command line changes!!!")
-                                utils.show_alert(last_line)
+                                utils.show_alert(gui_lines[-1])
                                 home.Home(root).display_ns
                             #  utils.update_ns(homelink, homepage)
                                 last_modified = current_modified
