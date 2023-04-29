@@ -68,7 +68,6 @@ def rm_ns(ns_name, net_namespace_frame, root):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    update_ns(net_namespace_frame, root)
     # command for removing namespace 
     update_ns(net_namespace_frame, root)
     # TODO: unoccupy_devices() ## Remove devices from our list
