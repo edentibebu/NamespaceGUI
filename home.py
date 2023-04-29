@@ -22,7 +22,6 @@ class Home:
         add_ns_btn = Button(self.root, text="+", command = lambda \
             net_namespace_frame = net_namespace_frame: self.open_add_ns_window(net_namespace_frame))
         add_ns_btn.grid(row=0, column=1)
-
    
         self.display_ns(net_namespace_frame)
 
