@@ -56,6 +56,7 @@ def add_ns(ns_name, net_namespace_frame, root):
 
 def rm_ns(ns_name, net_namespace_frame, root):
     print("DELETING")
+    server_cleanup(ns_name)
     #command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1=="COMMAND" {next } {print S2}'"
     result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
     if result.returncode != 0:
@@ -259,6 +260,11 @@ def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
 #     if result.returncode != 0:
 #         show_alert(result.stderr)
 #         return
+
+def server_cleanup(ns):
+    pid = subprocess.check_output("sudo ip netns exec "+str(ns)+" ps -ef | grep 'python -m http.server' | grep -v grep | awk '{print $2}'", shell=True)
+    pid = pid.decode()
+    subprocess.run("kill "+str(pid)+"", shell=True)
 
 def create_veth_host_to_namespace(ns, device1, device2):
     subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
