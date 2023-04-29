@@ -31,6 +31,7 @@ class Home:
         print("displaying ns")
         # List namespaces 
         #utils.list_namespaces(self.root, net_namespace_frame)
+        net_namespace_frame.destroy()
         utils.update_ns(net_namespace_frame, self.root)
 
     
