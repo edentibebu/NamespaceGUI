@@ -28,13 +28,10 @@ class Home:
 
     def display_ns(self, net_namespace_frame):
         # List namespaces 
-        utils.list_namespaces(self.root, net_namespace_frame)
-        #utils.update_ns(net_namespace_frame, self.root)
-
-    def display_ns_cmd(self, net_namespace_frame):
-        # List namespaces 
+        utils.update_ns(net_namespace_frame)
         #utils.list_namespaces(self.root, net_namespace_frame)
-        utils.update_ns(net_namespace_frame, self.root)
+
+    
     def open_add_ns_window(self, net_namespace_frame):
         #top = Toplevel(self.root)
         add_net_ns.AddNS(self.root, net_namespace_frame)
