@@ -42,7 +42,7 @@ def inotify():
                                 home.Home(root).display_ns
                             #  utils.update_ns(homelink, homepage)
                                 last_modified = current_modified
-            time.sleep(2)
+            time.sleep(0.1)
 
     
 
