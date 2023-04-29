@@ -33,7 +33,7 @@ def inotify():
                             if last_line != gui_lines[-1]:
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
-                                home.Home(root).display_ns   
+                                home.Home(root).display_ns_cmd   
                                 last_modified = current_modified
             time.sleep(0.1)
     
