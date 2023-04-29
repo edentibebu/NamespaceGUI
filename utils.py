@@ -2,6 +2,7 @@ from os import device_encoding
 from re import sub
 import re
 import subprocess
+from sys import stderr
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
@@ -264,8 +265,11 @@ def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
 def server_cleanup(ns):
     pid = subprocess.check_output("sudo ip netns exec "+str(ns)+" ps -ef | grep 'python -m http.server' | grep -v grep | awk '{print $2}'", shell=True)
     pid = pid.decode()
-    subprocess.run("kill "+str(pid)+"", shell=True)
-
+    result = subprocess.run("kill "+str(pid)+"", text=True, capture_output=True, shell=True)
+    if(result.returncode != 0):
+        show_alert(result.stderr)
+        return
+    print(result.stdout)
 def create_veth_host_to_namespace(ns, device1, device2):
     subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
     subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
