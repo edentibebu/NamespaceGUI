@@ -27,13 +27,21 @@ def inotify():
                         with open(gui_log, 'r') as g:
                             time.sleep(0.5)
                             gui_lines = g.readlines()
-                            if last_line != gui_lines[-1]:
+                            if gui_lines:
+                                if last_line != gui_lines[-1]:
+                                    print("command line changes!!!")
+                                    utils.show_alert(last_line)
+                                    home.Home(root).display_ns
+                                #  utils.update_ns(homelink, homepage)
+                                    last_modified = current_modified
+                            else:
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
                                 home.Home(root).display_ns
                             #  utils.update_ns(homelink, homepage)
                                 last_modified = current_modified
             time.sleep(0.1)
+
     
 
 # print("starting thread")
