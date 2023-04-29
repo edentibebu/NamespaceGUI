@@ -85,6 +85,13 @@ def set_ips(netns, device1, device2, ip1, ip2):
     result = subprocess.run(command_str, text=True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
+def list_namespaces(root, net_namespace_frame):
+    net_ns = get_net_namespaces()
+    net_ns_list = net_ns.split('\n')[:-1]
+    print(net_ns_list)
+    for i, ns in enumerate(net_ns_list):
+        ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, net_namespace_frame))
+        ns_btn.grid(row = i+1, column = 0)
 
 def update_ns(net_namespace_frame, root):
     print("updating")
@@ -94,9 +101,9 @@ def update_ns(net_namespace_frame, root):
     net_ns = get_net_namespaces()
     net_ns_list = net_ns.split('\n')[:-1]
     print(net_ns_list)
-    for i, ns in enumerate(net_ns_list):
-        ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, net_namespace_frame))
-        ns_btn.grid(row = i+1, column = 0)
+    # for i, ns in enumerate(net_ns_list):
+    #     ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, net_namespace_frame))
+    #     ns_btn.grid(row = i+1, column = 0)
     
 #### NET NS VIEW ####
 def disp_routing():
