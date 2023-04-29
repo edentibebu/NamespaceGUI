@@ -28,7 +28,8 @@ class Home:
 
     def display_ns(self, net_namespace_frame):
         # List namespaces 
-        utils.list_namespaces(self.root, net_namespace_frame)
+        utils.update_ns(net_namespace_frame)
+        #utils.list_namespaces(self.root, net_namespace_frame)
 
     
     def open_add_ns_window(self, net_namespace_frame):
