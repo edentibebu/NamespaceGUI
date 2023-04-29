@@ -25,9 +25,10 @@ def inotify():
                     if lines:
                         last_line = lines[-1]
                         with open(gui_log, 'r') as g:
-                            time.sleep(0.5)
+                            # time.sleep(0.5)
                             gui_lines = g.readlines()
                             if gui_lines:
+                                print(gui_lines[-1], last_line)
                                 if last_line != gui_lines[-1]:
                                     print("command line changes!!!")
                                     utils.show_alert(last_line)
@@ -35,12 +36,13 @@ def inotify():
                                 #  utils.update_ns(homelink, homepage)
                                     last_modified = current_modified
                             else:
+                                print(gui_lines[-1], last_line)
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
                                 home.Home(root).display_ns
                             #  utils.update_ns(homelink, homepage)
                                 last_modified = current_modified
-            time.sleep(0.1)
+            time.sleep(2)
 
     
 
