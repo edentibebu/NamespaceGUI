@@ -127,8 +127,20 @@ def create_veth_pairs3():
     subprocess.run("ip netns exec ns1 ip link set dev veth1 up", shell=True)
     subprocess.run("ip netns exec ns2 ip link set dev veth2 up", shell=True)
     
-    
- 
+def test_create_veth():
+    subprocess.run("ip link add veth1 type veth peer name veth2", shell=True)
+    subprocess.run("ip link set veth2 netns myns", shell=True)
+    subprocess.run("ip addr add 10.1.1.1/24 dev veth1", shell=True)
+    subprocess.run("ip link set dev veth1 up", shell=True)
+    subprocess.run("ip netns exec myns ip addr add 10.1.1.2/24 dev veth2", shell=True)
+    subprocess.run("ip netns exec myns ip link set dev veth2 up", shell=True)
+    subprocess.run("ip netns exec myns ip route add default via 10.1.1.1", shell=True)
+
+def test_port_forward():
+    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+    subprocess.run("iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.1.1.2:8080", shell=True)
+    subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
+
 #command for getting list of ns within same subnet
 #for ns in $(ip netns list | cut -d'(' -f1 | sed 's/\s*//g'); do sudo ip netns exec $ns ip -4 addr show | grep -q '10.1.1.' && echo $ns; done
 
@@ -136,21 +148,19 @@ def create_veth_pairs3():
 #sudo ip netns exec "+str(ns)+" ip addr show | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | sed 's/\.[0-9]*$/\ /'
 
 
-def create_veth_host_to_namespace():
-    subprocess.run("ip link add veth0 type veth peer name veth1", shell=True)
-    #subprocess.run("ip link add veth0b type veth peer name veth1b", shell=True)
+def create_veth_host_to_namespace(ns, device1, device2):
+    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
+    subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
+    subprocess.run("ip addr add 10.1.1."+str(device1)+"/24 dev "+str(device1)+"", shell=True)
+    subprocess.run("ip link set dev "+str(device1)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip addr add 10.1.1."+str(device2)+"/24 dev "+str(device2)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip link set dev "+str(device2)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip route add default via 10.1.1."+str(device1)+"", shell=True)
 
-    subprocess.run("ip link set veth1 netns myns", shell=True)
-
-    subprocess.run("ip addr add 10.1.1.1/24 dev veth0", shell=True)
-    subprocess.run("ip netns exec myns ip addr add 10.1.1.2/24 dev veth1", shell=True)
-
-    subprocess.run("ip link set veth0 up", shell=True)
-    subprocess.run("ip netns exec myns ip link set veth1 up", shell=True)
-
-def enable_ns_to_host_ip_forwarding(port1, port2):
+def enable_ns_to_host_ip_forwarding(device, port1, port2):
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-    subprocess.check_output("iptables -t nat -A OUTPUT -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2)+"", shell=True)
+    subprocess.run("iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination 10.1.1."+str(device)+":"+str(port2)+"", shell=True)
+    subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
 
 
 def enable_ns_to_ns_ip_forwarding(device1, port1, port2, ip1, ip2):
@@ -160,14 +170,21 @@ def enable_ns_to_ns_ip_forwarding(device1, port1, port2, ip1, ip2):
 def enable_ns_to_ns_ip_forwarding_copy():
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     subprocess.check_output("iptables -t nat -A PREROUTING -i veth1 -p tcp --dport 80 -j DNAT --to-destination 10.1.1.2:8080", shell=True)
- 
-#get_peer()
 
-create_veth_pairs3()
-enable_ns_to_ns_ip_forwarding_copy()
 
-#create_veth_pairs3()
-#enable_ip_forwarding()
+def run_python_server(ns2, port2):
+    subprocess.run("ip netns exec "+str(ns2)+" python -m http.server "+str(port2)+"", shell=True)
+
+def verify_ns_to_ns_port_forwarding(ns1, device2, port2):
+    subprocess.run("ip netns exec "+str(ns1)+" lynx http://10.1.1."+str(device2)+":"+str(port2)+"", shell=True)
+
+
+def server_cleanup(ns):
+    pid = subprocess.check_output("sudo ip netns exec "+str(ns)+" ps -ef | grep 'python -m http.server' | grep -v grep | awk '{print $2}'", shell=True)
+    pid = pid.decode()
+    subprocess.run("kill "+str(pid)+"", shell=True)
+
+
 
 #def tcp():
 #   port = "7096"

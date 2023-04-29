@@ -1,6 +1,6 @@
-from cgi import test
 from os import device_encoding
 from re import sub
+import re
 import subprocess
 from tkinter import *
 import tkinter as tk
@@ -18,6 +18,7 @@ def show_alert(message):
     ok_button.pack(pady=10)
 
 def get_net_namespaces():
+    # print("get namespaces")
     output = []
     if(checkuid[0] == '0'):
         output = subprocess.check_output("sudo ip netns", shell=True)
@@ -29,15 +30,17 @@ def get_net_namespaces():
 
 def list_namespaces(root, namespace_frame):
     # get namespaces as list from C code
+    # print("listing namespaces")
     net_ns = get_net_namespaces()
     net_ns_list = net_ns.split('\n')[:-1]
-
+    print(net_ns_list)
     for i, ns in enumerate(net_ns_list):
         ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, namespace_frame))
         ns_btn.grid(row = i+1, column = 0)
 
 ### ADD NS WINDOW ###
 def add_ns(ns_name, net_namespace_frame, root):
+    print("add ns")
     command_str = "ip netns add " + str(ns_name)
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
@@ -52,11 +55,21 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
+    print("DELETING")
+    #command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1=="COMMAND" {next } {print S2}'"
+    result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
+    if result.returncode != 0:
+        show_alert(result.stderr)
+        return
+    pids = result.stdout
+    print(pids)
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
+    with open("gui_log.txt","a") as f:
+        f.write(ns_name + " was deleted \n")
     # command for removing namespace 
     update_ns(net_namespace_frame, root)
     # TODO: unoccupy_devices() ## Remove devices from our list
@@ -86,11 +99,13 @@ def set_ips(netns, device1, device2, ip1, ip2):
 
 def update_ns(net_namespace_frame, root):
     print("updating")
+    #print(net_namespace_frame.winfo_children())
+    #net_namespace_frame.destroy()
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
-    #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
-    #net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
-    # List namespaces 
+    net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
+    net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
+    #List namespaces 
     list_namespaces(root, net_namespace_frame)
 #### NET NS VIEW ####
 def disp_routing():
@@ -111,6 +126,7 @@ def get_veths(ns):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
+    print(result.stdout)
     devs_list = (result.stdout).split("\n")[0::2]
     for i, dev in enumerate(devs_list):
         devs_list[i] = dev.split("@")[0]
@@ -223,23 +239,39 @@ def get_ns(ns_name):
     ns_list = list(filter(lambda s: s != "", ns_list))
     print(ns_list, ns_name)
     if ns_name in ns_list:
-        print ("HERE")
         ns_list.remove(ns_name)
     return ns_list
 
-def enable_ns_to_host_ip_forwarding(port1, port2):
+# def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
+#     print("enable_ns_to_host_ip_forwarding")
+#     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+#     result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), text= True, capture_output = True, shell=True)
+#     if result.returncode != 0:
+#         show_alert(result.stderr)
+def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-    subprocess.check_output("iptables -t nat -A OUTPUT -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), shell=True)
+    subprocess.run("iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination 10.1.1."+str(device)+":"+str(port2)+"", shell=True)
+    subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" nohup python -m http.server "+str(port2)+" > /dev/null 2>&1 &", text=True, capture_output=True, shell=True)
 
-def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
-    ip2 = subnet + device2
-    subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-    result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip2)+":"+str(port2), text=True, check_output=True, shell=True)
-    if result.returncode != 0:
-        show_alert(result.stderr)
-        return
+# def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
+#     print(subnet, type(device1), type(device2), port1, port2)
+#     print("enable_ns_to_ns_ip_forwarding")
+#     ip2 = subnet + device2
+#     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
+#     result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip2)+":"+str(port2), text=True, capture_output=True, shell=True)
+#     if result.returncode != 0:
+#         show_alert(result.stderr)
+#         return
 
-
+def create_veth_host_to_namespace(ns, device1, device2):
+    subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
+    subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)
+    subprocess.run("ip addr add 10.1.1."+str(device1)+"/24 dev "+str(device1)+"", shell=True)
+    subprocess.run("ip link set dev "+str(device1)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip addr add 10.1.1."+str(device2)+"/24 dev "+str(device2)+"", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip link set dev "+str(device2)+" up", shell=True)
+    subprocess.run("ip netns exec "+str(ns)+" ip route add default via 10.1.1."+str(device1)+"", shell=True)
 # ### TOP 5 PROCESSES ###
 # def top_5_cpu():
 #     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)

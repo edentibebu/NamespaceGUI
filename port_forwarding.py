@@ -15,7 +15,7 @@ class PortForwarding:
         self.ns_view = ns_view
         self.ns = ns.split("(id")[0]
         self.port_forwarding_window(self.ns_view)
-        self.subnet = "10.1.1."
+  
     def port_forwarding_window(self, ns_view):
         
         if(utils.checkuid[0] == "0"):
@@ -36,27 +36,31 @@ class PortForwarding:
                 # device1.grid(row=2, column=1)
 
                 # create dropdown with list of other namespaces  
-                devs1_list, devs2_list = [], []
-                print(namespaces_list)
-                for ns in namespaces_list:
-                    veths = utils.get_veths(ns)
-                    if veths:
-                        devs2_list.append(veths)
-                    print(veths)
-                devices1 = utils.get_veths(self.ns)
-                devs1_list.append(devices1)
+                # devs1_list, devs2_list = [], []
+            
+                # for ns in namespaces_list:
+                #     veths = utils.get_veths(ns)
+                #     if veths:
+                #         devs2_list.extend(veths)
+                # devices1 = utils.get_veths(self.ns)
+                devs1_list = utils.get_veths(self.ns)
+                #devs1_list.extend(devices1)
                 Label(port_forward_window, text = "Port Forwarding with " + self.ns).grid(row=0, column=0) 
 
-                device1 = tk.StringVar()
-                device1.set(devs1_list[0])
+         
 
-                device2 = tk.StringVar()
-                device2.set(devs2_list[0])
-                dropdown_menu1 = tk.OptionMenu(port_forward_window, device1, *devs1_list)
-                dropdown_menu2 = tk.OptionMenu(port_forward_window, device2, *devs2_list) ## change namespaces list to something else
+                dropdown_list = []
+
+                for dev in devs1_list:
+                    peer_ns = utils.get_peer(self.ns, dev)
+                    dropdown_list.append("add " + dev + " to " +  peer_ns)
+                device1 = tk.StringVar()
+                device1.set(dropdown_list[0])
+                dropdown_menu = tk.OptionMenu(port_forward_window, device1, *dropdown_list)
+                
                 Label(port_forward_window, text="Select Devices: ").grid(row=1, column=0)
-                dropdown_menu2.grid(row=1, column=3)   
-                dropdown_menu1.grid(row=1,column=1)   
+   
+                dropdown_menu.grid(row=1,column=1)   
                 #Label(port_forward_window, text ="Subnet: " + subnet).grid(row=3, column=0)
                 Label(port_forward_window, text = "Forward from").grid(row=2, column=0)
                 forward_from = Entry(port_forward_window)
@@ -65,5 +69,15 @@ class PortForwarding:
                 forward_to.grid(row=2, column=3)
                 Label(port_forward_window, text="Forward to").grid(row=2, column=2)
                 
-                add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_ns_ip_forwarding(self.subnet, device1.get(), device2.get(), forward_from, forward_to))
-                add_ns_btn.grid(row=4, column=4)
+                # if not device1.get().isdigit() or not device2.get().isdigit():
+                #     utils.show_alert("Please make sure that both device number inputs are numeric.")
+                #     return
+                # if not forward_from.get().isdigit():
+                #     utils.show_alert("Please make sure that the port number is numeric.")
+                #     return
+
+                ## get namespace associated to a device
+
+
+                # add_ns_btn = Button(port_forward_window, text='Submit', command = lambda: utils.enable_ns_to_ns_ip_forwarding('10.1.1.', device1.get(), forward_from.get(), forward_to.get(), ns2))
+                # add_ns_btn.grid(row=4, column=4)

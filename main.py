@@ -3,6 +3,17 @@ import home, utils
 import os,time
 import subprocess
 import threading
+    
+stop_flag = threading.Event()    
+print("before root")
+root = Tk()
+root.title("Namespace GUI: Home")
+print("launching home")
+home.Home(root)
+
+if not os.path.isfile('gui_log.txt'):
+    with open('gui_log.txt', "w") as file:
+       file.write("")
 
 def inotify():
     inotify_process = subprocess.Popen(["sudo", "./inotify_gui", "/var/run/netns", "output.txt"])
@@ -10,7 +21,7 @@ def inotify():
     gui_log = 'gui_log.txt'
     time.sleep(2)
     last_modified = os.path.getmtime(filename)
-    while(True):
+    while not stop_flag.is_set():
         current_modified = os.path.getmtime(filename)
         if last_modified != current_modified:
             with open(filename, 'r') as f:
@@ -23,13 +34,21 @@ def inotify():
                             if last_line != gui_lines[-1]:
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
-                last_modified = current_modified
+                                home.Home(root).display_ns   
+                                last_modified = current_modified
             time.sleep(0.1)
+    
 
-root = Tk()
-root.title("Namespace GUI: Home")
-home.Home(root)
-
+# print("starting thread")
 thread = threading.Thread(target=inotify)
 thread.start()
+
+def on_closing():  
+    stop_flag.set()
+    thread.join()
+    root.destroy()
+
+# print("main loop")
+root.protocol("WM_DELETE_WINDOW",on_closing)
 root.mainloop()
+
