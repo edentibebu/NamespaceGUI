@@ -26,15 +26,14 @@ def inotify():
                     gui_lines = g.readlines()
                     if lines:
                         last_line = lines[-1]
-                            
-                            if gui_lines:
-                                print(gui_lines[-1], last_line)
-                                if last_line != gui_lines[-1]:
-                                    print("command line changes!!!")
-                                    utils.show_alert(last_line)
-                                    home.Home(root).display_ns
-                                #  utils.update_ns(homelink, homepage)
-                                    last_modified = current_modified
+                        if gui_lines:
+                            print(gui_lines[-1], last_line)
+                            if last_line != gui_lines[-1]:
+                                print("command line changes!!!")
+                                utils.show_alert(last_line)
+                                home.Home(root).display_ns
+                            #  utils.update_ns(homelink, homepage)
+                                last_modified = current_modified
             time.sleep(0.1)
     
 
