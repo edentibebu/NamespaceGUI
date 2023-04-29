@@ -27,6 +27,7 @@ def inotify():
                     with open(gui_log, 'r') as g:
                         gui_lines = g.readlines()
                         if gui_lines:
+                            print(gui_lines[-1], last_line)
                             if last_line != gui_lines[-1]:
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
