@@ -27,7 +27,6 @@ class Home:
         self.display_ns(net_namespace_frame)
 
     def display_ns(self, net_namespace_frame):
-        print("displaying ns")
         # List namespaces 
         #utils.list_namespaces(self.root, net_namespace_frame)
         utils.update_ns(net_namespace_frame, self.root)

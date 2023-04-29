@@ -27,17 +27,6 @@ def get_net_namespaces():
 
     net_namespaces = output.decode()
     return net_namespaces
-
-def list_namespaces(root, namespace_frame):
-    # get namespaces as list from C code
-    # print("listing namespaces")
-    net_ns = get_net_namespaces()
-    net_ns_list = net_ns.split('\n')[:-1]
-    print(net_ns_list)
-    for i, ns in enumerate(net_ns_list):
-        ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, namespace_frame))
-        ns_btn.grid(row = i+1, column = 0)
-
 ### ADD NS WINDOW ###
 def add_ns(ns_name, net_namespace_frame, root):
     print("add ns")
@@ -102,12 +91,13 @@ def update_ns(net_namespace_frame, root):
     #print(net_namespace_frame.winfo_children())
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
-    #net_namespace_frame.destroy()
-
-    #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
-    #net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
-    #List namespaces 
-    list_namespaces(root, net_namespace_frame)
+    net_ns = get_net_namespaces()
+    net_ns_list = net_ns.split('\n')[:-1]
+    print(net_ns_list)
+    for i, ns in enumerate(net_ns_list):
+        ns_btn = Button(net_namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, net_namespace_frame))
+        ns_btn.grid(row = i+1, column = 0)
+    
 #### NET NS VIEW ####
 def disp_routing():
     output = subprocess.check_output("ip netns exec ns1 route", shell=True)
