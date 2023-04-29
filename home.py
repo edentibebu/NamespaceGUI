@@ -28,8 +28,10 @@ class Home:
 
     def display_ns(self, net_namespace_frame):
         # List namespaces 
-        utils.list_namespaces(self.root, net_namespace_frame)
-        #utils.update_ns(net_namespace_frame, self.root)
+        #utils.list_namespaces(self.root, net_namespace_frame)
+        for widget in net_namespace_frame.winfo_children():
+            widget.destroy()
+        utils.list(net_namespace_frame, self.root)
 
     
     def open_add_ns_window(self, net_namespace_frame):
