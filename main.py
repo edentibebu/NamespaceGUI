@@ -25,7 +25,7 @@ def inotify():
                     if lines:
                         last_line = lines[-1]
                         with open(gui_log, 'r') as g:
-                            time.sleep(0.5)
+                            time.sleep(0.1)
                             gui_lines = g.readlines()
                             if gui_lines:
                                 print(gui_lines[-1], last_line)
