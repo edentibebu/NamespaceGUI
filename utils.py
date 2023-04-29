@@ -33,7 +33,7 @@ def list_namespaces(root, namespace_frame):
     # print("listing namespaces")
     net_ns = get_net_namespaces()
     net_ns_list = net_ns.split('\n')[:-1]
-
+    print(net_ns_list)
     for i, ns in enumerate(net_ns_list):
         ns_btn = Button(namespace_frame, text=ns, command=lambda ns=ns: ns_view.NSView(root, ns, namespace_frame))
         ns_btn.grid(row = i+1, column = 0)
@@ -99,6 +99,7 @@ def set_ips(netns, device1, device2, ip1, ip2):
 
 def update_ns(net_namespace_frame, root):
     print("updating")
+    print(net_namespace_frame.winfo_children())
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
     #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
