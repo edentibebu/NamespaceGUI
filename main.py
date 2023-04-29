@@ -23,6 +23,7 @@ def inotify():
             with open(filename, 'r') as f:
                 with open(gui_log, 'r') as g:
                     lines = f.readlines()
+                    time.sleep(0.5)
                     gui_lines = g.readlines()
                     if lines:
                         last_line = lines[-1]
