@@ -101,8 +101,8 @@ def update_ns(net_namespace_frame, root):
     print("updating")
     #print(net_namespace_frame.winfo_children())
     net_namespace_frame.destroy()
-    for widget in net_namespace_frame.winfo_children():
-        widget.destroy()
+    # for widget in net_namespace_frame.winfo_children():
+    #     widget.destroy()
     net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
     net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
     # List namespaces 
