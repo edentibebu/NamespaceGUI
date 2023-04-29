@@ -178,14 +178,13 @@ def run_python_server(ns2, port2):
 def verify_ns_to_ns_port_forwarding(ns1, device2, port2):
     subprocess.run("ip netns exec "+str(ns1)+" lynx http://10.1.1."+str(device2)+":"+str(port2)+"", shell=True)
 
-#get_peer()
-#test_create_veth()
-#test_port_forward()
-#create_veth_pairs3()
-#enable_ns_to_ns_ip_forwarding_copy()
 
-#create_veth_pairs3()
-#enable_ip_forwarding()
+def server_cleanup(ns):
+    pid = subprocess.check_output("sudo ip netns exec "+str(ns)+" ps -ef | grep 'python -m http.server' | grep -v grep | awk '{print $2}'", shell=True)
+    pid = pid.decode()
+    subprocess.run("kill "+str(pid)+"", shell=True)
+
+
 
 #def tcp():
 #   port = "7096"
