@@ -21,20 +21,20 @@ def inotify():
         current_modified = os.path.getmtime(filename)
         if last_modified != current_modified:
             with open(filename, 'r') as f:
-                with open(gui_log, 'r') as g:
                     lines = f.readlines()
-                    time.sleep(0.5)
-                    gui_lines = g.readlines()
                     if lines:
                         last_line = lines[-1]
-                        if gui_lines:
-                            print(gui_lines[-1], last_line)
-                            if last_line != gui_lines[-1]:
-                                print("command line changes!!!")
-                                utils.show_alert(last_line)
-                                home.Home(root).display_ns
-                            #  utils.update_ns(homelink, homepage)
-                                last_modified = current_modified
+                        with open(gui_log, 'r') as g:
+                            time.sleep(0.5)
+                            gui_lines = g.readlines()
+                            if gui_lines:
+                                print(gui_lines[-1], last_line)
+                                if last_line != gui_lines[-1]:
+                                    print("command line changes!!!")
+                                    utils.show_alert(last_line)
+                                    home.Home(root).display_ns
+                                #  utils.update_ns(homelink, homepage)
+                                    last_modified = current_modified
             time.sleep(0.1)
     
 
