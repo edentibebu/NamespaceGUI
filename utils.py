@@ -97,8 +97,9 @@ def update_ns(net_namespace_frame, root):
     print("updating")
     #print(net_namespace_frame.winfo_children())
     print(len(net_namespace_frame.winfo_children()))
-    for widget in net_namespace_frame.winfo_children():
-        widget.destroy()
+    net_namespace_frame.destroy()
+    # for widget in net_namespace_frame.winfo_children():
+    #     widget.destroy()
     # net_ns = get_net_namespaces()
     # net_ns_list = net_ns.split('\n')[:-1]
     # print(net_ns_list)
