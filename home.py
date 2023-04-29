@@ -29,8 +29,9 @@ class Home:
     def display_ns(self, net_namespace_frame):
         # List namespaces 
         #utils.list_namespaces(self.root, net_namespace_frame)
-        for widget in net_namespace_frame.winfo_children():
-            widget.destroy()
+        net_namespace_frame.destroy()
+        net_namespace_frame = LabelFrame(self.root, text="Network Namespaces", padx=5, pady=5)
+        net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
         utils.list_namespaces(net_namespace_frame, self.root)
 
     
