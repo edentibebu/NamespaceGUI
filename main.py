@@ -24,18 +24,17 @@ def inotify():
     while not stop_flag.is_set():
         current_modified = os.path.getmtime(filename)
         if last_modified != current_modified:
-            with open(filename, 'r+') as f:
+            with open(filename, 'r') as f:
                 lines = f.readlines()
                 if lines:
                     last_line = lines[-1]
-                    with open(gui_log, 'r+') as g:
+                    with open(gui_log, 'r') as g:
                         gui_lines = g.readlines()
                         if gui_lines:
                             if last_line != gui_lines[-1]:
                                 print("command line changes!!!")
                                 utils.show_alert(last_line)
-                                home.Home(root).display_ns
-                             
+                                home.Home(root).display_ns   
                                 last_modified = current_modified
             time.sleep(0.1)
     
