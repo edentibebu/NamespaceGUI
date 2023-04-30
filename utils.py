@@ -56,6 +56,7 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
+    print(occupied_devices)
     print("DELETING")
     server_cleanup(ns_name)
     #command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1=="COMMAND" {next } {print S2}'"
@@ -194,6 +195,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
     occupied_devices.append(device1)
     occupied_devices.append(device2)
+    print(occupied_devices)
 
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
