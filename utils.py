@@ -63,8 +63,20 @@ def rm_ns(ns_name, net_namespace_frame, root):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    pids = result.stdout
-    print(pids)
+
+    # find devices in the namespace being deleted
+    print(ns_name)
+    veths = get_veths(ns_name)
+    for veth in veths:
+        ind1 = occupied_devices.index(ns_name)
+        if ind1 != -1:
+            print("removing devices " + occupied_devices[ind1] + " and " + occupied_devices[ind1+1])
+            dev1 = occupied_devices[ind1]
+            dev2 = occupied_devices[ind1+1]
+            occupied_devices.remove(dev1)
+            occupied_devices.remove(dev2)
+            
+
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
@@ -229,9 +241,9 @@ def get_ns(ns_name):
 
     #list of all namespaces
     ns_list = list(filter(lambda s: s != "", ns_list))
-    print(ns_list, ns_name)
     if ns_name in ns_list:
-        ns_list.remove(ns_name)
+        ns_list.remove(ns_name)        
+    print(ns_list, ns_name)
     return ns_list
 
 # def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
