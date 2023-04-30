@@ -220,13 +220,13 @@ def update_device_list(device1_num, ns1, ns2, ns_view):
     
 def get_peer(ns, veth):
     peer = None
-    print(ns.strip())
+    #print(ns.strip())
     command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show " + str(veth)
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
         return
-    #print(result.stdout)
+    print(result.stdout)
     devices = result.stdout.split('\n')[1:]
     devices = [s.strip() for s in devices if s.strip()]
     #print(devices, len(devices))
