@@ -13,8 +13,10 @@ checkuid = subprocess.check_output("id -u", shell=True).decode()
 occupied_devices = []
 def get_occupied_devices():
     ns_list = get_net_namespaces()
+    print(ns_list)
     for ns in ns_list:
         veths = get_veths(ns)
+        print(veths)
         occupied_devices.extend(veths)
     print(occupied_devices)
 def show_alert(message):
