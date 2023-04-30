@@ -29,7 +29,6 @@ def inotify():
                         gui_lines = g.readlines()
                         if gui_lines:
                             if last_line != gui_lines[-1]:
-                                print("command line changes!!!")
                                 utils.show_alert(last_line)
                                 for widget in root.winfo_children():
                                     if not isinstance(widget,Toplevel):       
@@ -40,7 +39,6 @@ def inotify():
                                 last_modified_gui = current_modified_gui
                         else:
                             print(gui_lines[-1], last_line)
-                            print("command line changes!!!")
                             utils.show_alert(last_line)
                             for widget in root.winfo_children():
                                 if not isinstance(widget,Toplevel):
@@ -54,7 +52,6 @@ def inotify():
                 lines = f.readlines()
                 if lines:
                     last_line = lines[-1]
-                    print("command line changes!!!")
                     utils.show_alert(last_line)
                     for widget in root.winfo_children():
                         if not isinstance(widget,Toplevel):
