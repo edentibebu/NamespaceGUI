@@ -184,30 +184,3 @@ def server_cleanup(ns):
     pid = pid.decode()
     subprocess.run("kill "+str(pid)+"", shell=True)
 
-
-
-#def tcp():
-#   port = "7096"
-#    ns1 = "1"
-#    ns2 = "2"
-#    ip = "10.1.1.1"
-#    output = subprocess.check_output("ip netns exec "+str(ns1)+" nc -l "+str(ip)+" "+str(port)+" -v", shell=True)
-    # open another terminal to connect second namespace to first
-    # then run command to allow communication between two namespaces
-    # show messages sent
-    # possibly show tcpdump to grab all packets transmitted between two namespaces
-
-# forward traffic using ports
-# window to show port forwarding worked (html)
-
-# top_5_mem()
-
-#port_forward()
-#top_5_cpu()
-# remove_cap()
-# get_namespaces()
-# get_cap()
-# add_ns()
-# delete_ns()
-# get_procs()
-# set_ips()

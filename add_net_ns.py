@@ -34,7 +34,6 @@ class AddNS:
         else:
             for child in self.root.winfo_children():
                 if isinstance(child, tk.Toplevel):
-                    print(child.title())
                     child.destroy()
             with open("gui_log.txt","a") as f:
                 f.write(ns_name + " was created \n")

@@ -17,11 +17,8 @@ def get_occupied_devices():
     ns_list = net_ns.split('\n')[:-1]
     for ns in ns_list:
         ns = ns.split('(id')[0].strip()
-        print(ns)
         veths = get_veths(ns)
-        print(veths)
         occupied_devices.extend(veths)
-    print(occupied_devices)
 
 def show_alert(message):
     alert_window = Toplevel()
@@ -32,7 +29,6 @@ def show_alert(message):
     ok_button.pack(pady=10)
 
 def get_net_namespaces():
-    # print("get namespaces")
     output = []
     if(checkuid[0] == '0'):
         output = subprocess.check_output("sudo ip netns", shell=True)
@@ -44,7 +40,6 @@ def get_net_namespaces():
 
 def list_namespaces(root, namespace_frame):
     # get namespaces as list from C code
-    # print("listing namespaces")
     net_ns = get_net_namespaces()
     net_ns_list = net_ns.split('\n')[:-1]
 
@@ -54,7 +49,6 @@ def list_namespaces(root, namespace_frame):
 
 ### ADD NS WINDOW ###
 def add_ns(ns_name, net_namespace_frame, root):
-    print("add ns")
     command_str = "ip netns add " + str(ns_name)
     result = subprocess.run(command_str, text = True, stderr=subprocess.PIPE, shell=True)
     if result.returncode != 0:
@@ -69,32 +63,20 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-    #print(occupied_devices)
-    #print("DELETING")
         # find devices in the namespace being deleted
-    #print(ns_name)
     veths = get_veths(ns_name)
     for veth in veths:
         occupied_devices.remove(veth)
     
     # go through other namespaces and see if any other devices were connected to this namespace
     ns_list = get_ns(ns_name)
-    print("going through namespaces " + str(ns_list) + " to see what other devices are connected")
     for ns in ns_list:
-        print(ns)
         veths = get_veths(ns)
-        print(veths)
         for veth in veths:
             peer_ns = get_peer(ns, veth)
-            print("peer ns: ", peer_ns)
-            print("comparing namespaces " , peer_ns, ns_name)
             if peer_ns == ns_name:
                 occupied_devices.remove(veth)
 
-    # result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
-    # if result.returncode != 0:
-    #     show_alert(result.stderr)
-    #     return
     server_cleanup(ns_name)
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
@@ -134,7 +116,6 @@ def get_veths(ns):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    #print(result.stdout)
     devs_list = (result.stdout).split("\n")[0::2]
     for i, dev in enumerate(devs_list):
         devs_list[i] = dev.split("@")[0]
@@ -153,33 +134,29 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
     if(device2 in occupied_devices):
         show_alert("Second device is already connected to something else. choose another device number.")
         return
-    # print("creating dev pair")
+
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
         show_alert(result.stderr)
         return
     #link devices to respective namespaces
-    # print("link device1 to ns")
     command_str = "ip link set "+str(device1)+" netns "+str(ns1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    # print("link device2 to ns2")
     command_str = "ip link set "+str(device2)+" netns "+str(ns2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
     #in NS1, set ipaddr for device 1 (same for NS2)
-    # print("set ipaddr 1")
     command_str = "ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    # print("set ipaddr 2")
     command_str = "ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -187,13 +164,11 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
         return
 
     #set up network interfaces
-    # print("set up network interface1")
     command_str = "ip netns exec "+str(ns1)+" ifconfig "+str(device1)+" "+str(ip1)+" up"
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         print(result.stderr)
         return
-    # print("set up network interface2")
     command_str = "ip netns exec "+str(ns2)+" ifconfig "+str(device2)+" "+str(ip2)+" up"
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -201,13 +176,11 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
         return
     occupied_devices.append(device1)
     occupied_devices.append(device2)
-    print(occupied_devices)
     update_device_list(device1, ns1, ns2, ns_view)
 
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
     for i, veth in enumerate(veths): 
-        # print("GETTING PEERS for " + veth)
         peer_ns = get_peer(ns, veth)
         device = Label(ns_view, text= "device " + veth + " is connected to " + peer_ns)
         device.grid(row = i+1, column = 0)
@@ -221,23 +194,16 @@ def update_device_list(device1_num, ns1, ns2, ns_view):
     
 def get_peer(ns, veth):
     peer = None
-    #print(ns.strip())
     command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show " + str(veth)
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
         return
-    print(result.stdout)
     devices = result.stdout.split('\n')[1:]
     devices = [s.strip() for s in devices if s.strip()]
-    #print(devices, len(devices))
     for device in devices:
-        print(device)
         if "link-netns" in device:
-            print("list: ", device.split(" "))
             peer = device.split(' ')[-1]
-            print("peer: " , peer)
-    print("returning peer: ", peer)
     return peer
         
 def get_ns(ns_name): # for dropdowns
@@ -250,7 +216,6 @@ def get_ns(ns_name): # for dropdowns
     ns_list = list(filter(lambda s: s != "", ns_list))
     if ns_name in ns_list:
         ns_list.remove(ns_name)        
-    #print(ns_list, ns_name)
     return ns_list
 
 def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
@@ -267,7 +232,6 @@ def server_cleanup(ns):
         if(result.returncode != 0):
             show_alert(result.stderr)
             return
-        print(result.stdout)
 def create_veth_host_to_namespace(ns, device1, device2):
     subprocess.run("ip link add "+str(device1)+" type veth peer name "+str(device2)+"", shell=True)
     subprocess.run("ip link set "+str(device2)+" netns "+str(ns)+"", shell=True)

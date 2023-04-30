@@ -23,7 +23,6 @@ class NSView:
 
         # list device pairs
         devs = utils.get_veths(self.ns.strip())
-        print(devs)
         utils.show_devices(ns_view, self.ns.strip())
 
         net_ns_header = Label(ns_view, text=self.ns)
@@ -44,7 +43,6 @@ class NSView:
         veths = get_veths(ns)
         if len(veths) == 0:
             utils.show_alert("you must have at least one device created in order to forward the port.")
-        print("window for port forwarding")
         port_forwarding.PortForwarding(self.root, ns_view, ns)
     def open_host_port_forwarding_window(self, ns, ns_view):
         host_port_forwarding.HostPortForwarding(self.root, ns_view, ns)

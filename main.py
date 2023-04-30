@@ -5,10 +5,8 @@ import subprocess
 import threading
     
 stop_flag = threading.Event()    
-print("before root")
 root = Tk()
 root.title("Namespace GUI: Home")
-print("launching home")
 home.Home(root)
 utils.get_occupied_devices()
 
@@ -62,13 +60,11 @@ def inotify():
                         if not isinstance(widget,Toplevel):
                             widget.destroy()
                     home.Home(root).display_ns
-                    #  utils.update_ns(homelink, homepage)
                     last_modified = current_modified
         time.sleep(1)
 
     
 
-# print("starting thread")
 thread = threading.Thread(target=inotify)
 thread.start()
 
@@ -77,6 +73,5 @@ def on_closing():
     thread.join()
     root.destroy()
 
-# print("main loop")
 root.protocol("WM_DELETE_WINDOW",on_closing)
 root.mainloop()

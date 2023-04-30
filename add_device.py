@@ -57,7 +57,6 @@ class AddDevice:
         else:
             Label(add_device_window, text = "Sorry, you cannot access this window because you do not have root privileges").pack()
     def add_device(self, add_device_window, device1, device2, device1_num, device2_num, subnet):
-        print("adding device")
         if device1_num and device2_num:
             device2 = device2.get()
             device1_num = device1_num.get()
