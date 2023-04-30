@@ -69,8 +69,8 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-    print(occupied_devices)
-    print("DELETING")
+    #print(occupied_devices)
+    #print("DELETING")
     server_cleanup(ns_name)
     #command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1=="COMMAND" {next } {print S2}'"
     result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
@@ -79,7 +79,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
         return
 
     # find devices in the namespace being deleted
-    print(ns_name)
+    #print(ns_name)
     veths = get_veths(ns_name)
     for veth in veths:
         occupied_devices.remove(veth)
@@ -91,6 +91,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
         veths = get_veths(ns)
         for veth in veths:
             peer_ns = get_peer(ns_name, veth)
+            print("peer ns: ", peer_ns)
             print("comparing namespaces " , peer_ns, ns_name)
             if peer_ns == ns_name:
                 occupied_devices.remove(veth)
@@ -133,7 +134,7 @@ def get_veths(ns):
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    print(result.stdout)
+    #print(result.stdout)
     devs_list = (result.stdout).split("\n")[0::2]
     for i, dev in enumerate(devs_list):
         devs_list[i] = dev.split("@")[0]
