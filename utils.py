@@ -16,6 +16,7 @@ def get_occupied_devices():
     ns_list = net_ns.split('\n')[:-1]
     for ns in ns_list:
         ns = ns.split('(id')[0].strip()
+        print(ns)
         veths = get_veths(ns)
         print(veths)
         occupied_devices.extend(veths)
