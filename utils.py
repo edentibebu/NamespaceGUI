@@ -127,18 +127,6 @@ def update_ns(net_namespace_frame, root):
     # List namespaces 
     list_namespaces(root, net_namespace_frame)
 #### NET NS VIEW ####
-def disp_routing():
-    output = subprocess.check_output("ip netns exec ns1 route", shell=True)
-    routes = output.decode()
-    print(routes)
-    return routes
-
-def list_sockets():
-    output = subprocess.check_output("ip netns exec ns1 ss -n -a", shell=True)
-    sockets = output.decode()
-    print(sockets)
-    return sockets
-
 def get_veths(ns):
     command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show type veth;"
     result = subprocess.run(command_str, text = True, capture_output=True, shell=True)
@@ -164,33 +152,33 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
     if(device2 in occupied_devices):
         show_alert("Second device is already connected to something else. choose another device number.")
         return
-    print("creating dev pair")
+    # print("creating dev pair")
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
         show_alert(result.stderr)
         return
     #link devices to respective namespaces
-    print("link device1 to ns")
+    # print("link device1 to ns")
     command_str = "ip link set "+str(device1)+" netns "+str(ns1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    print("link device2 to ns2")
+    # print("link device2 to ns2")
     command_str = "ip link set "+str(device2)+" netns "+str(ns2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
     #in NS1, set ipaddr for device 1 (same for NS2)
-    print("set ipaddr 1")
+    # print("set ipaddr 1")
     command_str = "ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    print("set ipaddr 2")
+    # print("set ipaddr 2")
     command_str = "ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -198,13 +186,13 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
         return
 
     #set up network interfaces
-    print("set up network interface1")
+    # print("set up network interface1")
     command_str = "ip netns exec "+str(ns1)+" ifconfig "+str(device1)+" "+str(ip1)+" up"
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         print(result.stderr)
         return
-    print("set up network interface2")
+    # print("set up network interface2")
     command_str = "ip netns exec "+str(ns2)+" ifconfig "+str(device2)+" "+str(ip2)+" up"
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -218,7 +206,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
     for i, veth in enumerate(veths): 
-        print("GETTING PEERS for " + veth)
+        # print("GETTING PEERS for " + veth)
         peer_ns = get_peer(ns, veth)
         print(peer_ns)
         device = Label(ns_view, text= "device " + veth + " is connected to " + peer_ns)
@@ -239,10 +227,10 @@ def get_peer(ns, veth):
     if(result.returncode != 0):
         show_alert(result.stderr)
         return
-    print(result.stdout)
+    #print(result.stdout)
     devices = result.stdout.split('\n')[1:]
     devices = [s.strip() for s in devices if s.strip()]
-    print(devices, len(devices))
+    #print(devices, len(devices))
     for device in devices:
         print(device)
         if "link-netns" in device:
