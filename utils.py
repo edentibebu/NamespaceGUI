@@ -71,7 +71,6 @@ def add_ns(ns_name, net_namespace_frame, root):
 def rm_ns(ns_name, net_namespace_frame, root):
     #print(occupied_devices)
     #print("DELETING")
-    server_cleanup(ns_name)
         # find devices in the namespace being deleted
     #print(ns_name)
     veths = get_veths(ns_name)
@@ -95,6 +94,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     # if result.returncode != 0:
     #     show_alert(result.stderr)
     #     return
+    server_cleanup(ns_name)
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
