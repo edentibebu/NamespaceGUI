@@ -68,7 +68,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     print(ns_name)
     veths = get_veths(ns_name)
     for veth in veths:
-        ind1 = occupied_devices.index(ns_name)
+        ind1 = occupied_devices.index(veth)
         if ind1 != -1:
             print("removing devices " + occupied_devices[ind1] + " and " + occupied_devices[ind1+1])
             dev1 = occupied_devices[ind1]
