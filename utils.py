@@ -81,13 +81,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     print(ns_name)
     veths = get_veths(ns_name)
     for veth in veths:
-        ind1 = occupied_devices.index(veth)
-        if ind1 != -1:
-            print("removing devices " + occupied_devices[ind1] + " and " + occupied_devices[ind1+1])
-            dev1 = occupied_devices[ind1]
-            dev2 = occupied_devices[ind1+1]
-            occupied_devices.remove(dev1)
-            occupied_devices.remove(dev2)
+        occupied_devices = [item for item in occupied_devices if item[1] != veth or item[2] != veth]
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
