@@ -6,6 +6,7 @@ from sys import stderr
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
+from unicodedata import decimal
 from webbrowser import get
 import ns_view
 
@@ -68,7 +69,6 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
-    global occupied_devices
     print(occupied_devices)
     print("DELETING")
     server_cleanup(ns_name)
@@ -82,7 +82,19 @@ def rm_ns(ns_name, net_namespace_frame, root):
     print(ns_name)
     veths = get_veths(ns_name)
     for veth in veths:
-        occupied_devices = [item for item in occupied_devices if item[1] != veth or item[0] != veth]
+        occupied_devices.remove(veth)
+    
+    # go through other namespaces and see if any other devices were connected to this namespace
+    ns_list = get_ns()
+    print("going through namespaces " + ns_list + " to see what other devices are connected")
+    for ns in ns_list:
+        veths = get_veths(ns)
+        for veth in veths:
+            peer_ns = get_peer(ns_name, veth)
+            print("comparing namespaces " , peer_ns, ns_name)
+            if peer_ns == ns_name:
+                occupied_devices.remove(veth)
+
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
@@ -146,13 +158,10 @@ def get_veths(ns):
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
     ##check if device is already connected to a different device
-    dev1 = [dev for dev in occupied_devices if device1 in dev]
-    dev2 = [dev for dev in occupied_devices if device2 in dev]
-    print(dev1, dev2)
-    if dev1:
+    if(device1 in occupied_devices):
         show_alert("First device is already connected to something else. choose another device number.")
         return
-    if dev2:
+    if(device2 in occupied_devices):
         show_alert("Second device is already connected to something else. choose another device number.")
         return
     print("creating dev pair")
@@ -162,27 +171,26 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
         show_alert(result.stderr)
         return
     #link devices to respective namespaces
-    #print("link device1 to ns")
+    print("link device1 to ns")
     command_str = "ip link set "+str(device1)+" netns "+str(ns1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    #print("link device2 to ns2")
+    print("link device2 to ns2")
     command_str = "ip link set "+str(device2)+" netns "+str(ns2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-
     #in NS1, set ipaddr for device 1 (same for NS2)
-    #print("set ipaddr 1")
+    print("set ipaddr 1")
     command_str = "ip netns exec "+str(ns1)+" ip addr add "+str(ip1)+" dev "+str(device1)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
-    #print("set ipaddr 2")
+    print("set ipaddr 2")
     command_str = "ip netns exec "+str(ns2)+" ip addr add "+str(ip2)+" dev "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True)
     if result.returncode != 0:
@@ -202,7 +210,8 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
     if result.returncode != 0:
         print(result.stderr)
         return
-    occupied_devices.append((device1, device2))
+    occupied_devices.append(device1)
+    occupied_devices.append(device2)
     print(occupied_devices)
     update_device_list(device1, ns1, ns2, ns_view)
 
