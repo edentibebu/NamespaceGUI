@@ -235,7 +235,10 @@ def get_peer(ns, veth):
     for device in devices:
         print(device)
         if "link-netns" in device:
+            print("list: ", device.split(" "))
             peer = device.split(' ')[-1]
+            print("peer: " , peer)
+    print("returning peer: ", peer)
     return peer
         
 def get_ns(ns_name): # for dropdowns
