@@ -83,8 +83,9 @@ def rm_ns(ns_name, net_namespace_frame, root):
     for ns in ns_list:
         print(ns)
         veths = get_veths(ns)
+        print(veths)
         for veth in veths:
-            peer_ns = get_peer(ns_name, veth)
+            peer_ns = get_peer(ns, veth)
             print("peer ns: ", peer_ns)
             print("comparing namespaces " , peer_ns, ns_name)
             if peer_ns == ns_name:
