@@ -6,10 +6,17 @@ from sys import stderr
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
+from webbrowser import get
 import ns_view
 
 checkuid = subprocess.check_output("id -u", shell=True).decode()
 occupied_devices = []
+def get_occupied_devices():
+    ns_list = get_net_namespaces()
+    for ns in ns_list:
+        veths = get_veths(ns)
+        occupied_devices.extend(veths)
+    print(occupied_devices)
 def show_alert(message):
     alert_window = Toplevel()
     alert_window.title("Alert")

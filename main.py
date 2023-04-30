@@ -10,6 +10,7 @@ root = Tk()
 root.title("Namespace GUI: Home")
 print("launching home")
 home.Home(root)
+utils.get_occupied_devices()
 
 def inotify():
     inotify_process = subprocess.Popen(["sudo", "./inotify_gui", "/var/run/netns", "output.txt"])
