@@ -12,8 +12,8 @@ import ns_view
 checkuid = subprocess.check_output("id -u", shell=True).decode()
 occupied_devices = []
 def get_occupied_devices():
-    ns_list = get_net_namespaces()
-    print(ns_list)
+    net_ns = get_net_namespaces()
+    ns_list = net_ns.split('\n')[:-1]
     for ns in ns_list:
         veths = get_veths(ns)
         print(veths)
