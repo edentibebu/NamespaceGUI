@@ -201,11 +201,11 @@ def update_device_list(device1_num, ns1, ns2, ns_view):
     
 def get_peer(ns, veth):
     peer = None
-    command_str = "sudo ip netns exec " + str(ns) + " ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'"
-    peer_ifindex = int(subprocess.check_output(command_str, shell=True))
+    #command_str = "sudo ip netns exec " + str(ns) + " ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'"
+    #peer_ifindex = int(subprocess.check_output(command_str, shell=True))
     print(ns)
 
-    command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show | grep " +str(peer_ifindex)
+    command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show | grep " +str(veth)
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if(result.returncode != 0):
         show_alert(result.stderr)
