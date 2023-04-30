@@ -68,6 +68,7 @@ def add_ns(ns_name, net_namespace_frame, root):
     update_ns(net_namespace_frame, root)
 
 def rm_ns(ns_name, net_namespace_frame, root):
+    global occupied_devices
     print(occupied_devices)
     print("DELETING")
     server_cleanup(ns_name)
