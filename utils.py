@@ -149,7 +149,7 @@ def get_veths(ns):
     devs_list = [dev.strip() for dev in devs_list]
     return devs_list
 
-def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
+def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2, ns_view):
     ##check if device is already connected to a different device
     dev1 = [dev for dev in occupied_devices if device1 in dev]
     dev2 = [dev for dev in occupied_devices if device2 in dev]
@@ -209,6 +209,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
         return
     occupied_devices.append((device1, device2))
     print(occupied_devices)
+    update_device_list(device1, ns1, ns2, ns_view)
 
 def show_devices(ns_view, ns):
     veths = get_veths(ns)
