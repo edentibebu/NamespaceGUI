@@ -1,9 +1,8 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
-from test import get_veths
 #from test import delete_ns
-import utils, add_device, port_forwarding, host_port_forwarding
+import utils, add_device, host_port_forwarding
 
 #new window to view a namespace (on click of namespace name)
 class NSView:
