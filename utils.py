@@ -72,13 +72,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     #print(occupied_devices)
     #print("DELETING")
     server_cleanup(ns_name)
-    #command_str = "sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1=="COMMAND" {next } {print S2}'"
-    result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
-    if result.returncode != 0:
-        show_alert(result.stderr)
-        return
-
-    # find devices in the namespace being deleted
+        # find devices in the namespace being deleted
     #print(ns_name)
     veths = get_veths(ns_name)
     for veth in veths:
@@ -88,6 +82,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     ns_list = get_ns(ns_name)
     print("going through namespaces " + str(ns_list) + " to see what other devices are connected")
     for ns in ns_list:
+        print(ns)
         veths = get_veths(ns)
         for veth in veths:
             peer_ns = get_peer(ns_name, veth)
@@ -96,6 +91,10 @@ def rm_ns(ns_name, net_namespace_frame, root):
             if peer_ns == ns_name:
                 occupied_devices.remove(veth)
 
+    # result = subprocess.run("sudo ip netns exec " + str(ns_name) + " lsof -i | awk 'S1==\"COMMAND\" {next } {print S2}'", text=True, capture_output = True, shell=True)
+    # if result.returncode != 0:
+    #     show_alert(result.stderr)
+    #     return
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
@@ -209,7 +208,6 @@ def show_devices(ns_view, ns):
     for i, veth in enumerate(veths): 
         # print("GETTING PEERS for " + veth)
         peer_ns = get_peer(ns, veth)
-        print(peer_ns)
         device = Label(ns_view, text= "device " + veth + " is connected to " + peer_ns)
         device.grid(row = i+1, column = 0)
 
@@ -251,7 +249,7 @@ def get_ns(ns_name): # for dropdowns
     ns_list = list(filter(lambda s: s != "", ns_list))
     if ns_name in ns_list:
         ns_list.remove(ns_name)        
-    print(ns_list, ns_name)
+    #print(ns_list, ns_name)
     return ns_list
 
 def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
