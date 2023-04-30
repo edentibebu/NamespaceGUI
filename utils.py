@@ -21,6 +21,7 @@ def get_occupied_devices():
         print(veths)
         occupied_devices.extend(veths)
     print(occupied_devices)
+
 def show_alert(message):
     alert_window = Toplevel()
     alert_window.title("Alert")
@@ -87,8 +88,6 @@ def rm_ns(ns_name, net_namespace_frame, root):
             dev2 = occupied_devices[ind1+1]
             occupied_devices.remove(dev1)
             occupied_devices.remove(dev2)
-            
-
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
@@ -116,11 +115,8 @@ def set_ips(netns, device1, device2, ip1, ip2):
         show_alert(result.stderr)
 
 def update_ns(net_namespace_frame, root):
-    print("updating")
     for widget in net_namespace_frame.winfo_children():
         widget.destroy()
-    #net_namespace_frame = LabelFrame(root, text="Network Namespaces", padx=5, pady=5)
-    #net_namespace_frame.grid(row = 0, column = 0, padx=10, pady=10)
     # List namespaces 
     list_namespaces(root, net_namespace_frame)
 #### NET NS VIEW ####
@@ -155,6 +151,9 @@ def get_veths(ns):
 
 def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     ##check if device is already connected to a different device
+    dev1 = [dev for dev in occupied_devices if device1 in dev]
+    dev2 = [dev for dev in occupied_devices if device2 in dev]
+    print(dev1, dev2)
     if(device1 in occupied_devices):
         show_alert("this device is already connected to something else. choose another device number.")
     print("creating dev pair")
@@ -204,8 +203,7 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     if result.returncode != 0:
         print(result.stderr)
         return
-    occupied_devices.append(device1)
-    occupied_devices.append(device2)
+    occupied_devices.append((device1, device2))
     print(occupied_devices)
 
 def show_devices(ns_view, ns):
@@ -226,9 +224,6 @@ def update_device_list(device1_num, ns1, ns2, ns_view):
     
 def get_peer(ns, veth):
     peer = None
-    #command_str = "sudo ip netns exec " + str(ns) + " ethtool -S "+str(veth)+" | awk '/peer_ifindex/ {print $2}'"
-    #peer_ifindex = int(subprocess.check_output(command_str, shell=True))
-    print(ns)
 
     command_str = "sudo ip netns exec "+str(ns.strip())+" ip link show " + str(veth)
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
@@ -245,13 +240,12 @@ def get_peer(ns, veth):
             peer = device.split(' ')[-1]
     return peer
         
-def get_ns(ns_name):
+def get_ns(ns_name): # for dropdowns
     result = subprocess.run("ip netns list", text=True, capture_output =True, shell=True)
     ns_list = result.stdout.split('\n')
 
     for i, ns in enumerate(ns_list):
         ns_list[i] = ns.split('(id')[0].strip() #clean up outputs
-
     #list of all namespaces
     ns_list = list(filter(lambda s: s != "", ns_list))
     if ns_name in ns_list:
@@ -259,27 +253,11 @@ def get_ns(ns_name):
     print(ns_list, ns_name)
     return ns_list
 
-# def enable_ns_to_host_ip_forwarding(ns1, device1, port1, port2):
-#     print("enable_ns_to_host_ip_forwarding")
-#     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-#     result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination 127.0.0.1:"+str(port2), text= True, capture_output = True, shell=True)
-#     if result.returncode != 0:
-#         show_alert(result.stderr)
 def enable_ns_to_host_ip_forwarding(ns, device, port1, port2):
     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
     subprocess.run("iptables -t nat -A PREROUTING -p tcp --dport "+str(port1)+" -j DNAT --to-destination 10.1.1."+str(device)+":"+str(port2)+"", shell=True)
     subprocess.run("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", shell=True)
     subprocess.run("ip netns exec "+str(ns)+" nohup python -m http.server "+str(port2)+" > /dev/null 2>&1 &", text=True, capture_output=True, shell=True)
-
-# def enable_ns_to_ns_ip_forwarding(subnet, device1, device2, port1, port2):
-#     print(subnet, type(device1), type(device2), port1, port2)
-#     print("enable_ns_to_ns_ip_forwarding")
-#     ip2 = subnet + device2
-#     subprocess.run("sysctl -w net.ipv4.ip_forward=1", shell=True)
-#     result = subprocess.run("iptables -t nat -A PREROUTING -i "+str(device1)+" -p tcp --dport "+str(port1)+" -j DNAT --to-destination "+str(ip2)+":"+str(port2), text=True, capture_output=True, shell=True)
-#     if result.returncode != 0:
-#         show_alert(result.stderr)
-#         return
 
 def server_cleanup(ns):
     pid = subprocess.check_output("sudo ip netns exec "+str(ns)+" ps -ef | grep 'python -m http.server' | grep -v grep | awk '{print $2}'", shell=True)
@@ -298,24 +276,3 @@ def create_veth_host_to_namespace(ns, device1, device2):
     subprocess.run("ip netns exec "+str(ns)+" ip addr add 10.1.1."+str(device2)+"/24 dev "+str(device2)+"", shell=True)
     subprocess.run("ip netns exec "+str(ns)+" ip link set dev "+str(device2)+" up", shell=True)
     subprocess.run("ip netns exec "+str(ns)+" ip route add default via 10.1.1."+str(device1)+"", shell=True)
-# ### TOP 5 PROCESSES ###
-# def top_5_cpu():
-#     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem,cmd --sort=-%cpu | head -n 6", shell=True)
-#     cpu = output.decode()
-#     return cpu
-
-# def top_5_mem():
-#     output = subprocess.check_output("ps -eo pid,ppid,%cpu,%mem --sort=-%mem | head -n 6", shell=True)
-#     mem = output.decode()
-#     return mem
-
-# def get_cap(ns):
-#     output = []
-#     output = subprocess.check_output("sudo ip netns exec " + str(ns) + " capsh --print", shell=True)
-#     caps = output.decode()
-#     return caps
-
-# def get_procs(ns):
-#     output = subprocess.check_output("ps u $(ip netns pids " + str(ns) + ")", shell=True)
-#     procs = output.decode('utf-8').split('\n')
-#     return procs
