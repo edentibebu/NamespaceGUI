@@ -155,11 +155,12 @@ def create_veth_pairs(ns1, ns2, device1, device2, ip1, ip2):
     dev2 = [dev for dev in occupied_devices if device2 in dev]
     print(dev1, dev2)
     if dev1:
-        show_alert("device 1 is already connected to something else. choose another device number.")
+        show_alert("First device is already connected to something else. choose another device number.")
         return
     if dev2:
-        show_alert("device 2 is already connected to something else. choose another device number.")
-    #print("creating dev pair")
+        show_alert("Second device is already connected to something else. choose another device number.")
+        return
+    print("creating dev pair")
     command_str = "ip link add "+str(device1)+" type veth peer name "+str(device2)
     result = subprocess.run(command_str, text=True, capture_output =True, shell=True) # create devices
     if result.returncode != 0:
