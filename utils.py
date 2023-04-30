@@ -86,7 +86,7 @@ def rm_ns(ns_name, net_namespace_frame, root):
     
     # go through other namespaces and see if any other devices were connected to this namespace
     ns_list = get_ns(ns_name)
-    print("going through namespaces " + ns_list + " to see what other devices are connected")
+    print("going through namespaces " + str(ns_list) + " to see what other devices are connected")
     for ns in ns_list:
         veths = get_veths(ns)
         for veth in veths:
