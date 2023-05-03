@@ -64,25 +64,31 @@ def add_ns(ns_name, net_namespace_frame, root):
 
 def rm_ns(ns_name, net_namespace_frame, root):
         # find devices in the namespace being deleted
+   
     veths = get_veths(ns_name)
     for veth in veths:
-        occupied_devices.remove(veth)
-    
+        if(veth in occupied_devices):
+            occupied_devices.remove(veth)
+
+                
     # go through other namespaces and see if any other devices were connected to this namespace
     ns_list = get_ns(ns_name)
     for ns in ns_list:
         veths = get_veths(ns)
         for veth in veths:
-            peer_ns = get_peer(ns, veth)
-            if peer_ns == ns_name:
-                occupied_devices.remove(veth)
-
+            if(veth in occupied_devices):
+                peer_ns = get_peer(ns, veth)
+                if peer_ns == ns_name:
+                    occupied_devices.remove(veth)
+   
+                             
     server_cleanup(ns_name)
     command_str = "ip netns delete " + ns_name.strip()
     result = subprocess.run(command_str, text=True, capture_output=True, shell=True)
     if result.returncode != 0:
         show_alert(result.stderr)
         return
+      
     # command for removing namespace 
     update_ns(net_namespace_frame, root)
     # TODO: unoccupy_devices() ## Remove devices from our list
