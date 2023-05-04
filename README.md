@@ -104,76 +104,76 @@ Security Features:
   click the (+) button to add a namespace, which then pops up a separate window to add a network
   ```
 * utils.py
-```txt
+  ```txt
   A lot of our work that interfaces with the operating system is done via bash scripts. This
   file contains several functions which run a few lines of bash scripting to get some output, then parse
   this output to be returned for displaying in a human readable format, which gets displayed on the GUI.
   This file also contains some general purpose functionality that is used across several windows/parts of
   our GUI. For example, the show alert function is used across the entire GUI and we keep it in utils.py
   so that it is easy to access and avoids redundancy in our code.
-```
+  ```
 * add net ns.py: 
-```txt
-This brings up a separate window for adding a network namespace, and users can
-specify the name of the namespace they are creating. Once the ”submit” button is clicked, you will see
-a live update of the home page with the newly added namespace. We know that with network names-
-paces, the local loopback is not automatically enabled, but in our GUI, adding a network namespace
-runs the bash command to enable local loopback automatically, making our GUI a more convenient
-experience for users.
-```
+  ```txt
+  This brings up a separate window for adding a network namespace, and users can
+  specify the name of the namespace they are creating. Once the ”submit” button is clicked, you will see
+  a live update of the home page with the newly added namespace. We know that with network names-
+  paces, the local loopback is not automatically enabled, but in our GUI, adding a network namespace
+  runs the bash command to enable local loopback automatically, making our GUI a more convenient
+  experience for users.
+  ```
 * ns view.py: 
-```txt
-To view details and edit details about the network namespace, users can click on the name
-of a network namespace on the home page. In this view, users can add devices, delete the namespace,
-or set up port forwarding.
-```
+  ```txt
+  To view details and edit details about the network namespace, users can click on the name
+  of a network namespace on the home page. In this view, users can add devices, delete the namespace,
+  or set up port forwarding.
+  ```
 * add device.py: 
-```txt 
-Within the namespace view, users can add a port to the network namespace so that
-they can communicate with other namespaces. They have the option to select which device numbers
-they want to add to the subnet and which other namespace they want to communicate with, via a
-dropdown with these namespaces as options. Something we considered here is if a user tries to add a
-line of communication between namespaces, with only one namespace created, they are shown an alert
-which tells them that they must have multiple network namespaces in order to communicate between
-them.
-```
+  ```txt 
+  Within the namespace view, users can add a port to the network namespace so that
+  they can communicate with other namespaces. They have the option to select which device numbers
+  they want to add to the subnet and which other namespace they want to communicate with, via a
+  dropdown with these namespaces as options. Something we considered here is if a user tries to add a
+  line of communication between namespaces, with only one namespace created, they are shown an alert
+  which tells them that they must have multiple network namespaces in order to communicate between
+  them.
+  ```
 * port forwarding.py: 
-```txt
-If users want to enable port forwarding from one namespace to another, they
-can click the button to add port forwarding, which opens up a separate window and provides options
-to connect to a different device in a different namespace, and users can type in the port numbers that
-they want to forward to and from.
-```
+  ```txt
+  If users want to enable port forwarding from one namespace to another, they
+  can click the button to add port forwarding, which opens up a separate window and provides options
+  to connect to a different device in a different namespace, and users can type in the port numbers that
+  they want to forward to and from.
+  ```
 * inotify gui.c: 
-```txt
-We realize that there could be security issues with edits being made to the OS via
-command line and also through our GUI. We have chosen to handle this by using inotify to monitor
-whether changes are being made via command line while our GUI is open.
-```
+  ```txt
+  We realize that there could be security issues with edits being made to the OS via
+  command line and also through our GUI. We have chosen to handle this by using inotify to monitor
+  whether changes are being made via command line while our GUI is open.
+  ```
 * index.html: 
-```txt 
-This is a test page being used to verify the port forwarding between 2 network namespaces.
-Using port forwarding, this html page can be hosted with a web server on one namespace and then
-accessed using the IP address of the other namespace due to port forwarding.
-```
+  ```txt 
+  This is a test page being used to verify the port forwarding between 2 network namespaces.
+  Using port forwarding, this html page can be hosted with a web server on one namespace and then
+  accessed using the IP address of the other namespace due to port forwarding.
+  ```
 * gui log.txt: 
-```txt 
-A text file whose contents consist of the most recent changes done in the GUI. This in-
-cludes adding and deleting namespaces directly from the GUI. Whenever these event occur, gui log.txt
-is updated with either ”{namespace} was created” or ”{namespace} was deleted”.
-```
+  ```txt 
+  A text file whose contents consist of the most recent changes done in the GUI. This in-
+  cludes adding and deleting namespaces directly from the GUI. Whenever these event occur, gui log.txt
+  is updated with either "namespace __ was created" or "namespace __ was deleted".
+  ```
 * output.txt: 
-```txt 
-A text file whose contents consist of the most recent changes to the namesapces on the
-system. Similar to gui log.txt, this file is updated upon adding and deleting namespaces, both from
-the GUI and on the terminal. This file is compared with gui log.txt to see if the most recent change
-made in the namespaces were from the GUI or not. If the last line of these files are the same, it means
-that the most recent change came from the terminal.
-```
+  ```txt 
+  A text file whose contents consist of the most recent changes to the namesapces on the
+  system. Similar to gui log.txt, this file is updated upon adding and deleting namespaces, both from
+  the GUI and on the terminal. This file is compared with gui log.txt to see if the most recent change
+  made in the namespaces were from the GUI or not. If the last line of these files are the same, it means
+  that the most recent change came from the terminal.
+  ```
 * screenshots:
-```txt
-This folder contains screenshots and images of the interface.
-```
+  ```txt
+  This folder contains screenshots and images of the interface.
+  ```
 ### Installation
 1. Make sure you have the latest installment of python on your system. You can do this by going to this <a href="https://www.python.org/downloads/">website</a>
 
@@ -186,17 +186,17 @@ This folder contains screenshots and images of the interface.
    cd NamespaceGUI
    ```
 4. Recompile the inotify_gui.c file
-  ```sh
+   ```sh
    gcc inotify_gui.c -o inotify_gui
-  ```
+   ```
 5. Launch the python program main.py
    ```sh
    sudo python main.py
    ```
 6. To verify port forwarding, navigate to a browser (like Google Chrome), and type in the web address as follows:
-  ```sh
+   ```sh
    http://10.1.1.device2:port2/
-  ```
+   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
