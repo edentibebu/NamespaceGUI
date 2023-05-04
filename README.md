@@ -96,6 +96,7 @@ The GUI access differs based users' permissions.
 ### Built With
 
 * [![Python][Python.org]][Python-url]
+* ![C]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -269,4 +270,5 @@ This alert will pop up when a namespace has been deleted.
 [product-screenshot]: images/screenshot.png
 
 [Python.org]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[C]: https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white
 [Python-url]: https://python.org/
