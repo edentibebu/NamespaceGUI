@@ -19,7 +19,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-<div align="center"
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -32,7 +31,6 @@
     <br />
     <!--<a href="screenshots/demo.mkv">View Demo</a>-->
   </p>
-</div>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -179,10 +177,10 @@ the GUI and on the terminal. This file is compared with gui log.txt to see if th
 made in the namespaces were from the GUI or not. If the last line of these files are the same, it means
 that the most recent change came from the terminal.
 ```
-* screenshots
-  ```txt
-  This folder contains screenshots and images of the interface.
-  ```
+* screenshots:
+```txt
+This folder contains screenshots and images of the interface.
+```
 ### Installation
 1. Make sure you have the latest installment of python on your system. You can do this by going to this <a href="https://www.python.org/downloads/">website</a>
 
@@ -210,11 +208,11 @@ that the most recent change came from the terminal.
 <!-- USAGE EXAMPLES -->
 ## Usage
 The image below is of the home page. It displays all the current namespaces. For more functionality for a specific namespace, click on the name. 
-![](screenshots/listns.png)
+* ![](screenshots/listns.png)
 <br>
 
 Clicking on the plus button opens up a window where the user can create a new namespace by typing in the desired name.
-![](screenshots/addns.png)
+* ![](screenshots/addns.png)
 <br>
 
 Clicking on a namespace takes the user to the namespace page view. This displays the add devices button, port forwarding button, and delete button.
