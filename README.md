@@ -23,8 +23,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -211,6 +209,10 @@ that the most recent change came from the terminal.
    ```sh
    sudo python main.py
    ```
+5. To verify port forwarding, navigate to a browser (like Google Chrome), and type in the web address as follows
+```sh
+http://10.1.1.device2:port2/
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -218,17 +220,30 @@ that the most recent change came from the terminal.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-The image below is of the home page. It displays all the current namespaces. To see more details for a specific namespace, click on the name. 
-
-* ![](screenshots/home_page.png)
+The image below is of the home page. It displays all the current namespaces. For more functionality for a specific namespace, click on the name. 
+* ![](screenshots/list_ns.png)
 <br>
-Clicking on a namespace takes you to the namespace page view. This displays all the capabilities and their status (whether they are enabled/disabled), which can be toggled using the checkboxes.
 
-* ![](screenshots/capabilities.png)
+Clicking on the plus button opens up a window where the user can create a new namespace by typing in the desired name.
+* ![](screenshots/addns.png)
 <br>
-Also on the namespace page view are the current running processes for that specific namespace. Information like the user, pids, cpu and memory usage, etc. are shown in a table.
 
-* ![](screenshots/processes.png)
+Clicking on a namespace takes the user to the namespace page view. This displays the add devices button, port forwarding button, and delete button.
+* ![](screenshots/nsview.png)
+<br>
+
+Clicking on the add devices button brings up a new window where the user can specify the namespace to create the device in as well as the device number on the subnet '10.1.1._'.
+* ![](screenshots/add_device.png)
+<br>
+
+To enable port fowarding, click on the host to port forwarding button. This opens a window where the user can pick namespaces to port foward to from a dropdown list. Then the user can specify to ports to forward from and forward to. If the port is deemed 'unsafe' or 'reserved' then an alert will appear on screen and prompt the user to specify a new port.
+* ![](screenshots/portforwarding.png)
+<br>
+
+This alert will pop up when a namespace has been deleted.
+* ![](screenshots/deleted.png)
+<br>
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
