@@ -19,23 +19,13 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+<div align="center"
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 
-
-
-
-<!-- PROJECT LOGO 
-<br />
-<div align="center">
-  <a href="https://github.com/edentibebu/NamespaceGUI">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
--->
 <h3 align="center">Namespace GUI</h3>
-
   <p align="center">
     Our project is an enhancement to the Linux userspace that is a graphical user interface for namespaces. This is a significant modification which would improve the user experience in creating namespaces and editing namespaces, as the current interface is through command line only. 
     <br />
@@ -43,8 +33,6 @@
     <!--<a href="screenshots/demo.mkv">View Demo</a>-->
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -77,16 +65,17 @@
 We've created a GUI for namespaces. Our project is an enhancement to the Linux userspace that is a graphical user interface for namespaces. This is a significant modification which would improve the user experience in creating namespaces and editing namespaces, as the current interface is through command line only. 
 
 Functionality Features:
-New namespace creation with an interface that will cover most-used command-line arguments
-Creating veth devices and linking them between two namespaces
-Displaying current namespaces and their devices
-Port forwarding 
-Monitoring additions/deletions of namespaces made outside GUI
-Removing namespaces
+* New namespace creation with an interface that will cover most-used command-line arguments
+* Creating veth devices and linking them between two namespaces
+* Displaying current namespaces and their devices
+* Port forwarding 
+* Monitoring additions/deletions of namespaces made outside GUI
+* Removing namespaces
 
 Security Features: 
-Check if namespaces are modified via command line while GUI is open 
-The GUI access differs based users' permissions.
+* Check if namespaces are modified via command line while GUI is open.
+* The GUI access differs based users' permissions.
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -108,11 +97,6 @@ The GUI access differs based users' permissions.
 
 ### The Breakdown
 
-
-* screenshots
-  ```txt
-  This folder contains screenshots and images of the interface.
-  ```
 * main.py
   ```txt
   This is what starts up the GUI using Python’s tkinter package and what starts a thread
@@ -195,6 +179,10 @@ the GUI and on the terminal. This file is compared with gui log.txt to see if th
 made in the namespaces were from the GUI or not. If the last line of these files are the same, it means
 that the most recent change came from the terminal.
 ```
+* screenshots
+  ```txt
+  This folder contains screenshots and images of the interface.
+  ```
 ### Installation
 1. Make sure you have the latest installment of python on your system. You can do this by going to this <a href="https://www.python.org/downloads/">website</a>
 
@@ -210,10 +198,10 @@ that the most recent change came from the terminal.
    ```sh
    sudo python main.py
    ```
-5. To verify port forwarding, navigate to a browser (like Google Chrome), and type in the web address as follows
-```sh
-http://10.1.1.device2:port2/
-```
+5. To verify port forwarding, navigate to a browser (like Google Chrome), and type in the web address as follows:
+  ```sh
+  http://10.1.1.device2:port2/
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -222,11 +210,11 @@ http://10.1.1.device2:port2/
 <!-- USAGE EXAMPLES -->
 ## Usage
 The image below is of the home page. It displays all the current namespaces. For more functionality for a specific namespace, click on the name. 
-* ![](screenshots/list_ns.png)
+![](screenshots/listns.png)
 <br>
 
 Clicking on the plus button opens up a window where the user can create a new namespace by typing in the desired name.
-* ![](screenshots/addns.png)
+![](screenshots/addns.png)
 <br>
 
 Clicking on a namespace takes the user to the namespace page view. This displays the add devices button, port forwarding button, and delete button.
