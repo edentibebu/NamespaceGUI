@@ -74,19 +74,12 @@ Security Features:
 * Check if namespaces are modified via command line while GUI is open.
 * The GUI access differs based users' permissions.
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 ### Built With
 
 * [![Python][Python.org]][Python-url]
 * ![C]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED -->
@@ -192,17 +185,20 @@ This folder contains screenshots and images of the interface.
    ```sh
    cd NamespaceGUI
    ```
-4. Launch the python program main.py
+4. Recompile the inotify_gui.c file
+  ```sh
+   gcc inotify_gui.c -o inotify_gui
+  ```
+5. Launch the python program main.py
    ```sh
    sudo python main.py
    ```
-5. To verify port forwarding, navigate to a browser (like Google Chrome), and type in the web address as follows:
+6. To verify port forwarding, navigate to a browser (like Google Chrome), and type in the web address as follows:
   ```sh
-  http://10.1.1.device2:port2/
+   http://10.1.1.device2:port2/
   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
@@ -232,12 +228,7 @@ This alert will pop up when a namespace has been deleted.
 <br>
 
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
