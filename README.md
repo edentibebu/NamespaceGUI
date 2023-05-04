@@ -42,7 +42,7 @@
     Our project is an enhancement to the Linux userspace that is a graphical user interface for namespaces. This is a significant modification which would improve the user experience in creating namespaces and editing namespaces, as the current interface is through command line only. 
     <br />
     <br />
-    <a href="screenshots/demo.mkv">View Demo</a>
+    <!--<a href="screenshots/demo.mkv">View Demo</a>-->
   </p>
 </div>
 
@@ -80,14 +80,15 @@ We've created a GUI for namespaces. Our project is an enhancement to the Linux u
 
 Functionality Features:
 New namespace creation with an interface that will cover most-used command-line arguments
-Displaying current namespaces and their associated privileges
-Editing existing namespaces (user-id, group-id mappings)
-Add processes to existing namespaces
+Creating veth devices and linking them between two namespaces
+Displaying current namespaces and their devices
+Port forwarding 
+Monitoring additions/deletions of namespaces made outside GUI
 Removing namespaces
 
 Security Features: 
-Check if privileges are being edited via command line while GUI is open 
-The GUI can only be accessed by users with root/sudo access.
+Check if namespaces are modified via command line while GUI is open 
+The GUI access differs based users' permissions.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -108,29 +109,93 @@ The GUI can only be accessed by users with root/sudo access.
 
 ### The Breakdown
 
-* bash_scripts
-  ```txt
-  This folder contains various bash scripts that to execute commands.
-  ```
+
 * screenshots
   ```txt
   This folder contains screenshots and images of the interface.
   ```
-* test.py
+* main.py
   ```txt
-  This file is used to test python functions before being incorporated into the home.py file
-  ```
+  This is what starts up the GUI using Python’s tkinter package and what starts a thread
+  running our inotify functionality. When using the GUI, one should run python main.py, and if they
+  are the root user or have root privileges, one should prepend this command with sudo, so that full
+  functionality of our GUI is available. Without root privileges, one will run into alerts that do two
+  things: (1) do not allow non-root users access to see/access/edit certain information (2) provide a
+  pop-up window that alerts the user that they do not have the privileges to see/access/edit certain
+  parts of the network namespaces.  
+  ````
 * home.py
   ```txt
-  This file contains the main program that runs the GUI. Here is where we've implemented the interface as well as executed our functions:
+  Upon running the GUI, we load up a home page. This page lists the current network namespaces that are on the system, where each of these items is a button, which can be clicked on and takes the user to view/edit details regarding that namespace. There is also functionality here to
+  click the (+) button to add a namespace, which then pops up a separate window to add a network
   ```
-  - get_namespaces(): lists the current namespaces
-  - get_cap(): lists the enabled capabilities for the current namespace
-  - get_procs(): lists the current running processes within the current namespace 
-  - add_namespaces(): adds a namespace
-  - top_5_cpu(): displays the top 5 processes according to cpu usage
-  - top_5_mem(): displays the top 5 processes according to memory usage
-  
+* utils.py
+```txt
+  A lot of our work that interfaces with the operating system is done via bash scripts. This
+  file contains several functions which run a few lines of bash scripting to get some output, then parse
+  this output to be returned for displaying in a human readable format, which gets displayed on the GUI.
+  This file also contains some general purpose functionality that is used across several windows/parts of
+  our GUI. For example, the show alert function is used across the entire GUI and we keep it in utils.py
+  so that it is easy to access and avoids redundancy in our code.
+```
+* add net ns.py: 
+```txt
+This brings up a separate window for adding a network namespace, and users can
+specify the name of the namespace they are creating. Once the ”submit” button is clicked, you will see
+a live update of the home page with the newly added namespace. We know that with network names-
+paces, the local loopback is not automatically enabled, but in our GUI, adding a network namespace
+runs the bash command to enable local loopback automatically, making our GUI a more convenient
+experience for users.
+```
+* ns view.py: 
+```txt
+To view details and edit details about the network namespace, users can click on the name
+of a network namespace on the home page. In this view, users can add devices, delete the namespace,
+or set up port forwarding.
+```
+* add device.py: 
+```txt 
+Within the namespace view, users can add a port to the network namespace so that
+they can communicate with other namespaces. They have the option to select which device numbers
+they want to add to the subnet and which other namespace they want to communicate with, via a
+dropdown with these namespaces as options. Something we considered here is if a user tries to add a
+line of communication between namespaces, with only one namespace created, they are shown an alert
+which tells them that they must have multiple network namespaces in order to communicate between
+them.
+```
+* port forwarding.py: 
+```txt
+If users want to enable port forwarding from one namespace to another, they
+can click the button to add port forwarding, which opens up a separate window and provides options
+to connect to a different device in a different namespace, and users can type in the port numbers that
+they want to forward to and from.
+```
+* inotify gui.c: 
+```txt
+We realize that there could be security issues with edits being made to the OS via
+command line and also through our GUI. We have chosen to handle this by using inotify to monitor
+whether changes are being made via command line while our GUI is open.
+```
+* index.html: 
+```txt 
+This is a test page being used to verify the port forwarding between 2 network namespaces.
+Using port forwarding, this html page can be hosted with a web server on one namespace and then
+accessed using the IP address of the other namespace due to port forwarding.
+```
+* gui log.txt: 
+```txt 
+A text file whose contents consist of the most recent changes done in the GUI. This in-
+cludes adding and deleting namespaces directly from the GUI. Whenever these event occur, gui log.txt
+is updated with either ”{namespace} was created” or ”{namespace} was deleted”.
+```
+* output.txt: 
+```txt 
+A text file whose contents consist of the most recent changes to the namesapces on the
+system. Similar to gui log.txt, this file is updated upon adding and deleting namespaces, both from
+the GUI and on the terminal. This file is compared with gui log.txt to see if the most recent change
+made in the namespaces were from the GUI or not. If the last line of these files are the same, it means
+that the most recent change came from the terminal.
+```
 ### Installation
 1. Make sure you have the latest installment of python on your system. You can do this by going to this <a href="https://www.python.org/downloads/">website</a>
 
@@ -142,9 +207,9 @@ The GUI can only be accessed by users with root/sudo access.
    ```sh
    cd NamespaceGUI
    ```
-4. Launch the python program home.py
+4. Launch the python program main.py
    ```sh
-   python home.py
+   sudo python main.py
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
